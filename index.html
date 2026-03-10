@@ -3,11 +3,12 @@
 <head>
 <title>BlockTools</title>
 <style>
+/* BlockTools Index - Responsive */
 body {
   font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
   background: linear-gradient(135deg,#f0faff,#e8f2ff);
-  padding:40px;
-  color:#222;
+  padding: 40px;
+  color: #222;
 }
 h1 {
   text-align:center;
@@ -15,6 +16,8 @@ h1 {
   color:#1f6feb;
   text-shadow:1px 1px 3px #ccc;
 }
+
+/* Tools grid */
 .tools {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -22,6 +25,8 @@ h1 {
   max-width:900px;
   margin:auto;
 }
+
+/* Cards */
 .tool-card {
   background:white;
   padding:25px;
@@ -36,14 +41,19 @@ h1 {
   transform:translateY(-5px) scale(1.02);
   box-shadow:0 15px 30px rgba(0,0,0,0.25);
 }
-.tool-card h3 {
-  margin:0 0 10px;
-  color:#1f6feb;
-  text-shadow:1px 1px 2px #ccc;
+.tool-card h3 { margin:0 0 10px; color:#1f6feb; text-shadow:1px 1px 2px #ccc; }
+.tool-card p { color:#555; font-size:14px; }
+
+/* ---- Mobile / Tablet ---- */
+@media (max-width: 768px) {
+  .tools { grid-template-columns:repeat(2,1fr); gap:18px; }
+  .tool-card { padding:20px; }
 }
-.tool-card p {
-  color:#555;
-  font-size:14px;
+
+@media (max-width: 500px) {
+  .tools { grid-template-columns:1fr; gap:15px; }
+  .tool-card { padding:15px; font-size:14px; }
+  h1 { font-size:28px; }
 }
 </style>
 </head>

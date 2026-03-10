@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BlockCalc</title>
+<style>
+body { font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background: linear-gradient(135deg,#f0faff,#e8f2ff); padding:40px; color:#222; }
+h1 { text-align:center; margin-bottom:40px; color:#1f6feb; text-shadow:1px 1px 3px #ccc; }
+.controls { background:white; padding:30px; border-radius:15px; box-shadow:0 8px 25px rgba(0,0,0,0.15); max-width:480px; margin:auto 0 50px; border:2px solid #3aa655; }
+label { font-weight:700; margin-top:12px; display:block; }
+input[type=number] { width:100%; padding:12px; font-size:16px; margin-top:6px; border-radius:8px; border:1px solid #ccc; transition:border 0.2s, box-shadow 0.2s; }
+input:focus { border-color:#1f6feb; box-shadow:0 0 6px rgba(31,111,235,0.3); }
+.note { font-size:12px; color:#555; margin-bottom:8px; }
+button { margin-top:20px; width:100%; padding:14px; font-size:16px; background:#1f6feb; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:700; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:all 0.2s; }
+button:hover { background:#155ac4; transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.25); }
+.result { margin:35px auto; max-width:480px; text-align:center; font-size:24px; font-weight:800; color:#3aa655; text-shadow:1px 1px 2px #fff; }
+</style>
+</head>
+<body>
+
+<h1>BlockCalc</h1>
+
+<div class="controls">
+  <label>Min X</label>
+  <input id="minX" type="number" placeholder="0">
+  <label>Min Y</label>
+  <input id="minY" type="number" placeholder="-57">
+  <div class="note">Typical Y range: -57 → 319</div>
+  <label>Min Z</label>
+  <input id="minZ" type="number" placeholder="0">
+
+  <label>Max X</label>
+  <input id="maxX" type="number" placeholder="100">
+  <label>Max Y</label>
+  <input id="maxY" type="number" placeholder="319">
+  <div class="note">Typical Y range: -57 → 319</div>
+  <label>Max Z</label>
+  <input id="maxZ" type="number" placeholder="100">
+
+  <button onclick="calculateBlocks()">Calculate Blocks</button>
+</div>
+
+<div id="result" class="result"></div>
+
+<script>
+function calculateBlocks() {
+  let minX = parseInt(document.getElementById("minX").value);
+  let minY = parseInt(document.getElementById("minY").value);
+  let minZ = parseInt(document.getElementById("minZ").value);
+  let maxX = parseInt(document.getElementById("maxX").value);
+  let maxY = parseInt(document.getElementById("maxY").value);
+  let maxZ = parseInt(document.getElementById("maxZ").value);
+
+  if([minX,minY,minZ,maxX,maxY,maxZ].some(v => isNaN(v))){
+    document.getElementById("result").innerHTML = "Enter valid numbers for all coordinates, damn it.";
+    return;
+  }
+  if(minX>maxX || minY>maxY || minZ>maxZ){
+    document.getElementById("result").innerHTML = "Min coordinates must be ≤ Max coordinates, damn it.";
+    return;
+  }
+
+  let sizeX = maxX - minX + 1;
+  let sizeY = maxY - minY + 1;
+  let sizeZ = maxZ - minZ + 1;
+
+  let totalBlocks = sizeX * sizeY * sizeZ;
+
+  document.getElementById("result").innerHTML = `Total Blocks: ${totalBlocks.toLocaleString()}`;
+}
+</script>
+
+</body>
+</html>

@@ -3,6 +3,7 @@
 <head>
 <title>Stacker</title>
 <style>
+/* ---- Base Styles ---- */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg,#c8f0ff,#eef2f6);
@@ -146,6 +147,28 @@ button:hover {
   color: #222;
   font-weight: 800;
 }
+
+/* ---- Mobile / Tablet Overrides ---- */
+@media (max-width: 768px) {
+  body { padding: 20px; }
+  .controls { max-width: 400px; padding: 20px; }
+  input, select, button { font-size: 15px; padding: 10px; }
+  .total { font-size: 22px; }
+  .results { grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 18px; }
+  .inner-card { flex: 0 1 80%; padding: 10px; font-size: 16px; }
+  .nested-card { gap: 10px; }
+}
+@media (max-width: 500px) {
+  body { padding: 15px; }
+  h1 { font-size: 28px; }
+  .controls { max-width: 100%; padding: 15px; }
+  input, select, button { font-size: 14px; padding: 8px; }
+  .total { font-size: 18px; }
+  .results { grid-template-columns: 1fr; gap: 15px; }
+  .card { padding: 15px; }
+  .inner-card { flex: 0 1 100%; padding: 8px; font-size: 14px; }
+  .nested-card, .partial { flex-direction: column; gap: 10px; }
+}
 </style>
 </head>
 <body>
@@ -249,6 +272,6 @@ function card(title,value){
   </div>`;
 }
 </script>
-<script src="responsive.js"></script>
+
 </body>
 </html>

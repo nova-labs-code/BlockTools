@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BlockTools</title>
+<style>
+body {
+  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  background: linear-gradient(135deg,#f0faff,#e8f2ff);
+  padding:40px;
+  color:#222;
+}
+h1 {
+  text-align:center;
+  margin-bottom:40px;
+  color:#1f6feb;
+  text-shadow:1px 1px 3px #ccc;
+}
+.tools {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+  max-width:900px;
+  margin:auto;
+}
+.tool-card {
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 8px 25px rgba(0,0,0,0.15);
+  border:2px solid #3aa655;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor:pointer;
+}
+.tool-card:hover {
+  transform:translateY(-5px) scale(1.02);
+  box-shadow:0 15px 30px rgba(0,0,0,0.25);
+}
+.tool-card h3 {
+  margin:0 0 10px;
+  color:#1f6feb;
+  text-shadow:1px 1px 2px #ccc;
+}
+.tool-card p {
+  color:#555;
+  font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<h1>BlockTools</h1>
+
+<div class="tools">
+  <div class="tool-card" onclick="location.href='BlockCalc.html'">
+    <h3>BlockCalc</h3>
+    <p>Calculate total blocks in any Minecraft area using min/max coordinates.</p>
+  </div>
+
+  <div class="tool-card" onclick="location.href='Stacker.html'">
+    <h3>Stacker</h3>
+    <p>Convert items into stacks, shulker boxes, and chests, including nested storage.</p>
+  </div>
+
+  <!-- Future tools can be added here -->
+  <div class="tool-card" onclick="location.href='#'">
+    <h3>Future Tool</h3>
+    <p>Coming soon: More BlockTools to help manage your Minecraft worlds.</p>
+  </div>
+</div>
+
+</body>
+</html>

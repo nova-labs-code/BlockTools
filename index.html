@@ -1,75 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>BlockTools</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Favicon & Apple Touch Icon -->
-<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-<link rel="shortcut icon" href="logo.png" type="image/png">
+<title>BlockTools</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 
 <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-  background: linear-gradient(135deg,#f0faff,#e8f2ff);
-  padding:40px;
-  color:#222;
-  margin:0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg,#c8f0ff,#eef2f6);
+  color: #222;
+  padding: 20px;
 }
-h1 {
-  text-align:center;
-  margin-bottom:40px;
-  color:#1f6feb;
-  text-shadow:1px 1px 3px #ccc;
-}
-.tools {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:25px;
-  max-width:900px;
-  margin:auto;
+h1 { text-align: center; margin-bottom: 30px; color: #1f6feb; text-shadow: 1px 1px 3px #ccc; }
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 .tool-card {
-  background:white;
-  padding:25px;
-  border-radius:15px;
-  text-align:center;
-  box-shadow:0 8px 25px rgba(0,0,0,0.15);
-  border:2px solid #3aa655;
+  background: linear-gradient(135deg,#fff,#f0f8ff);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
-  cursor:pointer;
 }
-.tool-card:hover {
-  transform:translateY(-5px) scale(1.02);
-  box-shadow:0 15px 30px rgba(0,0,0,0.25);
+.tool-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.25); }
+.tool-card h3 { color: #1f6feb; margin-bottom: 12px; }
+.tool-card a {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #1f6feb;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
 }
-.tool-card h3 { margin:0 0 10px; color:#1f6feb; text-shadow:1px 1px 2px #ccc; }
-.tool-card p { color:#555; font-size:14px; }
-
-/* ---- Mobile ---- */
-@media (max-width:768px){
-  .tools { grid-template-columns:repeat(2,1fr); gap:18px; }
-  .tool-card { padding:20px; }
-}
-@media (max-width:500px){
-  h1{font-size:28px;}
-  .tools{grid-template-columns:1fr; gap:15px;}
-  .tool-card{padding:15px; font-size:14px;}
-}
+.tool-card a:hover { background: #155ac4; }
+@media(max-width:500px){ .results { grid-template-columns: 1fr; gap: 12px; } }
 </style>
 </head>
 <body>
 
 <h1>BlockTools</h1>
-<div class="tools">
-  <div class="tool-card" onclick="location.href='BlockCalc.html'">
-    <h3>BlockCalc</h3>
-    <p>Calculate blocks between coordinates</p>
-  </div>
-  <div class="tool-card" onclick="location.href='Stacker.html'">
+<div class="results">
+  <div class="tool-card">
     <h3>Stacker</h3>
-    <p>Calculate stacks, chests, and shulkers</p>
+    <p>Convert items into stacks, chests, and shulkers.</p>
+    <a href="Stacker.html">Open</a>
+  </div>
+  <div class="tool-card">
+    <h3>BlockCalc</h3>
+    <p>Calculate block counts from coordinate ranges.</p>
+    <a href="BlockCalc.html">Open</a>
   </div>
 </div>
 

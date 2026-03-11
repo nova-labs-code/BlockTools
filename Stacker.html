@@ -8,7 +8,6 @@
 <link rel="apple-touch-icon" href="logo.png">
 
 <style>
-/* --- GENERAL --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -98,6 +97,14 @@ button:hover { background: #155ac4; transform: translateY(-2px); box-shadow: 0 6
   width: 100%;
 }
 
+/* Vertical wrapper for portrait stacking */
+.vertical-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
 /* --- INNER CARDS --- */
 .inner-card {
   flex: 1 1 45%;
@@ -137,22 +144,21 @@ button:hover { background: #155ac4; transform: translateY(-2px); box-shadow: 0 6
   .nested-card, .partial { flex-direction: column; gap: 8px; }
 }
 
-/* --- PORTRAIT MODE FIX --- */
+/* --- PORTRAIT MODE --- */
 @media (max-width: 768px) and (orientation: portrait) {
-  .nested-card, .partial {
+  .nested-card {
     flex-direction: column !important;
-    align-items: stretch;
-    gap: 6px;
+    align-items: stretch !important;
   }
-  .inner-card { flex: 1 1 100% !important; max-width: 100% !important; padding: 8px !important; }
+  .vertical-container { gap: 6px; }
+  .partial { flex-direction: column !important; gap: 6px; }
+  .inner-card { flex: 1 1 100% !important; max-width: 100% !important; }
 }
 
 @media (max-width: 500px) and (orientation: portrait) {
-  .nested-card, .partial {
-    flex-direction: column !important;
-    align-items: stretch;
-    gap: 4px;
-  }
+  .nested-card { flex-direction: column !important; align-items: stretch; }
+  .vertical-container { gap: 4px; }
+  .partial { flex-direction: column !important; gap: 4px; }
   .inner-card { flex: 1 1 100% !important; max-width: 100% !important; padding: 6px !important; }
 }
 </style>
@@ -241,8 +247,10 @@ function generateCard(total, stackSize, st){
     <h3>${st.name}</h3>
     <div class="capacity">Capacity: ${st.unitLabel} • ${st.capacity.toLocaleString()} items</div>
     <div class="nested-card">
-      ${fullCard}
-      ${partials ? `<div class="partial">${partials}</div>` : ''}
+      <div class="vertical-container">
+        ${fullCard}
+        ${partials ? `<div class="partial">${partials}</div>` : ''}
+      </div>
     </div>
   </div>`;
 }

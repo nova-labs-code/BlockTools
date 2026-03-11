@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Stacker</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stacker</title>
 
-<!-- Favicon & Apple Touch Icon -->
-<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-<link rel="shortcut icon" href="logo.png" type="image/png">
+<!-- Favicon / Apple Touch -->
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 
 <style>
-/* --- GENERAL STYLES --- */
+/* --- GENERAL BODY --- */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #c8f0ff, #eef2f6);
+  background: linear-gradient(135deg,#c8f0ff,#eef2f6);
   padding: 40px;
-  color: #222;
   margin: 0;
+  color: #222;
   box-sizing: border-box;
 }
 
@@ -27,11 +27,11 @@ h1 {
   text-shadow: 1px 1px 3px #ccc;
 }
 
+/* --- CONTROLS --- */
 .controls {
   background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  padding: clamp(20px,3vw,30px);
+  border-radius: clamp(10px,2vw,15px);
   max-width: 480px;
   margin: auto 0 50px;
   border: 2px solid #3aa655;
@@ -45,8 +45,8 @@ label {
 
 input, select, button {
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
+  padding: clamp(8px,1.5vw,14px);
+  font-size: clamp(14px,1.5vw,16px);
   margin-top: 6px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -60,9 +60,6 @@ input:focus, select:focus {
 
 button {
   margin-top: 20px;
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
   background: #1f6feb;
   color: white;
   border: none;
@@ -79,11 +76,12 @@ button:hover {
   box-shadow: 0 6px 16px rgba(0,0,0,0.25);
 }
 
+/* --- TOTAL DISPLAY --- */
 .total {
   margin: 35px auto;
   max-width: 480px;
   text-align: center;
-  font-size: 24px;
+  font-size: clamp(18px,2vw,24px);
   font-weight: 800;
   color: #3aa655;
   text-shadow: 1px 1px 2px #fff;
@@ -92,19 +90,19 @@ button:hover {
 /* --- RESULTS GRID --- */
 .results {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: clamp(12px,2vw,25px);
   width: 100%;
 }
 
 /* --- CARD --- */
 .card {
-  background: linear-gradient(135deg,#ffffff,#f0f8ff);
-  border-radius: 15px;
-  padding: 22px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
+  background: linear-gradient(135deg,#ffffff,#f0f8ff);
+  border-radius: clamp(10px,2vw,15px);
+  padding: clamp(16px,2vw,22px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
   box-sizing: border-box;
 }
 
@@ -119,45 +117,36 @@ button:hover {
 .capacity {
   color: #666;
   margin-bottom: 15px;
-  font-size: 15px;
+  font-size: clamp(12px,1.2vw,15px);
   font-weight: 600;
   text-align: center;
 }
 
-/* --- NESTED CARDS --- */
-.nested-card {
+/* --- NESTED & PARTIAL CARDS --- */
+.nested-card, .partial {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-}
-
-.partial {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: clamp(8px,1vw,12px);
   justify-content: center;
   width: 100%;
 }
 
 /* --- INNER CARDS --- */
 .inner-card {
-  flex: 1 1 120px;  /* flexible width, wraps nicely */
-  min-width: 120px;
-  max-width: 45%;    /* keeps multiple cards inside parent */
-  padding: 12px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  flex: 1 1 auto;
+  min-width: clamp(100px,20%,140px);
+  padding: clamp(8px,1.5vw,12px);
+  border-radius: clamp(6px,1vw,10px);
   text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   box-sizing: border-box;
 }
 
 .inner-card.full {
   flex: 1 1 100%;
   min-width: 0;
-  max-width: 100%;
-  font-size: 22px;
-  padding: 16px;
+  font-size: clamp(16px,1.5vw,22px);
+  padding: clamp(10px,2vw,16px);
   background: #d4f0d4;
   color: #3aa655;
 }
@@ -166,27 +155,27 @@ button:hover {
   font-weight: 700;
   color: #1f6feb;
   margin-bottom: 4px;
-  font-size: 14px;
+  font-size: clamp(12px,1vw,14px);
 }
 
 .inner-content {
-  font-size: 22px;
-  color: #222;
+  font-size: clamp(16px,2vw,22px);
   font-weight: 800;
+  color: #222;
 }
 
 /* --- MOBILE / TABLET --- */
-@media (max-width: 768px) {
+@media(max-width:768px){
   body { padding: 20px; }
   .controls { max-width: 400px; padding: 20px; }
   input, select, button { font-size: 15px; padding: 10px; }
   .total { font-size: 22px; }
-  .results { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+  .results { grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 18px; }
   .inner-card { flex: 1 1 80%; padding: 10px; font-size: 16px; }
   .nested-card, .partial { gap: 10px; }
 }
 
-@media (max-width: 500px) {
+@media(max-width:500px){
   h1 { font-size: 28px; }
   .controls { max-width: 100%; padding: 15px; }
   input, select, button { font-size: 14px; padding: 8px; }
@@ -195,7 +184,8 @@ button:hover {
   .card { padding: 15px; }
   .inner-card { flex: 1 1 100%; max-width: 100%; padding: 8px; font-size: 14px; }
   .nested-card, .partial { flex-direction: column; gap: 10px; }
-}</style>
+}
+</style>
 </head>
 <body>
 
@@ -221,22 +211,25 @@ button:hover {
 <div id="results" class="results"></div>
 
 <script>
-// Same JS as before, fully functional
-function convert() {
+function convert(){
   let raw = document.getElementById("itemCount").value.replace(/,/g,"");
   let total = Number(raw);
   if(isNaN(total) || total < 0){
     document.getElementById("results").innerHTML="Enter a valid number, damn it.";
     return;
   }
+  
   let multiply = parseInt(document.getElementById("multiply").value);
   if(isNaN(multiply) || multiply < 1 || multiply > 400){
     document.getElementById("results").innerHTML="Multiply must be a whole number between 1 and 400, damn it.";
     return;
   }
+  
   total *= multiply;
+  
   let stackSize = parseInt(document.getElementById("stackType").value);
   document.getElementById("total").innerHTML = `Total Items: ${total.toLocaleString()}`;
+  
   const storageTypes = [
     {name:"Stacks", type:"stack", capacity:stackSize, unitLabel:"Stacks"},
     {name:"Shulker Boxes", type:"shulker", capacity:27*stackSize, unitLabel:"Stacks"},
@@ -245,21 +238,25 @@ function convert() {
     {name:"Single Chests (with Shulkers)", type:"nested", capacity:27*27*stackSize, unitLabel:"Shulkers", nestedUnit:27*stackSize},
     {name:"Double Chests (with Shulkers)", type:"nested", capacity:54*27*stackSize, unitLabel:"Shulkers", nestedUnit:27*stackSize}
   ];
+  
   let html = "";
   storageTypes.forEach(st => html += calculateStorage(total, stackSize, st));
   document.getElementById("results").innerHTML = html;
 }
+
 function calculateStorage(total, stackSize, st){
   let fullUnits = Math.floor(total / st.capacity);
   let leftover = total % st.capacity;
   let partialCards = "";
-  if(st.type==="stack"||st.type==="chest"||st.type==="shulker"){
+
+  if(st.type === "stack" || st.type === "chest" || st.type === "shulker"){
     let fullStacks = Math.floor(leftover / stackSize);
     let leftoverItems = leftover % stackSize;
     if(fullStacks>0) partialCards += card("Stacks", fullStacks);
     if(leftoverItems>0) partialCards += card("Items", leftoverItems);
   }
-  if(st.type==="nested"){
+
+  if(st.type === "nested"){
     let fullShulkers = Math.floor(leftover / st.nestedUnit);
     let leftoverAfterShulkers = leftover % st.nestedUnit;
     let fullStacks = Math.floor(leftoverAfterShulkers / stackSize);
@@ -268,10 +265,25 @@ function calculateStorage(total, stackSize, st){
     if(fullStacks>0) partialCards += card("Stacks", fullStacks);
     if(leftoverItems>0) partialCards += card("Items", leftoverItems);
   }
+
   let fullCard = `<div class="inner-card full"><div class="inner-content">${fullUnits.toLocaleString()}</div></div>`;
-  return `<div class="card"><h3>${st.name}</h3><div class="capacity">Capacity: ${st.unitLabel} • ${st.capacity.toLocaleString()} items</div><div class="nested-card">${fullCard}${partialCards?`<div class="partial">${partialCards}</div>`:""}</div></div>`;
+
+  return `<div class="card">
+    <h3>${st.name}</h3>
+    <div class="capacity">Capacity: ${st.unitLabel} • ${st.capacity.toLocaleString()} items</div>
+    <div class="nested-card">
+      ${fullCard}
+      ${partialCards ? `<div class="partial">${partialCards}</div>` : ""}
+    </div>
+  </div>`;
 }
-function card(title,value){return `<div class="inner-card"><div class="inner-title">${title}</div><div class="inner-content">${value.toLocaleString()}</div></div>`;}
+
+function card(title,value){
+  return `<div class="inner-card">
+    <div class="inner-title">${title}</div>
+    <div class="inner-content">${value.toLocaleString()}</div>
+  </div>`;
+}
 </script>
 
 </body>

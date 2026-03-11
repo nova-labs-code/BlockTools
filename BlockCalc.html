@@ -1,67 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>BlockCalc</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Favicon & Apple Touch Icon -->
-<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-<link rel="shortcut icon" href="logo.png" type="image/png">
+<title>BlockCalc</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 
 <style>
-body{
-  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg,#c8f0ff,#eef2f6);
-  padding:40px;
-  color:#222;
-  margin:0;
+  color: #222;
+  padding: 20px;
 }
-h1{text-align:center;margin-bottom:40px;color:#1f6feb;text-shadow:1px 1px 3px #ccc;}
-.controls{
-  background:white;padding:30px;border-radius:15px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.15);
-  max-width:480px;margin:auto 0 50px;
-  border:2px solid #3aa655;
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1f6feb;
+  text-shadow: 1px 1px 3px #ccc;
 }
-label{font-weight:700;margin-top:12px;display:block;}
-input,select,button{
-  width:100%;padding:12px;font-size:16px;margin-top:6px;border-radius:8px;border:1px solid #ccc;
-  transition:border 0.2s, box-shadow 0.2s;
+.controls {
+  max-width: 480px;
+  margin: 0 auto 30px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #3aa655;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
-input:focus,select:focus{border-color:#1f6feb;box-shadow:0 0 6px rgba(31,111,235,0.3);}
-button{margin-top:20px;width:100%;padding:14px;font-size:16px;background:#1f6feb;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
-button:hover{background:#155ac4;transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,0.25);}
-.total{margin:35px auto;max-width:480px;text-align:center;font-size:24px;font-weight:800;color:#3aa655;text-shadow:1px 1px 2px #fff;}
-.results{margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;}
-.card{background:linear-gradient(135deg,#ffffff,#f0f8ff);padding:22px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,0.15);transition: transform 0.3s, box-shadow 0.3s;}
-.card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 15px 30px rgba(0,0,0,0.25);}
-.card h3{margin-top:0;border-bottom:2px solid #3aa655;padding-bottom:8px;color:#1f6feb;text-align:center;}
-.capacity{color:#666;margin-bottom:15px;font-size:15px;font-weight:600;text-align:center;}
-.inner-card{background:#f7f9fb;padding:10px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.05);text-align:center;flex:0 1 45%;min-width:80px;box-sizing:border-box;}
-.inner-card.full{flex:0 1 100%;font-size:26px;padding:18px;min-width:140px;background:#d4f0d4;color:#3aa655;}
-.inner-title{font-weight:700;color:#1f6feb;margin-bottom:4px;font-size:14px;}
-.inner-content{font-size:22px;color:#222;font-weight:800;}
-.nested-card,.partial{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+label { font-weight: 700; display: block; margin-top: 12px; }
+input, select, button {
+  width: 100%; padding: 10px; font-size: 16px; margin-top: 6px;
+  border-radius: 8px; border: 1px solid #ccc; transition: all 0.2s;
+}
+input:focus, select:focus { border-color: #1f6feb; box-shadow: 0 0 6px rgba(31,111,235,0.3); }
+button {
+  margin-top: 20px; background: #1f6feb; color: #fff; font-weight: 700;
+  border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.2s;
+}
+button:hover { background: #155ac4; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.25); }
+.total {
+  text-align: center; font-weight: 800; color: #3aa655; text-shadow: 1px 1px 2px #fff;
+  margin: 20px auto; font-size: 22px; max-width: 480px;
+}
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: linear-gradient(135deg,#fff,#f0f8ff);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+}
+.card h3 {
+  text-align: center;
+  border-bottom: 2px solid #3aa655;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  color: #1f6feb;
+}
+.capacity {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 12px;
+}
+.nested-card, .partial {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+}
+.vertical-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.inner-card {
+  flex: 1 1 45%;
+  min-width: 90px;
+  max-width: 100%;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  background: #f7f9fb;
+  box-sizing: border-box;
+}
+.inner-card.full {
+  flex: 1 1 100%;
+  max-width: 100%;
+  background: #d4f0d4;
+  color: #3aa655;
+  font-weight: 800;
+  padding: 14px;
+  font-size: 18px;
+}
+.inner-title { font-weight: 700; color: #1f6feb; margin-bottom: 4px; font-size: 14px; }
+.inner-content { font-weight: 800; font-size: 18px; color: #222; }
 
-/* ---- Mobile / Tablet ---- */
 @media(max-width:768px){
-  body{padding:20px;}
-  .controls{max-width:400px;padding:20px;}
-  input,select,button{font-size:15px;padding:10px;}
-  .total{font-size:22px;}
-  .results{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
-  .inner-card{flex:0 1 80%;padding:10px;font-size:16px;}
+  .controls { max-width: 95%; padding: 15px; }
+  .results { grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 15px; }
+  .inner-card { flex: 1 1 80%; }
 }
+
 @media(max-width:500px){
-  h1{font-size:28px;}
-  .controls{max-width:100%;padding:15px;}
-  input,select,button{font-size:14px;padding:8px;}
-  .total{font-size:18px;}
-  .results{grid-template-columns:1fr;gap:15px;}
-  .card{padding:15px;}
-  .inner-card{flex:0 1 100%;padding:8px;font-size:14px;}
-  .nested-card,.partial{flex-direction:column;gap:10px;}
+  .results { grid-template-columns: 1fr; gap: 12px; }
+  .inner-card { flex: 1 1 100%; }
+  .nested-card, .partial { flex-direction: column; gap: 8px; }
 }
 </style>
 </head>
@@ -70,29 +127,63 @@ button:hover{background:#155ac4;transform:translateY(-2px);box-shadow:0 6px 16px
 <h1>BlockCalc</h1>
 
 <div class="controls">
-  <label>Min X,Y,Z</label>
-  <input id="minXYZ" placeholder="e.g. 0,0,0">
-  <label>Max X,Y,Z</label>
-  <input id="maxXYZ" placeholder="e.g. 100,255,100">
-  <button onclick="calculate()">Calculate</button>
+  <label>Min X</label>
+  <input id="minX" type="number" value="0">
+  <label>Max X</label>
+  <input id="maxX" type="number" value="0">
+
+  <label>Min Y</label>
+  <input id="minY" type="number" value="0">
+  <label>Max Y</label>
+  <input id="maxY" type="number" value="0">
+
+  <label>Min Z</label>
+  <input id="minZ" type="number" value="0">
+  <label>Max Z</label>
+  <input id="maxZ" type="number" value="0">
+
+  <button onclick="calculateBlocks()">Calculate Blocks</button>
 </div>
 
-<div id="total" class="total"></div>
+<div class="total" id="total"></div>
+<div class="results" id="results"></div>
 
 <script>
-function calculate(){
-  let min = document.getElementById('minXYZ').value.split(',').map(Number);
-  let max = document.getElementById('maxXYZ').value.split(',').map(Number);
-  if(min.length!==3 || max.length!==3 || min.some(isNaN) || max.some(isNaN)){
-    document.getElementById('total').innerText='Enter valid XYZ coordinates, damn it.';
+function calculateBlocks(){
+  let minX = Number(document.getElementById('minX').value);
+  let maxX = Number(document.getElementById('maxX').value);
+  let minY = Number(document.getElementById('minY').value);
+  let maxY = Number(document.getElementById('maxY').value);
+  let minZ = Number(document.getElementById('minZ').value);
+  let maxZ = Number(document.getElementById('maxZ').value);
+
+  if(isNaN(minX) || isNaN(maxX) || isNaN(minY) || isNaN(maxY) || isNaN(minZ) || isNaN(maxZ)){
+    document.getElementById('results').innerHTML = "Enter valid numbers, damn it.";
     return;
   }
-  let dx = max[0]-min[0]+1;
-  let dy = max[1]-min[1]+1;
-  let dz = max[2]-min[2]+1;
-  if(dx<0||dy<0||dz<0){document.getElementById('total').innerText='Max must be greater than min, damn it.'; return;}
-  let blocks = dx*dy*dz;
-  document.getElementById('total').innerText=`Total Blocks: ${blocks.toLocaleString()}`;
+
+  let sizeX = maxX - minX + 1;
+  let sizeY = maxY - minY + 1;
+  let sizeZ = maxZ - minZ + 1;
+
+  if(sizeX < 0 || sizeY < 0 || sizeZ < 0){
+    document.getElementById('results').innerHTML = "Max must be greater than min, damn it.";
+    return;
+  }
+
+  let totalBlocks = sizeX * sizeY * sizeZ;
+  document.getElementById('total').innerText = `Total Blocks: ${totalBlocks.toLocaleString()}`;
+
+  // Show result card
+  document.getElementById('results').innerHTML = `<div class="card">
+    <h3>Selection Volume</h3>
+    <div class="capacity">X: ${sizeX}, Y: ${sizeY}, Z: ${sizeZ}</div>
+    <div class="nested-card">
+      <div class="vertical-container">
+        <div class="inner-card full"><div class="inner-content">${totalBlocks.toLocaleString()}</div></div>
+      </div>
+    </div>
+  </div>`;
 }
 </script>
 

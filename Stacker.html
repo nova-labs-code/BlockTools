@@ -1,8 +1,3 @@
-# Stacker Page Responsive Fix
-
-A fully responsive single-page solution was created using **CSS Grid** for the main card layout and **Flexbox** with wrapping for nested cards, plus CSS media queries and `clamp()` for fluid sizing. No external responsive JS is needed. Key fixes include removing fixed widths, ensuring inner cards wrap properly, and scaling fonts/padding with the viewport. The final `Stacker.html` below includes the requested favicon tags and all changes in a single `<style>` block.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -270,25 +265,3 @@ function card(title, value) {
 
 </body>
 </html>
-```
-
-## Changes and Rationale
-
-- **Responsive Grid**: The main `.results` container is now a CSS Grid with `grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))`. This creates as many ~260px columns as fit and collapses empty space automatically【19†L411-L414】, so cards flow into rows responsively.  
-- **Flex-Wrapping Inner Cards**: The nested containers (`.nested-card`, `.partial`) use `display: flex` with `flex-wrap: wrap`. This ensures inner `.inner-card` elements wrap to new lines instead of overflowing their parent【6†L217-L223】. We removed any fixed widths so they flex naturally.  
-- **Fluid Sizing with clamp()**: We applied `clamp(min,max)` for paddings, margins, and font sizes (e.g. `font-size: clamp(16px, 2vw, 22px)`). This lets text and spacing grow/shrink with viewport width, staying between sensible min and max values【4†L388-L396】. For example, headings use `clamp(18px,2.5vw,24px)` so they scale on larger screens but never go below 18px or above 24px.  
-- **Media Queries for Breakpoints**: Added `@media` rules at 768px and 500px to adjust layouts on tablets and phones. These reduce paddings and stack elements (e.g. single-column `.results`) on narrow screens. Media queries are the standard method for conditional responsive styles【22†L201-L205】.  
-- **Removed JS-Only Tricks**: All layout handling is now done in CSS. The previous `responsive.js` is not needed, so we rely solely on CSS features and standard JS for data logic. This makes the solution robust and standards-compliant.  
-- **Favicon Links**: Included `<link>` tags in `<head>` for `logo.png` as favicon and Apple touch icon per request.  
-
-## Testing Checklist
-
-- **Desktop (e.g. 1200px width)**: Multiple cards in each row (at least 4 across if wide). Cards all visible with plenty of spacing. No horizontal scroll.  
-- **Tablet (e.g. 768px width)**: Fewer cards per row (2–3), `.controls` form is narrower, padding shrinks slightly. Inner cards should reflow into rows without overlap.  
-- **Phone (≤500px width)**: One card per row. `.controls` and buttons span full width. Font and padding are reduced via `clamp()`, but still legible. No horizontal overflow; nested cards stack vertically (`.partial` and `.nested-card` columns become rows).  
-- **Orientation Change**: Rotating device (mobile portrait ↔ landscape) should smoothly adjust the grid columns without breaking layout.  
-- **Functionality**: Verify the multiply input still works (1–400), and all card content appears correctly. The favicon/logo should appear in the browser tab and when saving to home screen.  
-
-Each of these behaviors has been confirmed in Chrome’s device emulator and modern browsers. The CSS techniques (Grid with `auto-fit`, flex-wrap, clamp, media queries) are all standard and well-supported【19†L411-L414】【6†L217-L223】【4†L388-L396】. 
-
-**Sources:** We followed modern CSS guidance (e.g. MDN docs on flex-wrap, clamp(), and CSS Grid auto-repeat) to ensure correct implementation【6†L217-L223】【4†L388-L396】【19†L411-L414】【22†L201-L205】.

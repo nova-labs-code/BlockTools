@@ -10,16 +10,16 @@
 <link rel="shortcut icon" href="logo.png" type="image/png">
 
 <style>
-/* General body */
+/* --- GENERAL STYLES --- */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #c8f0ff, #eef2f6);
   padding: 40px;
   color: #222;
   margin: 0;
+  box-sizing: border-box;
 }
 
-/* Heading */
 h1 {
   text-align: center;
   margin-bottom: 40px;
@@ -27,7 +27,6 @@ h1 {
   text-shadow: 1px 1px 3px #ccc;
 }
 
-/* Controls */
 .controls {
   background: white;
   padding: 30px;
@@ -80,7 +79,6 @@ button:hover {
   box-shadow: 0 6px 16px rgba(0,0,0,0.25);
 }
 
-/* Total display */
 .total {
   margin: 35px auto;
   max-width: 480px;
@@ -91,26 +89,42 @@ button:hover {
   text-shadow: 1px 1px 2px #fff;
 }
 
-/* Results grid */
+/* --- RESULTS GRID --- */
 .results {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
   width: 100%;
 }
 
-/* Card container */
+/* --- CARD --- */
 .card {
-  display: flex;
-  flex-direction: column;
   background: linear-gradient(135deg,#ffffff,#f0f8ff);
   border-radius: 15px;
   padding: 22px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
 }
 
-/* Nested container for full + partial */
+.card h3 {
+  margin-top: 0;
+  border-bottom: 2px solid #3aa655;
+  padding-bottom: 8px;
+  color: #1f6feb;
+  text-align: center;
+}
+
+.capacity {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* --- NESTED CARDS --- */
 .nested-card {
   display: flex;
   flex-wrap: wrap;
@@ -118,7 +132,6 @@ button:hover {
   justify-content: center;
 }
 
-/* Partial cards container */
 .partial {
   display: flex;
   flex-wrap: wrap;
@@ -127,11 +140,11 @@ button:hover {
   width: 100%;
 }
 
-/* Inner cards */
+/* --- INNER CARDS --- */
 .inner-card {
-  flex: 1 1 120px; /* allows shrinking and wrapping */
-  min-width: 120px; /* prevents tiny cards from breaking layout */
-  max-width: 45%;   /* keeps cards inside parent */
+  flex: 1 1 120px;  /* flexible width, wraps nicely */
+  min-width: 120px;
+  max-width: 45%;    /* keeps multiple cards inside parent */
   padding: 12px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
@@ -139,7 +152,6 @@ button:hover {
   box-sizing: border-box;
 }
 
-/* Full card spans 100% */
 .inner-card.full {
   flex: 1 1 100%;
   min-width: 0;
@@ -150,11 +162,28 @@ button:hover {
   color: #3aa655;
 }
 
-/* Mobile adjustments */
-@media (max-width: 500px) {
-  .results { grid-template-columns: 1fr; gap: 15px; }
-  .inner-card { flex: 1 1 100%; max-width: 100%; font-size: 16px; padding: 10px; }
-  .nested-card, .partial { flex-direction: column; gap: 10px; }
+.inner-title {
+  font-weight: 700;
+  color: #1f6feb;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.inner-content {
+  font-size: 22px;
+  color: #222;
+  font-weight: 800;
+}
+
+/* --- MOBILE / TABLET --- */
+@media (max-width: 768px) {
+  body { padding: 20px; }
+  .controls { max-width: 400px; padding: 20px; }
+  input, select, button { font-size: 15px; padding: 10px; }
+  .total { font-size: 22px; }
+  .results { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+  .inner-card { flex: 1 1 80%; padding: 10px; font-size: 16px; }
+  .nested-card, .partial { gap: 10px; }
 }
 
 @media (max-width: 500px) {
@@ -164,7 +193,7 @@ button:hover {
   .total { font-size: 18px; }
   .results { grid-template-columns: 1fr; gap: 15px; }
   .card { padding: 15px; }
-  .inner-card { flex: 1 1 100%; padding: 8px; font-size: 14px; }
+  .inner-card { flex: 1 1 100%; max-width: 100%; padding: 8px; font-size: 14px; }
   .nested-card, .partial { flex-direction: column; gap: 10px; }
 }</style>
 </head>

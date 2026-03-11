@@ -1,176 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Stacker</title>
-  <!-- Favicon and Apple Touch Icon -->
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="apple-touch-icon" href="logo.png">
-  <style>
-    /* Global box-sizing and body styling */
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg,#c8f0ff,#eef2f6);
-      margin: 0;
-      padding: 40px;
-      color: #222;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 40px;
-      color: #1f6feb;
-      text-shadow: 1px 1px 3px #ccc;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stacker</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 
-    /* Controls form styling */
-    .controls {
-      background: white;
-      padding: clamp(20px, 3vw, 30px);
-      border-radius: clamp(10px, 2vw, 15px);
-      max-width: 480px;
-      margin: auto 0 50px;
-      border: 2px solid #3aa655;
-    }
-    label {
-      font-weight: 700;
-      margin-top: 12px;
-      display: block;
-    }
-    input, select, button {
-      width: 100%;
-      padding: clamp(8px, 1.5vw, 14px);
-      font-size: clamp(14px, 1.5vw, 16px);
-      margin-top: 6px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      transition: border 0.2s, box-shadow 0.2s;
-    }
-    input:focus, select:focus {
-      border-color: #1f6feb;
-      box-shadow: 0 0 6px rgba(31,111,235,0.3);
-    }
-    button {
-      margin-top: 20px;
-      background: #1f6feb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: all 0.2s;
-    }
-    button:hover {
-      background: #155ac4;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    }
+<style>
+/* --- BODY --- */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg,#c8f0ff,#eef2f6);
+  padding: 20px;
+  margin: 0;
+  color: #222;
+  box-sizing: border-box;
+}
 
-    /* Total display styling */
-    .total {
-      margin: 35px auto;
-      max-width: 480px;
-      text-align: center;
-      font-size: clamp(18px, 2vw, 24px);
-      font-weight: 800;
-      color: #3aa655;
-      text-shadow: 1px 1px 2px #fff;
-    }
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1f6feb;
+  text-shadow: 1px 1px 3px #ccc;
+}
 
-    /* Grid layout for result cards */
-    .results {
-      margin-top: 30px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: clamp(12px, 2vw, 25px);
-      width: 100%;
-    }
-    .card {
-      display: flex;
-      flex-direction: column;
-      background: linear-gradient(135deg,#ffffff,#f0f8ff);
-      border-radius: clamp(10px, 2vw, 15px);
-      padding: clamp(16px, 2vw, 22px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    }
-    .card h3 {
-      margin-top: 0;
-      border-bottom: 2px solid #3aa655;
-      padding-bottom: 8px;
-      color: #1f6feb;
-      text-align: center;
-    }
-    .capacity {
-      color: #666;
-      margin-bottom: 15px;
-      font-size: clamp(12px, 1.2vw, 15px);
-      font-weight: 600;
-      text-align: center;
-    }
+/* --- CONTROLS --- */
+.controls {
+  background: white;
+  padding: clamp(15px,3vw,30px);
+  border-radius: clamp(10px,2vw,15px);
+  max-width: 480px;
+  margin: auto 0 30px;
+  border: 2px solid #3aa655;
+}
 
-    /* Nested card containers */
-    .nested-card, .partial {
-      display: flex;
-      flex-wrap: wrap; /* allow wrapping of inner cards */
-      gap: clamp(8px, 1vw, 12px);
-      justify-content: center;
-      width: 100%;
-    }
-    /* Individual inner cards */
-    .inner-card {
-      flex: 1 1 auto;
-      min-width: clamp(100px, 20%, 140px);
-      padding: clamp(8px, 1.5vw, 12px);
-      border-radius: clamp(6px, 1vw, 10px);
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .inner-card.full {
-      /* Full-width card spans the container */
-      flex: 1 1 100%;
-      min-width: 0;
-      font-size: clamp(16px, 1.5vw, 22px);
-      padding: clamp(10px, 2vw, 16px);
-      background: #d4f0d4;
-      color: #3aa655;
-    }
-    .inner-title {
-      font-weight: 700;
-      color: #1f6feb;
-      margin-bottom: 4px;
-      font-size: clamp(12px, 1vw, 14px);
-    }
-    .inner-content {
-      font-size: clamp(16px, 2vw, 22px);
-      color: #222;
-      font-weight: 800;
-    }
+label {
+  font-weight: 700;
+  margin-top: 12px;
+  display: block;
+}
 
-    /* Tablet and phone breakpoints */
-    @media (max-width: 768px) {
-      body { padding: 20px; }
-      .controls { max-width: 400px; padding: 20px; }
-      input, select, button { font-size: 15px; padding: 10px; }
-      .total { font-size: 22px; }
-      .results { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
-      .inner-card { flex: 1 1 80%; padding: 10px; font-size: 16px; }
-      .nested-card, .partial { gap: 10px; }
-    }
-    @media (max-width: 500px) {
-      h1 { font-size: 28px; }
-      .controls { max-width: 100%; padding: 15px; }
-      input, select, button { font-size: 14px; padding: 8px; }
-      .total { font-size: 18px; }
-      .results { grid-template-columns: 1fr; gap: 15px; }
-      .card { padding: 15px; }
-      .inner-card { flex: 1 1 100%; max-width: 100%; padding: 8px; font-size: 14px; }
-      .nested-card, .partial { flex-direction: column; gap: 10px; }
-    }
-  </style>
+input, select, button {
+  width: 100%;
+  padding: clamp(8px,1.5vw,14px);
+  font-size: clamp(14px,1.5vw,16px);
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus {
+  border-color: #1f6feb;
+  box-shadow: 0 0 6px rgba(31,111,235,0.3);
+}
+
+button {
+  margin-top: 20px;
+  background: #1f6feb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.2s;
+}
+
+button:hover {
+  background: #155ac4;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+/* --- TOTAL --- */
+.total {
+  margin: 25px auto;
+  max-width: 480px;
+  text-align: center;
+  font-size: clamp(18px,2vw,24px);
+  font-weight: 800;
+  color: #3aa655;
+  text-shadow: 1px 1px 2px #fff;
+}
+
+/* --- RESULTS GRID --- */
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: clamp(12px,2vw,25px);
+  width: 100%;
+}
+
+/* --- CARD --- */
+.card {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg,#ffffff,#f0f8ff);
+  border-radius: clamp(10px,2vw,15px);
+  padding: clamp(16px,2vw,22px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  box-sizing: border-box;
+}
+
+.card h3 {
+  margin-top: 0;
+  border-bottom: 2px solid #3aa655;
+  padding-bottom: 8px;
+  color: #1f6feb;
+  text-align: center;
+}
+
+.capacity {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: clamp(12px,1.2vw,15px);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* --- NESTED & PARTIAL CARDS --- */
+.nested-card, .partial {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px,1vw,12px);
+  justify-content: center;
+  width: 100%;
+}
+
+/* --- INNER CARDS --- */
+.inner-card {
+  flex: 1 1 auto;
+  min-width: clamp(100px,20%,140px);
+  padding: clamp(8px,1.5vw,12px);
+  border-radius: clamp(6px,1vw,10px);
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-sizing: border-box;
+}
+
+.inner-card.full {
+  flex: 1 1 100%;
+  min-width: 0;
+  font-size: clamp(16px,1.5vw,22px);
+  padding: clamp(10px,2vw,16px);
+  background: #d4f0d4;
+  color: #3aa655;
+}
+
+.inner-title {
+  font-weight: 700;
+  color: #1f6feb;
+  margin-bottom: 4px;
+  font-size: clamp(12px,1vw,14px);
+}
+
+.inner-content {
+  font-size: clamp(16px,2vw,22px);
+  font-weight: 800;
+  color: #222;
+}
+
+/* --- MOBILE / TABLET --- */
+@media(max-width:768px){
+  .controls { max-width: 400px; padding: 20px; }
+  input, select, button { font-size: 15px; padding: 10px; }
+  .total { font-size: 22px; }
+  .results { grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 18px; }
+  .inner-card { flex: 1 1 80%; padding: 10px; font-size: 16px; }
+  .nested-card, .partial { gap: 10px; }
+}
+
+@media(max-width:500px){
+  h1 { font-size: 28px; }
+  .controls { max-width: 100%; padding: 15px; }
+  input, select, button { font-size: 14px; padding: 8px; }
+  .total { font-size: 18px; }
+  .results { grid-template-columns: 1fr; gap: 15px; }
+  .card { padding: 15px; }
+  .inner-card { flex: 1 1 100%; max-width: 100%; padding: 8px; font-size: 14px; }
+  .nested-card, .partial { flex-direction: column; gap: 10px; }
+}
+</style>
 </head>
 <body>
 
@@ -179,16 +191,16 @@
 <div class="controls">
   <label>Total Items</label>
   <input id="itemCount" placeholder="Example: 4,194,304">
-
+  
   <label>Stack Type</label>
   <select id="stackType">
     <option value="64">64 Stack</option>
     <option value="16">16 Stack</option>
   </select>
-
+  
   <label>Multiply by (1–400)</label>
   <input id="multiply" type="number" min="1" max="400" value="1">
-
+  
   <button onclick="convert()">Convert</button>
 </div>
 
@@ -196,23 +208,25 @@
 <div id="results" class="results"></div>
 
 <script>
-// Original JS logic preserved for item conversion
-function convert() {
+function convert(){
   let raw = document.getElementById("itemCount").value.replace(/,/g,"");
   let total = Number(raw);
-  if (isNaN(total) || total < 0) {
-    document.getElementById("results").innerHTML = "Enter a valid number, damn it.";
+  if(isNaN(total) || total < 0){
+    document.getElementById("results").innerHTML="Enter a valid number, damn it.";
     return;
   }
+  
   let multiply = parseInt(document.getElementById("multiply").value);
-  if (isNaN(multiply) || multiply < 1 || multiply > 400) {
-    document.getElementById("results").innerHTML = "Multiply must be a whole number between 1 and 400, damn it.";
+  if(isNaN(multiply) || multiply < 1 || multiply > 400){
+    document.getElementById("results").innerHTML="Multiply must be a whole number between 1 and 400, damn it.";
     return;
   }
+  
   total *= multiply;
+  
   let stackSize = parseInt(document.getElementById("stackType").value);
   document.getElementById("total").innerHTML = `Total Items: ${total.toLocaleString()}`;
-
+  
   const storageTypes = [
     {name:"Stacks", type:"stack", capacity:stackSize, unitLabel:"Stacks"},
     {name:"Shulker Boxes", type:"shulker", capacity:27*stackSize, unitLabel:"Stacks"},
@@ -221,34 +235,36 @@ function convert() {
     {name:"Single Chests (with Shulkers)", type:"nested", capacity:27*27*stackSize, unitLabel:"Shulkers", nestedUnit:27*stackSize},
     {name:"Double Chests (with Shulkers)", type:"nested", capacity:54*27*stackSize, unitLabel:"Shulkers", nestedUnit:27*stackSize}
   ];
-
+  
   let html = "";
   storageTypes.forEach(st => html += calculateStorage(total, stackSize, st));
   document.getElementById("results").innerHTML = html;
 }
-function calculateStorage(total, stackSize, st) {
+
+function calculateStorage(total, stackSize, st){
   let fullUnits = Math.floor(total / st.capacity);
   let leftover = total % st.capacity;
   let partialCards = "";
 
-  if (st.type === "stack" || st.type === "chest" || st.type === "shulker") {
+  if(st.type === "stack" || st.type === "chest" || st.type === "shulker"){
     let fullStacks = Math.floor(leftover / stackSize);
     let leftoverItems = leftover % stackSize;
-    if (fullStacks > 0) partialCards += card("Stacks", fullStacks);
-    if (leftoverItems > 0) partialCards += card("Items", leftoverItems);
+    if(fullStacks>0) partialCards += card("Stacks", fullStacks);
+    if(leftoverItems>0) partialCards += card("Items", leftoverItems);
   }
 
-  if (st.type === "nested") {
+  if(st.type === "nested"){
     let fullShulkers = Math.floor(leftover / st.nestedUnit);
     let leftoverAfterShulkers = leftover % st.nestedUnit;
     let fullStacks = Math.floor(leftoverAfterShulkers / stackSize);
     let leftoverItems = leftoverAfterShulkers % stackSize;
-    if (fullShulkers > 0) partialCards += card("Shulkers", fullShulkers);
-    if (fullStacks > 0) partialCards += card("Stacks", fullStacks);
-    if (leftoverItems > 0) partialCards += card("Items", leftoverItems);
+    if(fullShulkers>0) partialCards += card("Shulkers", fullShulkers);
+    if(fullStacks>0) partialCards += card("Stacks", fullStacks);
+    if(leftoverItems>0) partialCards += card("Items", leftoverItems);
   }
 
   let fullCard = `<div class="inner-card full"><div class="inner-content">${fullUnits.toLocaleString()}</div></div>`;
+
   return `<div class="card">
     <h3>${st.name}</h3>
     <div class="capacity">Capacity: ${st.unitLabel} • ${st.capacity.toLocaleString()} items</div>
@@ -258,8 +274,12 @@ function calculateStorage(total, stackSize, st) {
     </div>
   </div>`;
 }
-function card(title, value) {
-  return `<div class="inner-card"><div class="inner-title">${title}</div><div class="inner-content">${value.toLocaleString()}</div></div>`;
+
+function card(title,value){
+  return `<div class="inner-card">
+    <div class="inner-title">${title}</div>
+    <div class="inner-content">${value.toLocaleString()}</div>
+  </div>`;
 }
 </script>
 

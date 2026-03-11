@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Favicon -->
-<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-
-<!-- Apple Touch Icon -->
-<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-
-<!-- Optional: older browsers -->
-<link rel="shortcut icon" href="logo.png" type="image/png">
 <title>BlockTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Favicon & Apple Touch Icon -->
+<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="shortcut icon" href="logo.png" type="image/png">
+
 <style>
-/* BlockTools Index - Responsive */
 body {
   font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
   background: linear-gradient(135deg,#f0faff,#e8f2ff);
-  padding: 40px;
-  color: #222;
+  padding:40px;
+  color:#222;
+  margin:0;
 }
 h1 {
   text-align:center;
@@ -24,8 +23,6 @@ h1 {
   color:#1f6feb;
   text-shadow:1px 1px 3px #ccc;
 }
-
-/* Tools grid */
 .tools {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -33,8 +30,6 @@ h1 {
   max-width:900px;
   margin:auto;
 }
-
-/* Cards */
 .tool-card {
   background:white;
   padding:25px;
@@ -52,40 +47,31 @@ h1 {
 .tool-card h3 { margin:0 0 10px; color:#1f6feb; text-shadow:1px 1px 2px #ccc; }
 .tool-card p { color:#555; font-size:14px; }
 
-/* ---- Mobile / Tablet ---- */
-@media (max-width: 768px) {
+/* ---- Mobile ---- */
+@media (max-width:768px){
   .tools { grid-template-columns:repeat(2,1fr); gap:18px; }
   .tool-card { padding:20px; }
 }
-
-@media (max-width: 500px) {
-  .tools { grid-template-columns:1fr; gap:15px; }
-  .tool-card { padding:15px; font-size:14px; }
-  h1 { font-size:28px; }
+@media (max-width:500px){
+  h1{font-size:28px;}
+  .tools{grid-template-columns:1fr; gap:15px;}
+  .tool-card{padding:15px; font-size:14px;}
 }
 </style>
 </head>
 <body>
 
 <h1>BlockTools</h1>
-
 <div class="tools">
   <div class="tool-card" onclick="location.href='BlockCalc.html'">
     <h3>BlockCalc</h3>
-    <p>Calculate total blocks in any Minecraft area using min/max coordinates.</p>
+    <p>Calculate blocks between coordinates</p>
   </div>
-
   <div class="tool-card" onclick="location.href='Stacker.html'">
     <h3>Stacker</h3>
-    <p>Convert items into stacks, shulker boxes, and chests, including nested storage.</p>
-  </div>
-
-  <!-- Future tools can be added here -->
-  <div class="tool-card" onclick="location.href='#'">
-    <h3>Future Tool</h3>
-    <p>Coming soon: More BlockTools to help manage your Minecraft worlds.</p>
+    <p>Calculate stacks, chests, and shulkers</p>
   </div>
 </div>
-<script src="responsive.js"></script>
+
 </body>
 </html>

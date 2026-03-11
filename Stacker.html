@@ -117,16 +117,29 @@ button:hover { background: #155ac4; transform: translateY(-2px); box-shadow: 0 6
 .inner-title { font-weight: 700; color: #1f6feb; margin-bottom: 4px; font-size: 14px; }
 .inner-content { font-weight: 800; font-size: 18px; color: #222; }
 
+/* --- RESPONSIVE --- */
 @media(max-width:768px){
   .controls { max-width: 95%; padding: 15px; }
   .results { grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 15px; }
   .inner-card { flex: 1 1 80%; }
 }
 
+/* Narrow devices */
 @media(max-width:500px){
   .results { grid-template-columns: 1fr; gap: 12px; }
   .inner-card { flex: 1 1 100%; }
   .nested-card, .partial { flex-direction: column; gap: 8px; }
+}
+
+/* --- PORTRAIT SPECIFIC --- */
+@media (max-width: 768px) and (orientation: portrait) {
+  .nested-card, .partial { flex-direction: column; gap: 8px; align-items: center; }
+  .inner-card { flex: 1 1 90%; max-width: 90%; }
+}
+
+@media (max-width: 500px) and (orientation: portrait) {
+  .nested-card, .partial { flex-direction: column; gap: 6px; }
+  .inner-card { flex: 1 1 100%; max-width: 100%; }
 }
 </style>
 </head>

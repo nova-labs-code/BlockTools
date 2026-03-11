@@ -4,13 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stacker</title>
-
-<!-- Favicon & Apple Touch -->
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
 
 <style>
-/* --- GENERAL STYLES --- */
+/* --- GENERAL --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -20,6 +18,7 @@ body {
   padding: 20px;
 }
 
+/* --- HEADER --- */
 h1 {
   text-align: center;
   margin-bottom: 30px;
@@ -127,21 +126,25 @@ button:hover {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+  width: 100%;
 }
 
 /* --- INNER CARDS --- */
 .inner-card {
   flex: 1 1 45%;
   min-width: 90px;
+  max-width: 100%;
   text-align: center;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   background: #f7f9fb;
+  box-sizing: border-box;
 }
 
 .inner-card.full {
   flex: 1 1 100%;
+  max-width: 100%;
   background: #d4f0d4;
   color: #3aa655;
   font-weight: 800;
@@ -203,13 +206,13 @@ button:hover {
 function convert() {
   let raw = document.getElementById("itemCount").value.replace(/,/g,'');
   let total = Number(raw);
-  if(isNaN(total) || total<0){
+  if(isNaN(total) || total < 0){
     document.getElementById("results").innerHTML="Enter a valid number, damn it.";
     return;
   }
 
   let multiply = parseInt(document.getElementById("multiply").value);
-  if(isNaN(multiply) || multiply<1 || multiply>400){
+  if(isNaN(multiply) || multiply < 1 || multiply > 400){
     document.getElementById("results").innerHTML="Multiply must be 1–400, damn it.";
     return;
   }
@@ -272,6 +275,5 @@ function innerCard(title,value,isFull=false){
   </div>`;
 }
 </script>
-
 </body>
 </html>

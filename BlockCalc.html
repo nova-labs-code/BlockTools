@@ -2,54 +2,66 @@
 <html>
 <head>
 <title>BlockCalc</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Favicon & Apple Touch Icon -->
+<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="shortcut icon" href="logo.png" type="image/png">
+
 <style>
-/* BlockCalc Responsive Update */
-body {
+body{
   font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-  background: linear-gradient(135deg,#f0faff,#e8f2ff);
+  background: linear-gradient(135deg,#c8f0ff,#eef2f6);
   padding:40px;
   color:#222;
+  margin:0;
 }
-h1 {
-  text-align:center;
-  margin-bottom:40px;
-  color:#1f6feb;
-  text-shadow:1px 1px 3px #ccc;
-}
-.controls {
-  background:white;
-  padding:30px;
-  border-radius:15px;
+h1{text-align:center;margin-bottom:40px;color:#1f6feb;text-shadow:1px 1px 3px #ccc;}
+.controls{
+  background:white;padding:30px;border-radius:15px;
   box-shadow:0 8px 25px rgba(0,0,0,0.15);
-  max-width:480px;
-  margin:auto 0 50px;
+  max-width:480px;margin:auto 0 50px;
   border:2px solid #3aa655;
 }
-label { font-weight:700; margin-top:12px; display:block; }
-input, select, button {
-  width:100%;
-  padding:12px;
-  font-size:16px;
-  margin-top:6px;
-  border-radius:8px;
-  border:1px solid #ccc;
+label{font-weight:700;margin-top:12px;display:block;}
+input,select,button{
+  width:100%;padding:12px;font-size:16px;margin-top:6px;border-radius:8px;border:1px solid #ccc;
   transition:border 0.2s, box-shadow 0.2s;
 }
-button { cursor:pointer; background:#1f6feb; color:white; border:none; font-weight:700; }
-.result { margin:35px auto; max-width:480px; text-align:center; font-size:24px; font-weight:800; color:#3aa655; text-shadow:1px 1px 2px #fff; }
+input:focus,select:focus{border-color:#1f6feb;box-shadow:0 0 6px rgba(31,111,235,0.3);}
+button{margin-top:20px;width:100%;padding:14px;font-size:16px;background:#1f6feb;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+button:hover{background:#155ac4;transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,0.25);}
+.total{margin:35px auto;max-width:480px;text-align:center;font-size:24px;font-weight:800;color:#3aa655;text-shadow:1px 1px 2px #fff;}
+.results{margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;}
+.card{background:linear-gradient(135deg,#ffffff,#f0f8ff);padding:22px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,0.15);transition: transform 0.3s, box-shadow 0.3s;}
+.card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 15px 30px rgba(0,0,0,0.25);}
+.card h3{margin-top:0;border-bottom:2px solid #3aa655;padding-bottom:8px;color:#1f6feb;text-align:center;}
+.capacity{color:#666;margin-bottom:15px;font-size:15px;font-weight:600;text-align:center;}
+.inner-card{background:#f7f9fb;padding:10px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.05);text-align:center;flex:0 1 45%;min-width:80px;box-sizing:border-box;}
+.inner-card.full{flex:0 1 100%;font-size:26px;padding:18px;min-width:140px;background:#d4f0d4;color:#3aa655;}
+.inner-title{font-weight:700;color:#1f6feb;margin-bottom:4px;font-size:14px;}
+.inner-content{font-size:22px;color:#222;font-weight:800;}
+.nested-card,.partial{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
 
 /* ---- Mobile / Tablet ---- */
-@media (max-width: 768px) {
-  .controls { max-width:400px; padding:20px; }
-  input, select, button { font-size:15px; padding:10px; }
-  .result { font-size:22px; }
+@media(max-width:768px){
+  body{padding:20px;}
+  .controls{max-width:400px;padding:20px;}
+  input,select,button{font-size:15px;padding:10px;}
+  .total{font-size:22px;}
+  .results{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
+  .inner-card{flex:0 1 80%;padding:10px;font-size:16px;}
 }
-@media (max-width: 500px) {
-  body { padding:20px; }
-  h1 { font-size:28px; }
-  .controls { max-width:100%; padding:15px; }
-  input, select, button { font-size:14px; padding:8px; }
-  .result { font-size:18px; }
+@media(max-width:500px){
+  h1{font-size:28px;}
+  .controls{max-width:100%;padding:15px;}
+  input,select,button{font-size:14px;padding:8px;}
+  .total{font-size:18px;}
+  .results{grid-template-columns:1fr;gap:15px;}
+  .card{padding:15px;}
+  .inner-card{flex:0 1 100%;padding:8px;font-size:14px;}
+  .nested-card,.partial{flex-direction:column;gap:10px;}
 }
 </style>
 </head>
@@ -58,54 +70,31 @@ button { cursor:pointer; background:#1f6feb; color:white; border:none; font-weig
 <h1>BlockCalc</h1>
 
 <div class="controls">
-  <label>Min X</label>
-  <input id="minX" type="number" placeholder="0">
-  <label>Min Y</label>
-  <input id="minY" type="number" placeholder="-57">
-  <div class="note">Typical Y range: -57 → 319</div>
-  <label>Min Z</label>
-  <input id="minZ" type="number" placeholder="0">
-
-  <label>Max X</label>
-  <input id="maxX" type="number" placeholder="100">
-  <label>Max Y</label>
-  <input id="maxY" type="number" placeholder="319">
-  <div class="note">Typical Y range: -57 → 319</div>
-  <label>Max Z</label>
-  <input id="maxZ" type="number" placeholder="100">
-
-  <button onclick="calculateBlocks()">Calculate Blocks</button>
+  <label>Min X,Y,Z</label>
+  <input id="minXYZ" placeholder="e.g. 0,0,0">
+  <label>Max X,Y,Z</label>
+  <input id="maxXYZ" placeholder="e.g. 100,255,100">
+  <button onclick="calculate()">Calculate</button>
 </div>
 
-<div id="result" class="result"></div>
+<div id="total" class="total"></div>
 
 <script>
-function calculateBlocks() {
-  let minX = parseInt(document.getElementById("minX").value);
-  let minY = parseInt(document.getElementById("minY").value);
-  let minZ = parseInt(document.getElementById("minZ").value);
-  let maxX = parseInt(document.getElementById("maxX").value);
-  let maxY = parseInt(document.getElementById("maxY").value);
-  let maxZ = parseInt(document.getElementById("maxZ").value);
-
-  if([minX,minY,minZ,maxX,maxY,maxZ].some(v => isNaN(v))){
-    document.getElementById("result").innerHTML = "Enter valid numbers for all coordinates, damn it.";
+function calculate(){
+  let min = document.getElementById('minXYZ').value.split(',').map(Number);
+  let max = document.getElementById('maxXYZ').value.split(',').map(Number);
+  if(min.length!==3 || max.length!==3 || min.some(isNaN) || max.some(isNaN)){
+    document.getElementById('total').innerText='Enter valid XYZ coordinates, damn it.';
     return;
   }
-  if(minX>maxX || minY>maxY || minZ>maxZ){
-    document.getElementById("result").innerHTML = "Min coordinates must be ≤ Max coordinates, damn it.";
-    return;
-  }
-
-  let sizeX = maxX - minX + 1;
-  let sizeY = maxY - minY + 1;
-  let sizeZ = maxZ - minZ + 1;
-
-  let totalBlocks = sizeX * sizeY * sizeZ;
-
-  document.getElementById("result").innerHTML = `Total Blocks: ${totalBlocks.toLocaleString()}`;
+  let dx = max[0]-min[0]+1;
+  let dy = max[1]-min[1]+1;
+  let dz = max[2]-min[2]+1;
+  if(dx<0||dy<0||dz<0){document.getElementById('total').innerText='Max must be greater than min, damn it.'; return;}
+  let blocks = dx*dy*dz;
+  document.getElementById('total').innerText=`Total Blocks: ${blocks.toLocaleString()}`;
 }
 </script>
-<script src="responsive.js"></script>
+
 </body>
-</html>
+</html>I'm

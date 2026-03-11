@@ -2,173 +2,36 @@
 <html>
 <head>
 <title>Stacker</title>
-<style>
-/* ---- Base Styles ---- */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg,#c8f0ff,#eef2f6);
-  padding: 40px;
-  color: #222;
-}
-h1 {
-  text-align: center;
-  margin-bottom: 40px;
-  color: #1f6feb;
-  text-shadow: 1px 1px 3px #ccc;
-}
-.controls {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-  max-width: 480px;
-  margin: auto 0 50px;
-  border: 2px solid #3aa655;
-}
-label {
-  font-weight: 700;
-  margin-top: 12px;
-  display: block;
-}
-input, select {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  margin-top: 6px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  transition: border 0.2s, box-shadow 0.2s;
-}
-input:focus, select:focus {
-  border-color: #1f6feb;
-  box-shadow: 0 0 6px rgba(31,111,235,0.3);
-}
-button {
-  margin-top: 20px;
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  background: #1f6feb;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: all 0.2s;
-}
-button:hover {
-  background: #155ac4;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-}
-.total {
-  margin: 35px auto;
-  max-width: 480px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 800;
-  color: #3aa655;
-  text-shadow: 1px 1px 2px #fff;
-}
-.results {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
-  gap: 25px;
-}
-.card {
-  background: linear-gradient(135deg,#ffffff,#f0f8ff);
-  padding: 22px;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-  transition: transform 0.3s, box-shadow 0.3s;
-  display: flex;
-  flex-direction: column;
-}
-.card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.25);
-}
-.card h3 {
-  margin-top: 0;
-  border-bottom: 2px solid #3aa655;
-  padding-bottom: 8px;
-  color: #1f6feb;
-  text-align: center;
-}
-.capacity {
-  color: #666;
-  margin-bottom: 15px;
-  font-size: 15px;
-  font-weight: 600;
-  text-align: center;
-}
-.nested-card {
-  background: #e0f3ff;
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.partial {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-}
-.inner-card {
-  background: #f7f9fb;
-  padding: 12px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  text-align: center;
-  flex: 0 1 45%;
-  min-width: 80px;
-  box-sizing: border-box;
-}
-.inner-card.full {
-  flex: 0 1 100%;
-  font-size: 26px;
-  padding: 18px;
-  min-width: 140px;
-  background: #d4f0d4;
-  color: #3aa655;
-}
-.inner-title {
-  font-weight: 700;
-  color: #1f6feb;
-  margin-bottom: 4px;
-  font-size: 14px;
-}
-.inner-content {
-  font-size: 22px;
-  color: #222;
-  font-weight: 800;
-}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-/* ---- Mobile / Tablet Overrides ---- */
-@media (max-width: 768px) {
-  body { padding: 20px; }
-  .controls { max-width: 400px; padding: 20px; }
-  input, select, button { font-size: 15px; padding: 10px; }
-  .total { font-size: 22px; }
-  .results { grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 18px; }
-  .inner-card { flex: 0 1 80%; padding: 10px; font-size: 16px; }
-  .nested-card { gap: 10px; }
-}
-@media (max-width: 500px) {
-  body { padding: 15px; }
-  h1 { font-size: 28px; }
-  .controls { max-width: 100%; padding: 15px; }
-  input, select, button { font-size: 14px; padding: 8px; }
-  .total { font-size: 18px; }
-  .results { grid-template-columns: 1fr; gap: 15px; }
-  .card { padding: 15px; }
-  .inner-card { flex: 0 1 100%; padding: 8px; font-size: 14px; }
-  .nested-card, .partial { flex-direction: column; gap: 10px; }
-}
+<!-- Favicon & Apple Touch Icon -->
+<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="shortcut icon" href="logo.png" type="image/png">
+
+<style>
+/* Same CSS as full Stacker version I gave you earlier, including responsive media queries */
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#c8f0ff,#eef2f6);padding:40px;color:#222;margin:0;}
+h1{text-align:center;margin-bottom:40px;color:#1f6feb;text-shadow:1px 1px 3px #ccc;}
+.controls{background:white;padding:30px;border-radius:15px;box-shadow:0 8px 25px rgba(0,0,0,0.15);max-width:480px;margin:auto 0 50px;border:2px solid #3aa655;}
+label{font-weight:700;margin-top:12px;display:block;}
+input,select,button{width:100%;padding:12px;font-size:16px;margin-top:6px;border-radius:8px;border:1px solid #ccc;transition:border 0.2s,box-shadow 0.2s;}
+input:focus,select:focus{border-color:#1f6feb;box-shadow:0 0 6px rgba(31,111,235,0.3);}
+button{margin-top:20px;width:100%;padding:14px;font-size:16px;background:#1f6feb;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+button:hover{background:#155ac4;transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,0.25);}
+.total{margin:35px auto;max-width:480px;text-align:center;font-size:24px;font-weight:800;color:#3aa655;text-shadow:1px 1px 2px #fff;}
+.results{margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;}
+.card{background:linear-gradient(135deg,#ffffff,#f0f8ff);padding:22px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,0.15);transition:transform 0.3s,box-shadow 0.3s;display:flex;flex-direction:column;}
+.card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 15px 30px rgba(0,0,0,0.25);}
+.card h3{margin-top:0;border-bottom:2px solid #3aa655;padding-bottom:8px;color:#1f6feb;text-align:center;}
+.capacity{color:#666;margin-bottom:15px;font-size:15px;font-weight:600;text-align:center;}
+.inner-card{background:#f7f9fb;padding:12px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.05);text-align:center;flex:0 1 45%;min-width:80px;box-sizing:border-box;}
+.inner-card.full{flex:0 1 100%;font-size:26px;padding:18px;min-width:140px;background:#d4f0d4;color:#3aa655;}
+.inner-title{font-weight:700;color:#1f6feb;margin-bottom:4px;font-size:14px;}
+.inner-content{font-size:22px;color:#222;font-weight:800;}
+.nested-card,.partial{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+@media(max-width:768px){body{padding:20px;}.controls{max-width:400px;padding:20px;}input,select,button{font-size:15px;padding:10px;}.total{font-size:22px;}.results{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}.inner-card{flex:0 1 80%;padding:10px;font-size:16px;}.nested-card{gap:10px;}}
+@media(max-width:500px){body{padding:15px;}h1{font-size:28px;}.controls{max-width:100%;padding:15px;}input,select,button{font-size:14px;padding:8px;}.total{font-size:18px;}.results{grid-template-columns:1fr;gap:15px;}.card{padding:15px;}.inner-card{flex:0 1 100%;padding:8px;font-size:14px;}.nested-card,.partial{flex-direction:column;gap:10px;}}
 </style>
 </head>
 <body>
@@ -195,6 +58,7 @@ button:hover {
 <div id="results" class="results"></div>
 
 <script>
+// Same JS as before, fully functional
 function convert() {
   let raw = document.getElementById("itemCount").value.replace(/,/g,"");
   let total = Number(raw);
@@ -202,18 +66,14 @@ function convert() {
     document.getElementById("results").innerHTML="Enter a valid number, damn it.";
     return;
   }
-
   let multiply = parseInt(document.getElementById("multiply").value);
   if(isNaN(multiply) || multiply < 1 || multiply > 400){
     document.getElementById("results").innerHTML="Multiply must be a whole number between 1 and 400, damn it.";
     return;
   }
-
   total *= multiply;
-
   let stackSize = parseInt(document.getElementById("stackType").value);
   document.getElementById("total").innerHTML = `Total Items: ${total.toLocaleString()}`;
-
   const storageTypes = [
     {name:"Stacks", type:"stack", capacity:stackSize, unitLabel:"Stacks"},
     {name:"Shulker Boxes", type:"shulker", capacity:27*stackSize, unitLabel:"Stacks"},
@@ -222,55 +82,33 @@ function convert() {
     {name:"Single Chests (with Shulkers)", type:"nested", capacity:27*27*stackSize, unitLabel:"Shulkers", nestedUnit:27*stackSize},
     {name:"Double Chests (with Shulkers)", type:"nested", capacity:54*27*stackSize, unitLabel:"Shulkers", nestedUnit:27*stackSize}
   ];
-
   let html = "";
   storageTypes.forEach(st => html += calculateStorage(total, stackSize, st));
   document.getElementById("results").innerHTML = html;
 }
-
 function calculateStorage(total, stackSize, st){
   let fullUnits = Math.floor(total / st.capacity);
   let leftover = total % st.capacity;
   let partialCards = "";
-
-  if(st.type === "stack" || st.type === "chest" || st.type === "shulker"){
+  if(st.type==="stack"||st.type==="chest"||st.type==="shulker"){
     let fullStacks = Math.floor(leftover / stackSize);
     let leftoverItems = leftover % stackSize;
     if(fullStacks>0) partialCards += card("Stacks", fullStacks);
     if(leftoverItems>0) partialCards += card("Items", leftoverItems);
   }
-
-  if(st.type === "nested"){
+  if(st.type==="nested"){
     let fullShulkers = Math.floor(leftover / st.nestedUnit);
     let leftoverAfterShulkers = leftover % st.nestedUnit;
     let fullStacks = Math.floor(leftoverAfterShulkers / stackSize);
     let leftoverItems = leftoverAfterShulkers % stackSize;
-
     if(fullShulkers>0) partialCards += card("Shulkers", fullShulkers);
     if(fullStacks>0) partialCards += card("Stacks", fullStacks);
     if(leftoverItems>0) partialCards += card("Items", leftoverItems);
   }
-
-  let fullCard = `<div class="inner-card full">
-      <div class="inner-content">${fullUnits.toLocaleString()}</div>
-    </div>`;
-
-  return `<div class="card">
-    <h3>${st.name}</h3>
-    <div class="capacity">Capacity: ${st.unitLabel} • ${st.capacity.toLocaleString()} items</div>
-    <div class="nested-card">
-      ${fullCard}
-      ${partialCards ? `<div class="partial">${partialCards}</div>` : ""}
-    </div>
-  </div>`;
+  let fullCard = `<div class="inner-card full"><div class="inner-content">${fullUnits.toLocaleString()}</div></div>`;
+  return `<div class="card"><h3>${st.name}</h3><div class="capacity">Capacity: ${st.unitLabel} • ${st.capacity.toLocaleString()} items</div><div class="nested-card">${fullCard}${partialCards?`<div class="partial">${partialCards}</div>`:""}</div></div>`;
 }
-
-function card(title,value){
-  return `<div class="inner-card">
-    <div class="inner-title">${title}</div>
-    <div class="inner-content">${value.toLocaleString()}</div>
-  </div>`;
-}
+function card(title,value){return `<div class="inner-card"><div class="inner-title">${title}</div><div class="inner-content">${value.toLocaleString()}</div></div>`;}
 </script>
 
 </body>

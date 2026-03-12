@@ -6,61 +6,138 @@
 <title>BlockTools</title>
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
-
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing:border-box; margin:0; padding:0; }
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
   background: linear-gradient(135deg,#c8f0ff,#eef2f6);
-  color: #222;
-  padding: 20px;
+  padding:20px; color:#222;
+  min-height:100vh;
 }
-h1 { text-align: center; margin-bottom: 30px; color: #1f6feb; text-shadow: 1px 1px 3px #ccc; }
-.results {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-  gap: 20px;
-  max-width: 900px;
-  margin: 0 auto;
+
+h1 {
+  text-align:center;
+  color:#1f6feb; text-shadow:1px 1px 3px #ccc;
+  margin-bottom:40px;
+  position: relative;
 }
+
+/* --- TOOL GRID --- */
+.tool-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+  max-width:1000px;
+  margin:0 auto 40px;
+}
+
+/* --- TOOL CARD --- */
 .tool-card {
   background: linear-gradient(135deg,#fff,#f0f8ff);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-  text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius:12px;
+  padding:22px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition: all 0.3s;
+  opacity:0;
+  transform: translateY(10px);
+  animation: fadeIn 0.5s forwards;
 }
-.tool-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.25); }
-.tool-card h3 { color: #1f6feb; margin-bottom: 12px; }
+.tool-card:nth-child(1){ animation-delay:0.1s; }
+.tool-card:nth-child(2){ animation-delay:0.2s; }
+.tool-card:nth-child(3){ animation-delay:0.3s; }
+
+.tool-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow:0 15px 30px rgba(0,0,0,0.25);
+  background: linear-gradient(135deg,#f0f8ff,#ffffff);
+}
+
+.tool-card h3 {
+  margin-bottom:10px;
+  color:#1f6feb;
+}
+
+.tool-card p {
+  font-size:15px;
+  line-height:1.5;
+  color:#444;
+  margin-bottom:18px;
+  flex:1;
+}
+
 .tool-card a {
-  display: inline-block;
-  padding: 10px 16px;
-  background: #1f6feb;
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
+  display:inline-block;
+  padding:10px 20px;
+  background:#1f6feb;
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+  border-radius:8px;
+  transition:all 0.2s;
 }
-.tool-card a:hover { background: #155ac4; }
-@media(max-width:500px){ .results { grid-template-columns: 1fr; gap: 12px; } }
+.tool-card a:hover { background:#155ac4; }
+.tool-card a:active {
+  transform: translateY(1px);
+  box-shadow:0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* --- FOOTER --- */
+footer {
+  text-align:center;
+  margin-top:40px;
+  font-size:14px;
+  color:#666;
+}
+
+/* --- ANIMATION --- */
+@keyframes fadeIn {
+  to { opacity:1; transform: translateY(0); }
+}
+
+/* --- MOBILE --- */
+@media(max-width:768px){
+  .tool-grid { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:20px; }
+  body { padding:15px; }
+  .tool-card { padding:18px; }
+  .tool-card p { font-size:16px; }
+  .tool-card a { padding:12px 25px; font-size:16px; }
+}
+@media(max-width:500px){
+  .tool-grid { grid-template-columns:1fr; gap:15px; }
+}
 </style>
 </head>
 <body>
 
 <h1>BlockTools</h1>
-<div class="results">
-  <div class="tool-card">
-    <h3>Stacker</h3>
-    <p>Convert items into stacks, chests, and shulkers.</p>
-    <a href="Stacker.html">Open</a>
-  </div>
+
+<div class="tool-grid">
   <div class="tool-card">
     <h3>BlockCalc</h3>
-    <p>Calculate block counts from coordinate ranges.</p>
-    <a href="BlockCalc.html">Open</a>
+    <p>Quickly calculate how many blocks you need for any area, radius, or build in Minecraft.</p>
+    <a href="BlockCalc.html">Open Tool</a>
+  </div>
+
+  <div class="tool-card">
+    <h3>Stacker</h3>
+    <p>Convert items into stacks, shulker boxes, and chests with multipliers for better planning.</p>
+    <a href="Stacker.html">Open Tool</a>
+  </div>
+
+  <div class="tool-card">
+    <h3>EnderSeek</h3>
+    <p>Locate exactly 3 strongholds in any Minecraft Java 1.21 world using just the seed.</p>
+    <a href="EnderSeek.html">Open Tool</a>
   </div>
 </div>
+
+<footer>
+  &copy; 2026 BlockTools. All rights reserved.
+</footer>
 
 </body>
 </html>

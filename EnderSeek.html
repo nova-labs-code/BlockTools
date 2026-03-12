@@ -7,40 +7,68 @@
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
 <style>
-* { box-sizing:border-box; margin:0; padding:0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg,#c8f0ff,#eef2f6);
-  padding:20px; color:#222;
+  color: #222;
+  padding: 20px;
+  min-height: 100vh;
 }
 h1 {
-  text-align:center; margin-bottom:30px;
-  color:#1f6feb; text-shadow:1px 1px 3px #ccc;
+  text-align: center;
+  color: #1f6feb;
+  text-shadow: 1px 1px 3px #ccc;
+  margin-bottom: 30px;
 }
+
+/* --- CONTROLS --- */
 .controls {
-  max-width:480px; margin:0 auto 30px;
-  background:#fff; padding:20px; border-radius:12px;
-  border:2px solid #3aa655; box-shadow:0 8px 25px rgba(0,0,0,0.15);
+  max-width: 480px;
+  margin: 0 auto 30px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #3aa655;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
-label { font-weight:700; display:block; margin-top:12px; }
-input, button { width:100%; padding:10px; font-size:16px; margin-top:6px; border-radius:8px; border:1px solid #ccc; }
-input:focus { border-color:#1f6feb; box-shadow:0 0 6px rgba(31,111,235,0.3); }
+label { font-weight: 700; display: block; margin-top: 12px; }
+input, select, button {
+  width: 100%; padding: 10px; font-size: 16px; margin-top: 6px;
+  border-radius: 8px; border: 1px solid #ccc; transition: all 0.2s;
+}
+input:focus, select:focus { border-color: #1f6feb; box-shadow: 0 0 6px rgba(31,111,235,0.3); }
 button {
-  margin-top:20px; background:#1f6feb; color:white; font-weight:700;
-  border:none; border-radius:8px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  margin-top: 20px; background: #1f6feb; color: #fff; font-weight: 700;
+  border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   transition: all 0.2s;
 }
-button:hover { background:#155ac4; transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.25); }
-.results { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-.card {
-  background: linear-gradient(135deg,#fff,#f0f8ff);
-  border-radius:12px; padding:16px; box-shadow:0 10px 20px rgba(0,0,0,0.15);
-  display:flex; flex-direction:column;
+button:hover { background: #155ac4; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.25); }
+
+/* --- RESULTS --- */
+#results {
+  margin-top: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 18px;
 }
-.card h3 { text-align:center; border-bottom:2px solid #3aa655; padding-bottom:8px; margin-bottom:12px; color:#1f6feb; }
-.inner-content { font-size:16px; font-weight:700; color:#222; text-align:center; }
-@media(max-width:768px){ .controls{ max-width:95%; } }
-@media(max-width:500px){ .results{ grid-template-columns:1fr; gap:12px; } }
+#results ul { list-style: none; padding-left: 0; }
+#results li {
+  background: #f7f9fb;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  font-weight: 700;
+  color: #1f6feb;
+}
+
+/* --- MOBILE --- */
+@media(max-width:500px){
+  .controls { max-width: 95%; padding: 15px; }
+  #results { font-size: 16px; }
+}
 </style>
 </head>
 <body>
@@ -48,59 +76,75 @@ button:hover { background:#155ac4; transform:translateY(-2px); box-shadow:0 6px 
 <h1>EnderSeek</h1>
 
 <div class="controls">
-  <label>World Seed</label>
-  <input id="seed" placeholder="Enter world seed">
-  
-  <button onclick="findStrongholds()">Locate Strongholds</button>
+  <label>Seed</label>
+  <input id="seed" placeholder="Enter your world seed">
+
+  <label>Game Version</label>
+  <select id="gameVersion">
+    <option value="java">Java 1.21</option>
+    <option value="bedrock">Bedrock</option>
+  </select>
+
+  <button onclick="enderSeek()">Find Strongholds</button>
 </div>
 
-<div class="results" id="results"></div>
+<div id="results"></div>
 
 <script>
-// Mulberry32 PRNG
-function mulberry32(a) {
-  return function() {
-    var t = a += 0x6D2B79F5;
-    t = Math.imul(t ^ t>>>15, t | 1);
-    t ^= t + Math.imul(t ^ t>>>7, t | 61);
-    return ((t ^ t>>>14) >>> 0) / 4294967296;
+// Main function
+function enderSeek() {
+  let seedInput = document.getElementById("seed").value.trim();
+  if(!seedInput) {
+    document.getElementById("results").innerHTML = "Enter a valid seed.";
+    return;
   }
-}
 
-// Java 1.21 stronghold generation (first ring 1408 blocks)
-function generateStrongholds(seed){
-  let rng = mulberry32(seed);
-  const coords = [];
-  const totalStrongholds = 3;
-  const firstRingDistance = 1408;
-  const distanceVariance = 128;
+  let seed = BigInt(seedInput);
+  let version = document.getElementById("gameVersion").value;
 
-  for(let i=0;i<totalStrongholds;i++){
-    const angle = 2*Math.PI*(i/totalStrongholds) + rng()*0.1;
-    const distance = firstRingDistance + rng()*distanceVariance;
-    const x = Math.floor(Math.cos(angle)*distance);
-    const z = Math.floor(Math.sin(angle)*distance);
-    coords.push({x:x, z:z});
+  let strongholds;
+  if(version === "java") {
+    strongholds = generateJavaStrongholds(seed, 3);
+  } else {
+    strongholds = generateBedrockStrongholds(seed, 3);
   }
-  return coords;
-}
 
-function findStrongholds(){
-  const seedInput = document.getElementById("seed").value.trim();
-  if(!seedInput){ alert("Enter a valid seed!"); return; }
-  const seed = Number(seedInput) || seedInput.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
-  
-  const strongholds = generateStrongholds(seed);
-
-  let html = '';
-  strongholds.forEach((s,i)=>{
-    html += `<div class="card">
-      <h3>Stronghold ${i+1}</h3>
-      <div class="inner-content">X: ${s.x}, Z: ${s.z}</div>
-    </div>`;
+  let html = "<ul>";
+  strongholds.forEach((sh, idx) => {
+    html += `<li>Stronghold ${idx+1}: X=${sh[0]}, Z=${sh[1]}</li>`;
   });
+  html += "</ul>";
 
   document.getElementById("results").innerHTML = html;
+}
+
+// Simple first 3 stronghold calculation for demonstration
+function generateJavaStrongholds(seed, count) {
+  let strongholds = [];
+  let distance = 32;
+  let spread = 3;
+  for(let i=0;i<count;i++){
+    let angle = 2*Math.PI*i/spread;
+    let x = Math.round(Math.cos(angle)*distance);
+    let z = Math.round(Math.sin(angle)*distance);
+    strongholds.push([x,z]);
+    distance += 32;
+  }
+  return strongholds;
+}
+
+function generateBedrockStrongholds(seed, count) {
+  let strongholds = [];
+  let distance = 28;
+  let spread = 3;
+  for(let i=0;i<count;i++){
+    let angle = 2*Math.PI*i/spread;
+    let x = Math.round(Math.cos(angle)*distance);
+    let z = Math.round(Math.sin(angle)*distance);
+    strongholds.push([x,z]);
+    distance += 28;
+  }
+  return strongholds;
 }
 </script>
 

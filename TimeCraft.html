@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+>
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<title>Minecraft Time Calculator</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+    background: #090b10;
+    color: #f3f5f8;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+}
+
+body {
+    padding: 18px;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    border: 0;
+    cursor: pointer;
+}
+
+.app {
+    max-width: 900px;
+    margin: auto;
+}
+
+header {
+    margin: 8px 0 22px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.sub {
+    margin: 6px 0 0;
+    color: #8f98a8;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    background: #11151d;
+    padding: 6px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    background: transparent;
+    color: #9da6b5;
+    font-weight: 700;
+}
+
+.tab.active {
+    background: #252c38;
+    color: #fff;
+}
+
+.panel {
+    background: #11151d;
+    border: 1px solid #202733;
+    border-radius: 18px;
+    padding: 18px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+label {
+    display: block;
+    color: #aeb6c4;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.field {
+    margin-bottom: 14px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    background: #0b0e14;
+    color: #fff;
+    border: 1px solid #29313e;
+    border-radius: 11px;
+    padding: 13px;
+    outline: none;
+    min-height: 48px;
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: #68758a;
+}
+
+.primary {
+    width: 100%;
+    background: #e8edf4;
+    color: #0a0d12;
+    padding: 13px;
+    border-radius: 11px;
+    font-weight: 800;
+    margin-top: 4px;
+}
+
+.result {
+    margin-top: 16px;
+    background: #0b0e14;
+    border: 1px solid #242c38;
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.result h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.big {
+    font-size: 27px;
+    font-weight: 850;
+    margin: 5px 0;
+}
+
+.muted {
+    color: #929baa;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.card {
+    background: #0b0e14;
+    border: 1px solid #242c38;
+    border-radius: 14px;
+    padding: 15px;
+}
+
+.card b {
+    display: block;
+    font-size: 13px;
+    color: #9ea7b6;
+    margin-bottom: 6px;
+}
+
+.card span {
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.note {
+    font-size: 12px;
+    color: #7f8999;
+    line-height: 1.5;
+    margin-top: 14px;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 12px;
+    }
+
+    .grid,
+    .cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .grid .full {
+        grid-column: 1 / -1;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <h1>Minecraft Time Calculator</h1>
+
+    <p class="sub">
+        Convert Minecraft time and real-world time in either direction.
+    </p>
+</header>
+
+<div class="tabs">
+
+    <button
+        class="tab active"
+        data-tab="duration"
+    >
+        Duration
+    </button>
+
+    <button
+        class="tab"
+        data-tab="clock"
+    >
+        Minecraft Clock
+    </button>
+
+</div>
+
+<section
+    id="duration"
+    class="panel"
+>
+
+    <div class="grid">
+
+        <div class="field full">
+
+            <label>
+                Enter a duration
+            </label>
+
+            <input
+                id="amount"
+                type="number"
+                min="0"
+                step="any"
+                value="20"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Unit
+            </label>
+
+            <select id="unit">
+
+                <option value="real-seconds">
+                    Real seconds
+                </option>
+
+                <option value="real-minutes">
+                    Real minutes
+                </option>
+
+                <option value="real-hours">
+                    Real hours
+                </option>
+
+                <option value="real-days">
+                    Real days
+                </option>
+
+                <option value="mc-ticks">
+                    Minecraft ticks
+                </option>
+
+                <option value="mc-seconds">
+                    Minecraft seconds
+                </option>
+
+                <option value="mc-minutes">
+                    Minecraft minutes
+                </option>
+
+                <option value="mc-hours">
+                    Minecraft hours
+                </option>
+
+                <option value="mc-days">
+                    Minecraft days
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <button
+        class="primary"
+        id="convert"
+    >
+        Convert
+    </button>
+
+    <div class="result">
+
+        <h2>
+            Equivalent time
+        </h2>
+
+        <div
+            class="big"
+            id="mainResult"
+        >
+            1 Minecraft day
+        </div>
+
+        <div
+            class="muted"
+            id="detailResult"
+        >
+            20 real minutes
+        </div>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <b>
+                Real-world time
+            </b>
+
+            <span id="realResult">
+                20 minutes
+            </span>
+
+        </div>
+
+        <div class="card">
+
+            <b>
+                Minecraft time
+            </b>
+
+            <span id="mcResult">
+                1 day
+            </span>
+
+        </div>
+
+    </div>
+
+    <p class="note">
+        Minecraft runs at 20 ticks per real second.
+        One Minecraft day is 24,000 ticks, which is exactly
+        20 real minutes.
+    </p>
+
+</section>
+
+<section
+    id="clock"
+    class="panel hidden"
+>
+
+    <div class="grid">
+
+        <div class="field">
+
+            <label>
+                Hour
+            </label>
+
+            <input
+                id="mcHour"
+                type="number"
+                min="0"
+                max="23"
+                value="12"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Minute
+            </label>
+
+            <input
+                id="mcMinute"
+                type="number"
+                min="0"
+                max="59"
+                value="0"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Second
+            </label>
+
+            <input
+                id="mcSecond"
+                type="number"
+                min="0"
+                max="59"
+                value="0"
+            >
+
+        </div>
+
+    </div>
+
+    <button
+        class="primary"
+        id="clockConvert"
+    >
+        Convert Clock Time
+    </button>
+
+    <div class="result">
+
+        <h2>
+            Clock conversion
+        </h2>
+
+        <div
+            class="big"
+            id="clockMinecraft"
+        >
+            12:00:00
+        </div>
+
+        <div
+            class="muted"
+            id="clockReal"
+        >
+            10:00 real-world time into the Minecraft day
+        </div>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <b>
+                Ticks since 6:00 AM
+            </b>
+
+            <span id="ticks">
+                7,200
+            </span>
+
+        </div>
+
+        <div class="card">
+
+            <b>
+                Real seconds since 6:00 AM
+            </b>
+
+            <span id="seconds">
+                360
+            </span>
+
+        </div>
+
+    </div>
+
+    <p class="note">
+        Minecraft's clock starts at 6:00 AM at tick 0.
+        One Minecraft hour = 1,000 ticks = 50 real seconds.
+    </p>
+
+</section>
+
+</div>
+
+<script>
+(function () {
+
+    const tabs = document.querySelectorAll(".tab");
+
+    tabs.forEach(function (tab) {
+
+        tab.addEventListener("click", function () {
+
+            tabs.forEach(function (item) {
+                item.classList.remove("active");
+            });
+
+            tab.classList.add("active");
+
+            document
+                .querySelectorAll(".panel")
+                .forEach(function (panel) {
+                    panel.classList.add("hidden");
+                });
+
+            document
+                .getElementById(tab.dataset.tab)
+                .classList.remove("hidden");
+
+        });
+
+    });
+
+    function clean(number) {
+
+        if (
+            Math.abs(
+                number - Math.round(number)
+            ) < 0.000000001
+        ) {
+            return Math.round(number);
+        }
+
+        return Number(number.toFixed(3));
+    }
+
+    function plural(
+        number,
+        one,
+        many
+    ) {
+
+        return number === 1
+            ? one
+            : many;
+
+    }
+
+    function durationText(seconds) {
+
+        if (seconds < 60) {
+
+            const value = clean(seconds);
+
+            return value + " " +
+                plural(
+                    value,
+                    "second",
+                    "seconds"
+                );
+
+        }
+
+        const minutes = seconds / 60;
+
+        if (minutes < 60) {
+
+            const value = clean(minutes);
+
+            return value + " " +
+                plural(
+                    value,
+                    "minute",
+                    "minutes"
+                );
+
+        }
+
+        const hours = minutes / 60;
+
+        if (hours < 24) {
+
+            const value = clean(hours);
+
+            return value + " " +
+                plural(
+                    value,
+                    "hour",
+                    "hours"
+                );
+
+        }
+
+        const days = hours / 24;
+
+        const value = clean(days);
+
+        return value + " " +
+            plural(
+                value,
+                "day",
+                "days"
+            );
+
+    }
+
+    function mcText(ticks) {
+
+        if (ticks < 20) {
+
+            const value = clean(ticks);
+
+            return value + " " +
+                plural(
+                    value,
+                    "tick",
+                    "ticks"
+                );
+
+        }
+
+        const seconds = ticks / 20;
+
+        if (seconds < 60) {
+
+            const value = clean(seconds);
+
+            return value + " Minecraft " +
+                plural(
+                    value,
+                    "second",
+                    "seconds"
+                );
+
+        }
+
+        const minutes = seconds / 60;
+
+        if (minutes < 60) {
+
+            const value = clean(minutes);
+
+            return value + " Minecraft " +
+                plural(
+                    value,
+                    "minute",
+                    "minutes"
+                );
+
+        }
+
+        const hours = minutes / 60;
+
+        if (hours < 24) {
+
+            const value = clean(hours);
+
+            return value + " Minecraft " +
+                plural(
+                    value,
+                    "hour",
+                    "hours"
+                );
+
+        }
+
+        const days = hours / 24;
+
+        const value = clean(days);
+
+        return value + " Minecraft " +
+            plural(
+                value,
+                "day",
+                "days"
+            );
+
+    }
+
+    function convert() {
+
+        const amount =
+            Number(
+                document.getElementById("amount").value
+            ) || 0;
+
+        const unit =
+            document.getElementById("unit").value;
+
+        let realSeconds = 0;
+        let ticks = 0;
+
+        const conversions = {
+
+            "real-seconds": function (value) {
+                realSeconds = value;
+                ticks = value * 20;
+            },
+
+            "real-minutes": function (value) {
+                realSeconds = value * 60;
+                ticks = value * 1200;
+            },
+
+            "real-hours": function (value) {
+                realSeconds = value * 3600;
+                ticks = value * 72000;
+            },
+
+            "real-days": function (value) {
+                realSeconds = value * 86400;
+                ticks = value * 1728000;
+            },
+
+            "mc-ticks": function (value) {
+                ticks = value;
+                realSeconds = value / 20;
+            },
+
+            "mc-seconds": function (value) {
+                ticks = value * 20;
+                realSeconds = value;
+            },
+
+            "mc-minutes": function (value) {
+                ticks = value * 1200;
+                realSeconds = value * 60;
+            },
+
+            "mc-hours": function (value) {
+                ticks = value * 72000;
+                realSeconds = value * 3600;
+            },
+
+            "mc-days": function (value) {
+                ticks = value * 24000;
+                realSeconds = value * 1200;
+            }
+
+        };
+
+        conversions[unit](amount);
+
+        document.getElementById("realResult")
+            .textContent =
+            durationText(realSeconds);
+
+        document.getElementById("mcResult")
+            .textContent =
+            mcText(ticks);
+
+        document.getElementById("mainResult")
+            .textContent =
+            unit.startsWith("real-")
+                ? mcText(ticks)
+                : durationText(realSeconds);
+
+        document.getElementById("detailResult")
+            .textContent =
+            unit.startsWith("real-")
+                ? durationText(realSeconds) +
+                  " = " +
+                  Math.round(ticks).toLocaleString() +
+                  " Minecraft ticks"
+                : mcText(ticks) +
+                  " = " +
+                  durationText(realSeconds);
+
+    }
+
+    document
+        .getElementById("convert")
+        .addEventListener(
+            "click",
+            convert
+        );
+
+    document
+        .getElementById("amount")
+        .addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Enter") {
+                    convert();
+                }
+
+            }
+        );
+
+    function clockConvert() {
+
+        let hour =
+            Math.max(
+                0,
+                Math.min(
+                    23,
+                    Number(
+                        document.getElementById("mcHour").value
+                    ) || 0
+                )
+            );
+
+        let minute =
+            Math.max(
+                0,
+                Math.min(
+                    59,
+                    Number(
+                        document.getElementById("mcMinute").value
+                    ) || 0
+                )
+            );
+
+        let second =
+            Math.max(
+                0,
+                Math.min(
+                    59,
+                    Number(
+                        document.getElementById("mcSecond").value
+                    ) || 0
+                )
+            );
+
+        const minecraftHours =
+            hour +
+            minute / 60 +
+            second / 3600;
+
+        const hoursSince6 =
+            (
+                minecraftHours -
+                6 +
+                24
+            ) % 24;
+
+        const ticks =
+            hoursSince6 * 1000;
+
+        const realSeconds =
+            ticks / 20;
+
+        document.getElementById("clockMinecraft")
+            .textContent =
+            String(hour).padStart(2, "0") +
+            ":" +
+            String(minute).padStart(2, "0") +
+            ":" +
+            String(second).padStart(2, "0");
+
+        document.getElementById("clockReal")
+            .textContent =
+            durationText(realSeconds) +
+            " of real time since Minecraft 6:00 AM";
+
+        document.getElementById("ticks")
+            .textContent =
+            Math.round(ticks).toLocaleString();
+
+        document.getElementById("seconds")
+            .textContent =
+            clean(realSeconds).toLocaleString();
+
+    }
+
+    document
+        .getElementById("clockConvert")
+        .addEventListener(
+            "click",
+            clockConvert
+        );
+
+    clockConvert();
+    convert();
+
+})();
+</script>
+
+</body>
+</html>

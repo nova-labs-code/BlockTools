@@ -295,10 +295,8 @@ Think about the foundation, walls, entrances, windows, roof, interior space, and
 
 Use different blocks, shapes, heights, and details to make structures more interesting.
             end
-        end
-    end
 
-    section "Redstone"
+section "Redstone"
         text
 Redstone allows you to create mechanisms and automated systems.
 
@@ -317,6 +315,10 @@ Farms can range from simple manual crop farms to large automated systems using v
 
         link "Open Farms Guide" "Farms.html"
     end
+
+        end
+    end
+
 end
 
 topic "Advanced Progression"

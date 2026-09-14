@@ -1,7 +1,7 @@
 /*
     MCD.js
     Minecraft Document Renderer
-    Version 1.2
+    Version 1.3
 
     Usage:
 
@@ -17,8 +17,8 @@
         - Topics: one open at a time.
         - Sections: one open at a time within their topic.
         - Subsections: one open at a time within their section.
-        - Documents become collapsible only when more than
-          one document is loaded.
+        - Documents are NOT collapsible when only one document exists.
+        - Documents become collapsible when more than one document exists.
         - When documents are collapsible, only one document
           can be open at a time.
 */
@@ -47,6 +47,7 @@
         }
 
         const style = document.createElement("style");
+
         style.id = "mcd-styles";
 
         style.textContent = `
@@ -131,6 +132,16 @@
                 width: 100%;
             }
 
+            /*
+                IMPORTANT:
+
+                A single document uses the normal
+                .mcd-container layout.
+
+                Multiple documents use the
+                .mcd-document-collapsible layout.
+            */
+
             .mcd-document-collapsible {
                 width: min(100% - 32px, ${CONFIG.defaultWidth}px);
                 margin: 40px auto 70px;
@@ -140,29 +151,30 @@
                 overflow: hidden;
             }
 
-            .mcd-document-collapsible > .mcd-container {
+            .mcd-document-collapsible > .mcd-document-content {
                 width: 100%;
-                margin: 0;
                 padding: 0 0 30px;
             }
 
             .mcd-document-header {
                 width: 100%;
-                border: 0;
-                color: inherit;
-                font: inherit;
-                text-align: left;
-                cursor: pointer;
-                touch-action: manipulation;
-            }
-
-            .mcd-document-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 gap: 16px;
+
                 padding: 18px 20px;
+
+                border: 0;
+
+                color: inherit;
                 background: #151a22;
+
+                font: inherit;
+                text-align: left;
+
+                cursor: pointer;
+                touch-action: manipulation;
             }
 
             .mcd-document-header:hover {
@@ -313,6 +325,10 @@
             }
 
             .mcd-open > .mcd-collapsible-content {
+                display: block;
+            }
+
+            .mcd-document-content {
                 display: block;
             }
 
@@ -1069,15 +1085,6 @@
         );
     }
 
-    /*
-        Close every open sibling at the same
-        hierarchy layer.
-
-        The selector only searches direct
-        children, so nested levels are not
-        affected.
-    */
-
     function closeOpenSiblings(
         target
     ) {
@@ -1226,7 +1233,8 @@
 
         if (isExternalURL(destination)) {
             link.target = "_blank";
-            link.rel = "noopener noreferrer";
+            link.rel =
+                "noopener noreferrer";
 
             link.classList.add(
                 "mcd-link-external"
@@ -1348,7 +1356,9 @@
         node.items.forEach(
             function (item) {
                 const li =
-                    createElement("li");
+                    createElement(
+                        "li"
+                    );
 
                 li.textContent =
                     item;
@@ -1368,13 +1378,10 @@
         node,
         parent
     ) {
-        const className =
-            `mcd-callout mcd-${node.type}`;
-
         const box =
             createElement(
                 "div",
-                className
+                `mcd-callout mcd-${node.type}`
             );
 
         const title =
@@ -1426,7 +1433,9 @@
             );
 
         const pre =
-            createElement("pre");
+            createElement(
+                "pre"
+            );
 
         pre.textContent =
             node.content;
@@ -1463,7 +1472,9 @@
                 );
 
             const tr =
-                createElement("tr");
+                createElement(
+                    "tr"
+                );
 
             node.headers.forEach(
                 function (header) {
@@ -1544,14 +1555,16 @@
     function renderChildren(
         children,
         parent,
-        baseURL
+        baseURL,
+        documentCollapsible
     ) {
         children.forEach(
             function (node) {
                 renderNode(
                     node,
                     parent,
-                    baseURL
+                    baseURL,
+                    documentCollapsible
                 );
             }
         );
@@ -1597,10 +1610,16 @@
         collapsible
     ) {
         /*
-            A document is normally just a container.
+            SINGLE DOCUMENT
 
-            It only becomes a collapsible layer
-            when more than one document exists.
+            This is the important fix.
+
+            The document is rendered directly
+            into the page as a normal container.
+
+            No collapsible wrapper.
+            No hidden content.
+            No document header button.
         */
 
         if (!collapsible) {
@@ -1634,22 +1653,18 @@
                 title
             );
 
-            const description =
-                node.description ||
-                "";
-
-            if (description) {
-                const descriptionElement =
+            if (node.description) {
+                const description =
                     createElement(
                         "p",
                         "mcd-description"
                     );
 
-                descriptionElement.textContent =
-                    description;
+                description.textContent =
+                    node.description;
 
                 header.appendChild(
-                    descriptionElement
+                    description
                 );
             }
 
@@ -1660,7 +1675,8 @@
             renderChildren(
                 node.children,
                 container,
-                baseURL
+                baseURL,
+                false
             );
 
             parent.appendChild(
@@ -1669,6 +1685,14 @@
 
             return;
         }
+
+
+        /*
+            MULTIPLE DOCUMENTS
+
+            Documents become collapsible only
+            when there is more than one.
+        */
 
         const documentElement =
             createElement(
@@ -1693,39 +1717,36 @@
             header
         );
 
-        const container =
+        const content =
             createElement(
                 "div",
-                "mcd-container mcd-collapsible-content"
+                "mcd-document-content mcd-collapsible-content"
             );
 
-        const description =
-            node.description ||
-            "";
-
-        if (description) {
-            const descriptionElement =
+        if (node.description) {
+            const description =
                 createElement(
                     "p",
                     "mcd-description"
                 );
 
-            descriptionElement.textContent =
-                description;
+            description.textContent =
+                node.description;
 
-            container.appendChild(
-                descriptionElement
+            content.appendChild(
+                description
             );
         }
 
         renderChildren(
             node.children,
-            container,
-            baseURL
+            content,
+            baseURL,
+            true
         );
 
         documentElement.appendChild(
-            container
+            content
         );
 
         parent.appendChild(
@@ -1733,10 +1754,15 @@
         );
     }
 
+    /* =========================================================
+       TOPIC
+    ========================================================= */
+
     function renderTopic(
         node,
         parent,
-        baseURL
+        baseURL,
+        documentCollapsible
     ) {
         const topic =
             createElement(
@@ -1770,7 +1796,8 @@
         renderChildren(
             node.children,
             content,
-            baseURL
+            baseURL,
+            documentCollapsible
         );
 
         topic.appendChild(
@@ -1782,10 +1809,15 @@
         );
     }
 
+    /* =========================================================
+       SECTION
+    ========================================================= */
+
     function renderSection(
         node,
         parent,
-        baseURL
+        baseURL,
+        documentCollapsible
     ) {
         const section =
             createElement(
@@ -1819,7 +1851,8 @@
         renderChildren(
             node.children,
             content,
-            baseURL
+            baseURL,
+            documentCollapsible
         );
 
         section.appendChild(
@@ -1831,10 +1864,15 @@
         );
     }
 
+    /* =========================================================
+       SUBSECTION
+    ========================================================= */
+
     function renderSubsection(
         node,
         parent,
-        baseURL
+        baseURL,
+        documentCollapsible
     ) {
         const subsection =
             createElement(
@@ -1868,7 +1906,8 @@
         renderChildren(
             node.children,
             content,
-            baseURL
+            baseURL,
+            documentCollapsible
         );
 
         subsection.appendChild(
@@ -1880,6 +1919,10 @@
         );
     }
 
+    /* =========================================================
+       NODE RENDERER
+    ========================================================= */
+
     function renderNode(
         node,
         parent,
@@ -1887,6 +1930,7 @@
         documentCollapsible
     ) {
         switch (node.type) {
+
             case "document":
                 renderDocument(
                     node,
@@ -1900,7 +1944,8 @@
                 renderTopic(
                     node,
                     parent,
-                    baseURL
+                    baseURL,
+                    documentCollapsible
                 );
                 break;
 
@@ -1908,7 +1953,8 @@
                 renderSection(
                     node,
                     parent,
-                    baseURL
+                    baseURL,
+                    documentCollapsible
                 );
                 break;
 
@@ -1916,7 +1962,8 @@
                 renderSubsection(
                     node,
                     parent,
-                    baseURL
+                    baseURL,
+                    documentCollapsible
                 );
                 break;
 
@@ -1976,7 +2023,7 @@
     }
 
     /* =========================================================
-       DOCUMENT DESCRIPTION SUPPORT
+       DOCUMENT DESCRIPTION
     ========================================================= */
 
     function extractDocumentDescription(
@@ -2001,77 +2048,22 @@
                 stripNotes(source)
             );
 
-        const documentNode =
-            tree.children.find(
+        const documents =
+            tree.children.filter(
                 node =>
                     node.type ===
                     "document"
             );
 
-        if (documentNode) {
-            documentNode.description =
+        /*
+            Apply the description to the first
+            document, matching the existing format.
+        */
+
+        if (documents.length) {
+            documents[0].description =
                 description;
         }
-    }
-
-    /* =========================================================
-       COLLAPSE STATE
-    ========================================================= */
-
-    /*
-        Every collapsible element starts closed.
-
-        This function also guarantees that if
-        the document count changes, the document
-        layer is rebuilt correctly.
-    */
-
-    function updateDocumentCollapseState(
-        targetElement
-    ) {
-        const documents =
-            Array.from(
-                targetElement.querySelectorAll(
-                    ":scope > .mcd-document"
-                )
-            );
-
-        if (documents.length <= 1) {
-            documents.forEach(
-                function (documentElement) {
-                    documentElement.classList.remove(
-                        "mcd-document-collapsible"
-                    );
-
-                    documentElement
-                        .querySelector(
-                            ":scope > .mcd-document-header"
-                        )?.remove();
-
-                    const content =
-                        documentElement.querySelector(
-                            ":scope > .mcd-container"
-                        );
-
-                    if (content) {
-                        content.classList.remove(
-                            "mcd-collapsible-content"
-                        );
-                    }
-                }
-            );
-
-            return;
-        }
-
-        /*
-            More than one document means the
-            document layer is collapsible.
-
-            Existing documents are already rendered
-            as collapsible documents when loaded
-            together.
-        */
     }
 
     /* =========================================================
@@ -2209,7 +2201,13 @@
                 ).href;
 
             /*
-                Count documents in this MCD file.
+                Count ONLY top-level documents.
+
+                One document:
+                    normal document
+
+                Multiple documents:
+                    collapsible documents
             */
 
             const documents =
@@ -2222,19 +2220,17 @@
             const documentCollapsible =
                 documents.length > 1;
 
-            renderChildrenWithDocumentState(
+            renderChildren(
                 tree.children,
                 targetElement,
                 baseURL,
                 documentCollapsible
             );
 
-            updateDocumentCollapseState(
-                targetElement
-            );
-
             return tree;
+
         } catch (error) {
+
             showError(
                 targetElement,
                 error.message ||
@@ -2246,29 +2242,7 @@
     };
 
     /* =========================================================
-       RENDER WITH DOCUMENT STATE
-    ========================================================= */
-
-    function renderChildrenWithDocumentState(
-        children,
-        parent,
-        baseURL,
-        documentCollapsible
-    ) {
-        children.forEach(
-            function (node) {
-                renderNode(
-                    node,
-                    parent,
-                    baseURL,
-                    documentCollapsible
-                );
-            }
-        );
-    }
-
-    /* =========================================================
-       OPTIONAL PARSER API
+       PARSER API
     ========================================================= */
 
     MCD.parse = function (

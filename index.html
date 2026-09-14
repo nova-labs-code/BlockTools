@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -26,7 +26,6 @@ body {
     padding: 20px;
     color: #222;
     min-height: 100vh;
-
     touch-action: manipulation;
 }
 
@@ -37,8 +36,6 @@ h1 {
     margin-bottom: 40px;
 }
 
-/* --- TOOL GRID --- */
-
 .tool-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -46,8 +43,6 @@ h1 {
     max-width: 1000px;
     margin: 0 auto 40px;
 }
-
-/* --- TOOL CARD --- */
 
 .tool-card {
     background: linear-gradient(135deg, #fff, #f0f8ff);
@@ -90,15 +85,11 @@ h1 {
 .tool-card a {
     display: inline-block;
     padding: 10px 20px;
-
     background: #1f6feb;
     color: #fff;
-
     text-decoration: none;
     font-weight: 700;
-
     border-radius: 8px;
-
     transition: all 0.2s;
 }
 
@@ -110,8 +101,6 @@ h1 {
     transform: translateY(1px);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
-
-/* --- CATEGORY --- */
 
 .category {
     max-width: 1000px;
@@ -129,8 +118,6 @@ h1 {
     margin-bottom: 0;
 }
 
-/* --- FOOTER --- */
-
 footer {
     text-align: center;
     margin-top: 40px;
@@ -138,16 +125,12 @@ footer {
     color: #666;
 }
 
-/* --- ANIMATION --- */
-
 @keyframes fadeIn {
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
-
-/* --- MOBILE --- */
 
 @media (max-width: 768px) {
     .tool-grid {
@@ -206,35 +189,26 @@ footer {
     linking:
 
     "auto"
-        Automatically checks the linked HTML page for
-        its category.
+        Automatically checks the linked HTML page.
+
+        If the page loads mcd.js:
+            Category = "Documents"
+
+        Otherwise, if the page contains:
+
+        <meta
+            name="blocktools-category"
+            content="Guides"
+        >
+
+        that category is used.
+
+        If neither exists:
+            Category = "Other"
+
 
     "manual"
         Uses the category written here.
-
-    Example:
-
-    {
-        name: "BlockCalc",
-        description: "What the tool does.",
-        link: "BlockCalc.html",
-        linking: "manual",
-        category: "Tools"
-    }
-
-    For automatic linking:
-
-    {
-        name: "How To Play",
-        description: "Learn how to play Minecraft.",
-        link: "HowToPlay.html",
-        linking: "auto"
-    }
-
-    The linked HTML page can contain:
-
-    <meta name="blocktools-category" content="Guides">
-
 */
 
 const tools = [
@@ -282,16 +256,74 @@ const tools = [
         link: "HowToPlay.html",
         linking: "auto"
     },
-    
+
     {
-    name: "Controls",
-    description:
-        "Learn the controls and key bindings for Minecraft on different devices.",
-    link: "Controls.html",
-    linking: "auto"
-}
+        name: "Controls",
+        description:
+            "Learn the controls and key bindings for Minecraft on different devices.",
+        link: "Controls.html",
+        linking: "auto"
+    }
 
 ];
+
+
+/*
+    =====================================================
+    CHECK FOR MCD.JS
+    =====================================================
+*/
+
+function hasMCDJS(page) {
+
+    const scripts =
+        page.querySelectorAll("script[src]");
+
+    for (const script of scripts) {
+
+        const src =
+            script.getAttribute("src");
+
+        if (!src) {
+            continue;
+        }
+
+        try {
+
+            const scriptURL =
+                new URL(
+                    src,
+                    page.baseURI
+                );
+
+            const filename =
+                scriptURL.pathname
+                    .split("/")
+                    .pop()
+                    .toLowerCase();
+
+            if (filename === "mcd.js") {
+                return true;
+            }
+
+        } catch (error) {
+
+            const filename =
+                src
+                    .split("?")[0]
+                    .split("#")[0]
+                    .split("/")
+                    .pop()
+                    .toLowerCase();
+
+            if (filename === "mcd.js") {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
 
 
 /*
@@ -319,51 +351,72 @@ async function getCategory(tool) {
 
         try {
 
-            const response = await fetch(tool.link);
+            const response =
+                await fetch(
+                    tool.link,
+                    {
+                        cache: "no-cache"
+                    }
+                );
 
             if (!response.ok) {
-                throw new Error("Page could not be loaded.");
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
             }
 
-            const html = await response.text();
+            const html =
+                await response.text();
 
-            const parser = new DOMParser();
+            const parser =
+                new DOMParser();
 
-            const page = parser.parseFromString(
-                html,
-                "text/html"
-            );
+            const page =
+                parser.parseFromString(
+                    html,
+                    "text/html"
+                );
 
 
             /*
-                Look for:
-
-                <meta
-                    name="blocktools-category"
-                    content="Guides"
-                >
+                If the page loads MCD.js,
+                automatically classify it
+                as a Document.
             */
 
-            const categoryMeta = page.querySelector(
-                'meta[name="blocktools-category"]'
-            );
+            if (hasMCDJS(page)) {
+                return "Documents";
+            }
 
+
+            /*
+                Otherwise check the
+                BlockTools category meta tag.
+            */
+
+            const categoryMeta =
+                page.querySelector(
+                    'meta[name="blocktools-category"]'
+                );
 
             if (categoryMeta) {
 
                 const category =
-                    categoryMeta.getAttribute("content");
+                    categoryMeta.getAttribute(
+                        "content"
+                    );
 
-                if (category && category.trim()) {
+                if (
+                    category &&
+                    category.trim()
+                ) {
                     return category.trim();
                 }
-
             }
 
 
             /*
-                If no category exists,
-                use Other.
+                No category found.
             */
 
             return "Other";
@@ -393,28 +446,38 @@ async function getCategory(tool) {
 
 function createCard(tool, index) {
 
-    const card = document.createElement("div");
+    const card =
+        document.createElement("div");
 
-    card.className = "tool-card";
+    card.className =
+        "tool-card";
 
     card.style.animationDelay =
         `${(index + 1) * 0.1}s`;
 
 
-    const title = document.createElement("h3");
+    const title =
+        document.createElement("h3");
 
-    title.textContent = tool.name;
-
-
-    const description = document.createElement("p");
-
-    description.textContent = tool.description;
+    title.textContent =
+        tool.name;
 
 
-    const link = document.createElement("a");
+    const description =
+        document.createElement("p");
 
-    link.href = tool.link;
-    link.textContent = "Open";
+    description.textContent =
+        tool.description;
+
+
+    const link =
+        document.createElement("a");
+
+    link.href =
+        tool.link;
+
+    link.textContent =
+        "Open";
 
 
     card.appendChild(title);
@@ -435,28 +498,34 @@ function createCard(tool, index) {
 async function buildCategories() {
 
     const categoriesContainer =
-        document.getElementById("categories");
+        document.getElementById(
+            "categories"
+        );
 
 
     /*
-        Determine every tool's category first.
+        Determine every tool's category
+        before rendering anything.
     */
 
     const categorizedTools =
         await Promise.all(
 
-            tools.map(async tool => {
+            tools.map(
+                async tool => {
 
-                const category =
-                    await getCategory(tool);
+                    const category =
+                        await getCategory(
+                            tool
+                        );
 
-                return {
-                    ...tool,
-                    resolvedCategory: category
-                };
-
-            })
-
+                    return {
+                        ...tool,
+                        resolvedCategory:
+                            category
+                    };
+                }
+            )
         );
 
 
@@ -467,20 +536,23 @@ async function buildCategories() {
     const categories = {};
 
 
-    categorizedTools.forEach(tool => {
+    categorizedTools.forEach(
+        tool => {
 
-        const category =
-            tool.resolvedCategory;
+            const category =
+                tool.resolvedCategory;
 
 
-        if (!categories[category]) {
-            categories[category] = [];
+            if (!categories[category]) {
+                categories[category] = [];
+            }
+
+
+            categories[category].push(
+                tool
+            );
         }
-
-
-        categories[category].push(tool);
-
-    });
+    );
 
 
     /*
@@ -490,47 +562,65 @@ async function buildCategories() {
     let animationIndex = 0;
 
 
-    Object.keys(categories).forEach(categoryName => {
+    Object.keys(categories).forEach(
+        categoryName => {
 
-        const category =
-            document.createElement("section");
+            const category =
+                document.createElement(
+                    "section"
+                );
 
-        category.className = "category";
-
-
-        const title =
-            document.createElement("h2");
-
-        title.className = "category-title";
-
-        title.textContent = categoryName;
+            category.className =
+                "category";
 
 
-        const grid =
-            document.createElement("div");
+            const title =
+                document.createElement(
+                    "h2"
+                );
 
-        grid.className = "tool-grid";
+            title.className =
+                "category-title";
 
-
-        categories[categoryName].forEach(tool => {
-
-            const card =
-                createCard(tool, animationIndex);
-
-            grid.appendChild(card);
-
-            animationIndex++;
-
-        });
+            title.textContent =
+                categoryName;
 
 
-        category.appendChild(title);
-        category.appendChild(grid);
+            const grid =
+                document.createElement(
+                    "div"
+                );
 
-        categoriesContainer.appendChild(category);
+            grid.className =
+                "tool-grid";
 
-    });
 
+            categories[categoryName].forEach(
+                tool => {
+
+                    const card =
+                        createCard(
+                            tool,
+                            animationIndex
+                        );
+
+                    grid.appendChild(
+                        card
+                    );
+
+                    animationIndex++;
+                }
+            );
+
+
+            category.appendChild(title);
+            category.appendChild(grid);
+
+            categoriesContainer.appendChild(
+                category
+            );
+        }
+    );
 }
 
 

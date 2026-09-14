@@ -1,14 +1,7 @@
 /*
     MCD.js
     Minecraft Document Renderer
-    Version 1.3
-
-    Usage:
-
-        <script src="mcd.js"></script>
-        <script>
-            MCD.load("guide.mcd");
-        </script>
+    Version 1.4
 
     Collapse behavior:
 
@@ -17,20 +10,16 @@
         - Topics: one open at a time.
         - Sections: one open at a time within their topic.
         - Subsections: one open at a time within their section.
-        - Documents are NOT collapsible when only one document exists.
-        - Documents become collapsible when more than one document exists.
-        - When documents are collapsible, only one document
-          can be open at a time.
+        - Documents are NOT collapsible when the HTML page
+          has only one MCD.load().
+        - Documents become collapsible when the HTML page
+          has more than one MCD.load().
 */
 
 (function () {
     "use strict";
 
     const MCD = {};
-
-    /* =========================================================
-       CONFIGURATION
-    ========================================================= */
 
     const CONFIG = {
         defaultWidth: 900,
@@ -132,16 +121,6 @@
                 width: 100%;
             }
 
-            /*
-                IMPORTANT:
-
-                A single document uses the normal
-                .mcd-container layout.
-
-                Multiple documents use the
-                .mcd-document-collapsible layout.
-            */
-
             .mcd-document-collapsible {
                 width: min(100% - 32px, ${CONFIG.defaultWidth}px);
                 margin: 40px auto 70px;
@@ -162,17 +141,12 @@
                 align-items: center;
                 justify-content: space-between;
                 gap: 16px;
-
                 padding: 18px 20px;
-
                 border: 0;
-
                 color: inherit;
                 background: #151a22;
-
                 font: inherit;
                 text-align: left;
-
                 cursor: pointer;
                 touch-action: manipulation;
             }
@@ -674,6 +648,74 @@
             /^https?:\/\//i.test(url) ||
             /^\/\//.test(url)
         );
+    }
+
+    /* =========================================================
+       HTML MCD.LOAD DETECTION
+    ========================================================= */
+
+    function getHTMLMCDLoadCount() {
+        let count = 0;
+
+        const scripts =
+            document.querySelectorAll("script");
+
+        for (const script of scripts) {
+            const source =
+                script.textContent || "";
+
+            if (!source.trim()) {
+                continue;
+            }
+
+            /*
+                Matches:
+
+                    MCD.load("file.mcd")
+                    MCD.load('file.mcd')
+                    MCD.load ( "file.mcd" )
+
+                It intentionally counts each MCD.load()
+                call in the HTML page.
+            */
+
+            const matches =
+                source.match(
+                    /\bMCD\s*\.\s*load\s*\(/g
+                );
+
+            if (matches) {
+                count += matches.length;
+            }
+        }
+
+        /*
+            Also check inline event-style attributes or
+            other HTML text that may contain MCD.load().
+        */
+
+        const html =
+            document.documentElement
+                ? document.documentElement.outerHTML
+                : "";
+
+        const htmlMatches =
+            html.match(
+                /\bMCD\s*\.\s*load\s*\(/g
+            );
+
+        if (htmlMatches) {
+            /*
+                The script contents are already included
+                in outerHTML, so do not add these matches.
+            */
+        }
+
+        return count;
+    }
+
+    function areMultipleDocumentsLoaded() {
+        return getHTMLMCDLoadCount() > 1;
     }
 
     /* =========================================================
@@ -1600,7 +1642,7 @@
     }
 
     /* =========================================================
-       DOCUMENT RENDERING
+       DOCUMENT
     ========================================================= */
 
     function renderDocument(
@@ -1610,16 +1652,8 @@
         collapsible
     ) {
         /*
-            SINGLE DOCUMENT
-
-            This is the important fix.
-
-            The document is rendered directly
-            into the page as a normal container.
-
-            No collapsible wrapper.
-            No hidden content.
-            No document header button.
+            If this HTML page has only ONE MCD.load(),
+            the document is completely normal and visible.
         */
 
         if (!collapsible) {
@@ -1686,12 +1720,9 @@
             return;
         }
 
-
         /*
-            MULTIPLE DOCUMENTS
-
-            Documents become collapsible only
-            when there is more than one.
+            If this HTML page has TWO OR MORE MCD.load()
+            calls, each loaded document becomes collapsible.
         */
 
         const documentElement =
@@ -2055,11 +2086,6 @@
                     "document"
             );
 
-        /*
-            Apply the description to the first
-            document, matching the existing format.
-        */
-
         if (documents.length) {
             documents[0].description =
                 description;
@@ -2201,24 +2227,23 @@
                 ).href;
 
             /*
-                Count ONLY top-level documents.
+                IMPORTANT:
 
-                One document:
-                    normal document
+                Do NOT count documents inside the
+                .mcd file here.
 
-                Multiple documents:
-                    collapsible documents
+                The collapse state is based on how many
+                MCD.load() calls exist in the HTML page.
+
+                1 MCD.load():
+                    document is not collapsible.
+
+                2+ MCD.load():
+                    document is collapsible.
             */
 
-            const documents =
-                tree.children.filter(
-                    node =>
-                        node.type ===
-                        "document"
-                );
-
             const documentCollapsible =
-                documents.length > 1;
+                areMultipleDocumentsLoaded();
 
             renderChildren(
                 tree.children,
@@ -2230,7 +2255,6 @@
             return tree;
 
         } catch (error) {
-
             showError(
                 targetElement,
                 error.message ||

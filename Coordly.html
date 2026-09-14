@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+>
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<title>Minecraft Coordinate Notebook</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+    background: #090b10;
+    color: #f3f5f8;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+}
+
+body {
+    padding: 14px;
+}
+
+.app {
+    max-width: 1050px;
+    margin: auto;
+}
+
+header {
+    padding: 8px 4px 18px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 29px;
+}
+
+.sub {
+    margin: 6px 0 0;
+    color: #8f98a8;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 14px;
+}
+
+.panel {
+    background: #11151d;
+    border: 1px solid #202733;
+    border-radius: 18px;
+    padding: 16px;
+}
+
+h2 {
+    font-size: 18px;
+    margin: 0 0 14px;
+}
+
+.field {
+    margin-bottom: 12px;
+}
+
+label {
+    display: block;
+    color: #aeb6c4;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    background: #0b0e14;
+    color: #fff;
+    border: 1px solid #29313e;
+    border-radius: 11px;
+    padding: 12px;
+    outline: none;
+    min-height: 46px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 82px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #68758a;
+}
+
+.coords {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.primary {
+    width: 100%;
+    background: #e8edf4;
+    color: #0a0d12;
+    padding: 13px;
+    border-radius: 11px;
+    font-weight: 800;
+}
+
+.secondary {
+    background: #202733;
+    color: #e8edf4;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.danger {
+    background: #321b20;
+    color: #ffb9c1;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.toolbar select {
+    width: auto;
+    flex: 1;
+    min-width: 130px;
+}
+
+.search {
+    margin-bottom: 12px;
+}
+
+.location {
+    background: #0b0e14;
+    border: 1px solid #242c38;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+}
+
+.location-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.name {
+    font-weight: 850;
+    font-size: 17px;
+}
+
+.badge {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 4px 8px;
+    border-radius: 7px;
+    background: #202733;
+    color: #aeb7c6;
+    font-size: 11px;
+}
+
+.xyz {
+    margin: 11px 0;
+    color: #dce2eb;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 13px;
+}
+
+.nav {
+    border-top: 1px solid #202733;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.nav strong {
+    font-size: 20px;
+}
+
+.small {
+    font-size: 12px;
+    color: #929baa;
+    line-height: 1.45;
+}
+
+.actions {
+    display: flex;
+    gap: 7px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.empty {
+    text-align: center;
+    padding: 35px 10px;
+    color: #7f8999;
+}
+
+.stat {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-bottom: 14px;
+}
+
+.stat div {
+    background: #0b0e14;
+    border: 1px solid #242c38;
+    border-radius: 12px;
+    padding: 11px;
+}
+
+.stat b {
+    display: block;
+    font-size: 11px;
+    color: #8f98a8;
+    margin-bottom: 4px;
+}
+
+.stat span {
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    z-index: 10;
+}
+
+.modal-box {
+    width: min(500px, 100%);
+    background: #11151d;
+    border: 1px solid #29313e;
+    border-radius: 18px;
+    padding: 18px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.modal-actions button {
+    flex: 1;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.notice {
+    padding: 11px 12px;
+    background: #151b25;
+    border-radius: 11px;
+    color: #aeb7c6;
+    font-size: 12px;
+    line-height: 1.45;
+    margin-top: 10px;
+}
+
+@media (max-width: 800px) {
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .coords {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .stat {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+    <h1>
+        Minecraft Coordinate Notebook
+    </h1>
+
+    <p class="sub">
+        Save waypoints, find what's closest, and navigate by distance and direction.
+    </p>
+
+</header>
+
+<div class="layout">
+
+<section class="panel">
+
+    <h2>
+        I'm here
+    </h2>
+
+    <div class="field">
+
+        <label>
+            Dimension
+        </label>
+
+        <select id="currentDim">
+
+            <option>
+                Overworld
+            </option>
+
+            <option>
+                Nether
+            </option>
+
+            <option>
+                The End
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="coords">
+
+        <div class="field">
+
+            <label>
+                X
+            </label>
+
+            <input
+                id="currentX"
+                type="number"
+                step="any"
+                value="0"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Y
+            </label>
+
+            <input
+                id="currentY"
+                type="number"
+                step="any"
+                value="64"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Z
+            </label>
+
+            <input
+                id="currentZ"
+                type="number"
+                step="any"
+                value="0"
+            >
+
+        </div>
+
+    </div>
+
+    <button
+        class="primary"
+        id="updateHere"
+    >
+        Update Navigation
+    </button>
+
+    <div class="notice">
+
+        Your current coordinates are kept only in this browser.
+        Saved locations use local storage, so the notebook works without
+        an account or server.
+
+    </div>
+
+    <hr
+        style="
+            border:0;
+            border-top:1px solid #202733;
+            margin:18px 0;
+        "
+    >
+
+    <h2>
+        Add location
+    </h2>
+
+    <div class="field">
+
+        <label>
+            Name
+        </label>
+
+        <input
+            id="name"
+            type="text"
+            placeholder="Castle"
+        >
+
+    </div>
+
+    <div class="field">
+
+        <label>
+            Dimension
+        </label>
+
+        <select id="dim">
+
+            <option>
+                Overworld
+            </option>
+
+            <option>
+                Nether
+            </option>
+
+            <option>
+                The End
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="coords">
+
+        <div class="field">
+
+            <label>
+                X
+            </label>
+
+            <input
+                id="x"
+                type="number"
+                step="any"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Y
+            </label>
+
+            <input
+                id="y"
+                type="number"
+                step="any"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Z
+            </label>
+
+            <input
+                id="z"
+                type="number"
+                step="any"
+            >
+
+        </div>
+
+    </div>
+
+    <div class="field">
+
+        <label>
+            Category
+        </label>
+
+        <select id="category">
+
+            <option>
+                Important
+            </option>
+
+            <option>
+                Building
+            </option>
+
+            <option>
+                Farm
+            </option>
+
+            <option>
+                Resource
+            </option>
+
+            <option>
+                Travel
+            </option>
+
+            <option>
+                Village
+            </option>
+
+            <option>
+                Portal
+            </option>
+
+            <option>
+                Other
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="field">
+
+        <label>
+            Notes
+        </label>
+
+        <textarea
+            id="notes"
+            placeholder="Main entrance, storage room, etc."
+        ></textarea>
+
+    </div>
+
+    <button
+        class="primary"
+        id="save"
+    >
+        Save Location
+    </button>
+
+</section>
+
+<section class="panel">
+
+    <div class="stat">
+
+        <div>
+
+            <b>
+                Current position
+            </b>
+
+            <span id="position">
+                Overworld • 0, 64, 0
+            </span>
+
+        </div>
+
+        <div>
+
+            <b>
+                Saved locations
+            </b>
+
+            <span id="count">
+                0
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="toolbar">
+
+        <select id="sort">
+
+            <option value="nearest">
+                Nearest first
+            </option>
+
+            <option value="name">
+                Name A–Z
+            </option>
+
+            <option value="category">
+                Category
+            </option>
+
+        </select>
+
+        <select id="filter">
+
+            <option value="all">
+                All dimensions
+            </option>
+
+            <option>
+                Overworld
+            </option>
+
+            <option>
+                Nether
+            </option>
+
+            <option>
+                The End
+            </option>
+
+        </select>
+
+        <button
+            class="secondary"
+            id="clearAll"
+        >
+            Clear All
+        </button>
+
+    </div>
+
+    <div class="search">
+
+        <input
+            id="search"
+            type="search"
+            placeholder="Search locations, categories, or notes..."
+        >
+
+    </div>
+
+    <div id="locations"></div>
+
+</section>
+
+</div>
+
+</div>
+
+<div
+    id="modal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle">
+            Confirm
+        </h2>
+
+        <p
+            id="modalText"
+            class="small"
+        ></p>
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                id="modalCancel"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="danger"
+                id="modalConfirm"
+            >
+                Delete
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+(function () {
+
+    const STORAGE_KEY =
+        "minecraft-coordinate-notebook-v1";
+
+    let locations =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY) || "[]"
+        );
+
+    let current = {
+        dim: "Overworld",
+        x: 0,
+        y: 64,
+        z: 0
+    };
+
+    let pendingAction = null;
+
+    function $(id) {
+        return document.getElementById(id);
+    }
+
+    function num(id) {
+        return Number($(id).value) || 0;
+    }
+
+    function saveData() {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(locations)
+        );
+
+    }
+
+    function fmt(number) {
+
+        if (Number.isInteger(number)) {
+            return String(number);
+        }
+
+        return Number(
+            number.toFixed(2)
+        ).toString();
+
+    }
+
+    function escapeHTML(value) {
+
+        return String(value).replace(
+            /[&<>"']/g,
+            function (character) {
+
+                const replacements = {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+                };
+
+                return replacements[character];
+
+            }
+        );
+
+    }
+
+    function direction(dx, dz) {
+
+        if (
+            Math.abs(dx) < 0.5 &&
+            Math.abs(dz) < 0.5
+        ) {
+            return "Here";
+        }
+
+        const northSouth =
+            Math.abs(dz);
+
+        const eastWest =
+            Math.abs(dx);
+
+        const vertical =
+            dz < 0
+                ? "North"
+                : "South";
+
+        const horizontal =
+            dx > 0
+                ? "East"
+                : "West";
+
+        if (
+            northSouth <
+            eastWest * 0.414
+        ) {
+            return horizontal;
+        }
+
+        if (
+            eastWest <
+            northSouth * 0.414
+        ) {
+            return vertical;
+        }
+
+        return vertical + "-" + horizontal;
+
+    }
+
+    function distance(a, b) {
+
+        const dx =
+            b.x - a.x;
+
+        const dz =
+            b.z - a.z;
+
+        const dy =
+            b.y - a.y;
+
+        return {
+
+            horizontal:
+                Math.sqrt(
+                    dx * dx +
+                    dz * dz
+                ),
+
+            vertical:
+                Math.abs(dy),
+
+            dx: dx,
+            dz: dz,
+
+            total:
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy +
+                    dz * dz
+                )
+
+        };
+
+    }
+
+    function formatDistance(number) {
+
+        if (number < 100) {
+            return fmt(number) + " blocks";
+        }
+
+        return Math.round(number)
+            .toLocaleString() +
+            " blocks";
+
+    }
+
+    function netherEquivalent(location) {
+
+        if (location.dim === "Overworld") {
+
+            return {
+
+                dim: "Nether",
+
+                x: location.x / 8,
+
+                y: location.y,
+
+                z: location.z / 8
+
+            };
+
+        }
+
+        if (location.dim === "Nether") {
+
+            return {
+
+                dim: "Overworld",
+
+                x: location.x * 8,
+
+                y: location.y,
+
+                z: location.z * 8
+
+            };
+
+        }
+
+        return null;
+
+    }
+
+    function sameDimension(a, b) {
+
+        return a.dim === b.dim;
+
+    }
+
+    function setCurrent() {
+
+        current = {
+
+            dim: $("currentDim").value,
+
+            x: num("currentX"),
+
+            y: num("currentY"),
+
+            z: num("currentZ")
+
+        };
+
+        $("position").textContent =
+            current.dim +
+            " • " +
+            fmt(current.x) +
+            ", " +
+            fmt(current.y) +
+            ", " +
+            fmt(current.z);
+
+        render();
+
+    }
+
+    $("updateHere")
+        .addEventListener(
+            "click",
+            setCurrent
+        );
+
+    $("save")
+        .addEventListener(
+            "click",
+            function () {
+
+                const name =
+                    $("name").value.trim();
+
+                if (!name) {
+
+                    showModal(
+                        "Missing name",
+                        "Give this location a name before saving.",
+                        null,
+                        "OK"
+                    );
+
+                    return;
+
+                }
+
+                const location = {
+
+                    id:
+                        Date.now() +
+                        Math.random(),
+
+                    name: name,
+
+                    dim:
+                        $("dim").value,
+
+                    x:
+                        num("x"),
+
+                    y:
+                        num("y"),
+
+                    z:
+                        num("z"),
+
+                    category:
+                        $("category").value,
+
+                    notes:
+                        $("notes").value.trim()
+
+                };
+
+                locations.push(location);
+
+                saveData();
+
+                render();
+
+                $("name").value = "";
+                $("notes").value = "";
+                $("x").value = "";
+                $("y").value = "";
+                $("z").value = "";
+
+            }
+        );
+
+    function showModal(
+        title,
+        text,
+        action,
+        confirmText
+    ) {
+
+        $("modalTitle").textContent =
+            title;
+
+        $("modalText").textContent =
+            text;
+
+        $("modalConfirm").textContent =
+            confirmText || "Delete";
+
+        pendingAction =
+            action;
+
+        $("modal")
+            .classList
+            .remove("hidden");
+
+    }
+
+    $("modalCancel")
+        .addEventListener(
+            "click",
+            function () {
+
+                $("modal")
+                    .classList
+                    .add("hidden");
+
+                pendingAction = null;
+
+            }
+        );
+
+    $("modalConfirm")
+        .addEventListener(
+            "click",
+            function () {
+
+                if (pendingAction) {
+                    pendingAction();
+                }
+
+                $("modal")
+                    .classList
+                    .add("hidden");
+
+                pendingAction = null;
+
+            }
+        );
+
+    $("clearAll")
+        .addEventListener(
+            "click",
+            function () {
+
+                if (!locations.length) {
+                    return;
+                }
+
+                showModal(
+                    "Clear all locations",
+                    "This will permanently remove every saved waypoint from this browser.",
+                    function () {
+
+                        locations = [];
+
+                        saveData();
+
+                        render();
+
+                    },
+                    "Clear All"
+                );
+
+            }
+        );
+
+    $("search")
+        .addEventListener(
+            "input",
+            render
+        );
+
+    $("sort")
+        .addEventListener(
+            "change",
+            render
+        );
+
+    $("filter")
+        .addEventListener(
+            "change",
+            render
+        );
+
+    function render() {
+
+        $("count").textContent =
+            locations.length;
+
+        let list =
+            locations.filter(
+                function (location) {
+
+                    const query =
+                        $("search")
+                            .value
+                            .trim()
+                            .toLowerCase();
+
+                    const filter =
+                        $("filter").value;
+
+                    const searchable =
+                        (
+                            location.name +
+                            " " +
+                            location.category +
+                            " " +
+                            location.notes
+                        ).toLowerCase();
+
+                    return (
+
+                        (
+                            filter === "all" ||
+                            location.dim === filter
+                        )
+
+                        &&
+
+                        (
+                            !query ||
+                            searchable.includes(query)
+                        )
+
+                    );
+
+                }
+            );
+
+        list.sort(
+            function (a, b) {
+
+                const distanceA =
+                    distance(
+                        current,
+                        a
+                    );
+
+                const distanceB =
+                    distance(
+                        current,
+                        b
+                    );
+
+                if (
+                    $("sort").value ===
+                    "nearest"
+                ) {
+
+                    const valueA =
+                        sameDimension(
+                            current,
+                            a
+                        )
+                            ? distanceA.horizontal
+                            : Infinity;
+
+                    const valueB =
+                        sameDimension(
+                            current,
+                            b
+                        )
+                            ? distanceB.horizontal
+                            : Infinity;
+
+                    return valueA - valueB;
+
+                }
+
+                if (
+                    $("sort").value ===
+                    "name"
+                ) {
+
+                    return a.name.localeCompare(
+                        b.name
+                    );
+
+                }
+
+                return (
+                    a.category.localeCompare(
+                        b.category
+                    ) ||
+                    a.name.localeCompare(
+                        b.name
+                    )
+                );
+
+            }
+        );
+
+        if (!list.length) {
+
+            $("locations").innerHTML =
+                '<div class="empty">' +
+                'No locations match your search.' +
+                '</div>';
+
+            return;
+
+        }
+
+        $("locations").innerHTML =
+            list.map(
+                function (location) {
+
+                    const d =
+                        distance(
+                            current,
+                            location
+                        );
+
+                    let navigation = "";
+
+                    if (
+                        sameDimension(
+                            current,
+                            location
+                        )
+                    ) {
+
+                        const dir =
+                            direction(
+                                d.dx,
+                                d.dz
+                            );
+
+                        navigation =
+                            '<div class="nav">' +
+
+                            '<strong>' +
+                            escapeHTML(dir) +
+                            '</strong>' +
+
+                            '<br>' +
+
+                            '<span class="small">' +
+
+                            formatDistance(
+                                d.horizontal
+                            ) +
+
+                            ' horizontally';
+
+                        if (d.vertical) {
+
+                            navigation +=
+                                ' • ' +
+                                formatDistance(
+                                    d.vertical
+                                ) +
+                                ' vertically';
+
+                        }
+
+                        navigation +=
+                            '<br>' +
+
+                            Math.round(
+                                Math.abs(d.dx)
+                            ).toLocaleString() +
+
+                            ' blocks ' +
+
+                            (
+                                d.dx > 0
+                                    ? "east"
+                                    : "west"
+                            ) +
+
+                            ' • ' +
+
+                            Math.round(
+                                Math.abs(d.dz)
+                            ).toLocaleString() +
+
+                            ' blocks ' +
+
+                            (
+                                d.dz < 0
+                                    ? "north"
+                                    : "south"
+                            ) +
+
+                            '</span>' +
+
+                            '</div>';
+
+                    } else {
+
+                        navigation =
+                            '<div class="nav">' +
+
+                            '<strong>' +
+                            'Different dimension' +
+                            '</strong>' +
+
+                            '<br>' +
+
+                            '<span class="small">' +
+
+                            'You are in ' +
+
+                            escapeHTML(
+                                current.dim
+                            ) +
+
+                            '. Switch dimensions to get walking distance.' +
+
+                            '</span>' +
+
+                            '</div>';
+
+                    }
+
+                    const equivalent =
+                        netherEquivalent(
+                            location
+                        );
+
+                    let equivalentHTML = "";
+
+                    if (equivalent) {
+
+                        equivalentHTML =
+                            '<div class="small" style="margin-top:8px">' +
+
+                            'Portal coordinate: ' +
+
+                            fmt(equivalent.x) +
+                            ', ' +
+                            fmt(equivalent.y) +
+                            ', ' +
+                            fmt(equivalent.z) +
+
+                            ' in ' +
+
+                            equivalent.dim +
+
+                            '</div>';
+
+                    }
+
+                    const notesHTML =
+                        location.notes
+
+                            ? (
+                                '<div class="small" style="margin-top:8px">' +
+                                escapeHTML(
+                                    location.notes
+                                ) +
+                                '</div>'
+                            )
+
+                            : "";
+
+                    return (
+
+                        '<article class="location">' +
+
+                        '<div class="location-top">' +
+
+                        '<div>' +
+
+                        '<div class="name">' +
+                        escapeHTML(
+                            location.name
+                        ) +
+                        '</div>' +
+
+                        '<span class="badge">' +
+
+                        escapeHTML(
+                            location.category
+                        ) +
+
+                        ' • ' +
+
+                        escapeHTML(
+                            location.dim
+                        ) +
+
+                        '</span>' +
+
+                        '</div>' +
+
+                        '</div>' +
+
+                        '<div class="xyz">' +
+
+                        'X ' +
+                        fmt(location.x) +
+
+                        ' &nbsp; Y ' +
+                        fmt(location.y) +
+
+                        ' &nbsp; Z ' +
+                        fmt(location.z) +
+
+                        '</div>' +
+
+                        navigation +
+
+                        equivalentHTML +
+
+                        notesHTML +
+
+                        '<div class="actions">' +
+
+                        '<button class="secondary" data-nav="' +
+                        location.id +
+                        '">' +
+                        'Navigate' +
+                        '</button>' +
+
+                        '<button class="danger" data-delete="' +
+                        location.id +
+                        '">' +
+                        'Delete' +
+                        '</button>' +
+
+                        '</div>' +
+
+                        '</article>'
+
+                    );
+
+                }
+            ).join("");
+
+        document
+            .querySelectorAll("[data-nav]")
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            const location =
+                                locations.find(
+                                    function (item) {
+                                        return String(item.id) ===
+                                            button.dataset.nav;
+                                    }
+                                );
+
+                            if (!location) {
+                                return;
+                            }
+
+                            $("currentDim").value =
+                                location.dim;
+
+                            $("currentX").value =
+                                location.x;
+
+                            $("currentY").value =
+                                location.y;
+
+                            $("currentZ").value =
+                                location.z;
+
+                            setCurrent();
+
+                        }
+                    );
+
+                }
+            );
+
+        document
+            .querySelectorAll("[data-delete]")
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            const location =
+                                locations.find(
+                                    function (item) {
+                                        return String(item.id) ===
+                                            button.dataset.delete;
+                                    }
+                                );
+
+                            if (!location) {
+                                return;
+                            }
+
+                            showModal(
+                                "Delete location",
+                                "Delete “" +
+                                location.name +
+                                "” from your notebook?",
+
+                                function () {
+
+                                    locations =
+                                        locations.filter(
+                                            function (item) {
+                                                return item.id !==
+                                                    location.id;
+                                            }
+                                        );
+
+                                    saveData();
+
+                                    render();
+
+                                },
+
+                                "Delete"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+    setCurrent();
+
+})();
+</script>
+
+</body>
+</html>

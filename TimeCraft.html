@@ -185,6 +185,10 @@
             background: #11151d;
         }
 
+        .sleep-row.hidden {
+            display: none;
+        }
+
         .sleep-text {
             color: #ffffff;
             font-size: 15px;
@@ -364,7 +368,10 @@
 
     </div>
 
-    <div class="sleep-row">
+    <div
+        class="sleep-row"
+        id="sleepRow"
+    >
 
         <div>
 
@@ -426,6 +433,9 @@
 
     const dropdownMenu =
         document.getElementById("dropdownMenu");
+
+    const sleepRow =
+        document.getElementById("sleepRow");
 
     const sleepToggle =
         document.getElementById("sleepToggle");
@@ -520,6 +530,10 @@
             resultLabel.textContent =
                 "Real-world time";
 
+            sleepRow.classList.remove(
+                "hidden"
+            );
+
             update();
 
         }
@@ -541,6 +555,10 @@
 
             resultLabel.textContent =
                 "Minecraft time";
+
+            sleepRow.classList.add(
+                "hidden"
+            );
 
             update();
 
@@ -797,18 +815,21 @@
             if (sleepToggle.checked) {
 
                 /*
-                    A Minecraft night lasts
+                    A full Minecraft day is
+                    20 real-world minutes.
+
+                    The nighttime portion is
                     10 real-world minutes.
 
-                    Sleeping skips that nighttime.
+                    Sleeping skips that 10-minute
+                    nighttime period.
 
-                    Each sleep then adds
-                    2 real-world minutes for
-                    getting to bed and the
-                    gameplay buffer.
+                    Then 2 real-world minutes are
+                    added for getting to bed and
+                    the gameplay buffer.
 
-                    Only complete Minecraft
-                    days count as sleep events.
+                    This applies once for each
+                    complete Minecraft day.
                 */
 
                 const sleepCount =
@@ -836,16 +857,6 @@
                 );
 
         } else {
-
-            /*
-                Real-world time does not
-                have a Minecraft night to
-                remove.
-
-                Convert the supplied real
-                time directly to Minecraft
-                time.
-            */
 
             const minecraftMinutes =
                 minutes * 72;

@@ -1,0 +1,545 @@
+document "Minecraft Controls"
+
+description "A complete controls reference for Minecraft Bedrock Edition, including default controls and configurable key bindings."
+
+topic "Controls"
+
+    description "Learn the controls for Minecraft Bedrock Edition on keyboard and mouse, controllers, and touchscreen devices."
+
+    section "About Controls"
+
+        text
+            Minecraft Bedrock Edition supports keyboard and mouse, game controllers, and touchscreen controls.
+
+            Keyboard and mouse controls can be customized through the Controls settings. Controller controls can also be customized where supported by the current version and platform.
+
+            Touch controls use configurable touchscreen layouts rather than traditional keyboard key bindings.
+        end
+
+        note
+            Your controls may be different from the defaults in this guide if you have changed your control settings.
+        end
+
+        note
+            Some controls are only available in certain menus, game modes, or situations.
+        end
+
+    end
+
+    section "Keyboard And Mouse"
+
+        subsection "Movement"
+
+            list
+                Move Forward — W
+                Move Backward — S
+                Move Left — A
+                Move Right — D
+                Jump — Space
+                Sneak — Left Shift
+                Sprint — Left Control
+            end
+
+        end
+
+        subsection "Mouse"
+
+            list
+                Look Around — Mouse Movement
+                Attack / Destroy — Left Mouse Button
+                Use Item / Place Block — Right Mouse Button
+                Pick Block — Middle Mouse Button
+                Select Hotbar Slot — Mouse Wheel
+            end
+
+        end
+
+        subsection "Hotbar"
+
+            list
+                Hotbar Slot 1 — 1
+                Hotbar Slot 2 — 2
+                Hotbar Slot 3 — 3
+                Hotbar Slot 4 — 4
+                Hotbar Slot 5 — 5
+                Hotbar Slot 6 — 6
+                Hotbar Slot 7 — 7
+                Hotbar Slot 8 — 8
+                Hotbar Slot 9 — 9
+                Previous Hotbar Slot — Mouse Wheel Down
+                Next Hotbar Slot — Mouse Wheel Up
+            end
+
+        end
+
+        subsection "Inventory And Items"
+
+            list
+                Open Inventory — E
+                Drop Item — Q
+                Swap Item With Off-Hand — F
+                Pick Block — Middle Mouse Button
+            end
+
+        end
+
+        subsection "Chat And Commands"
+
+            list
+                Open Chat — T
+                Open Command — /
+            end
+
+        end
+
+        subsection "Interface"
+
+            list
+                Pause Menu — Esc
+                Hide Interface — F1
+                Change Perspective — F5
+            end
+
+        end
+
+        subsection "Multiplayer"
+
+            list
+                Player List — Tab
+                Open Chat — T
+                Open Command — /
+            end
+
+        end
+
+        subsection "Creative Mode"
+
+            list
+                Fly Up — Space
+                Fly Down — Left Shift
+                Toggle Flying — Double-Tap Jump
+            end
+
+        end
+
+        subsection "Configurable Key Bindings"
+
+            text
+                The following actions can be assigned to keyboard and mouse inputs through the Keyboard and Mouse controls settings. The exact list can vary by Minecraft Bedrock version and enabled features.
+            end
+
+            list
+                Move Forward
+                Move Backward
+                Move Left
+                Move Right
+                Jump
+                Sneak
+                Sprint
+                Attack / Destroy
+                Use Item / Place Block
+                Pick Block
+                Drop Item
+                Open Inventory
+                Swap Item With Off-Hand
+                Hotbar Slot 1
+                Hotbar Slot 2
+                Hotbar Slot 3
+                Hotbar Slot 4
+                Hotbar Slot 5
+                Hotbar Slot 6
+                Hotbar Slot 7
+                Hotbar Slot 8
+                Hotbar Slot 9
+                Previous Hotbar Slot
+                Next Hotbar Slot
+                Open Chat
+                Open Command
+                Pause
+                Change Perspective
+                Hide Interface
+                Player List
+            end
+
+        end
+
+        subsection "Command Macros"
+
+            text
+                Some Bedrock versions include command macro key bindings in Creator Settings. When enabled, additional macro bindings can be assigned to keyboard inputs.
+
+                Command macro bindings run a configured command when the assigned input is pressed while in a world.
+            end
+
+            note
+                Command macros are an advanced feature and may only appear when the corresponding Creator setting is enabled.
+            end
+
+        end
+
+    end
+
+    section "Xbox"
+
+        subsection "Movement And Camera"
+
+            list
+                Left Stick — Move
+                Right Stick — Look Around
+                Left Stick Click — Sprint
+            end
+
+        end
+
+        subsection "Actions"
+
+            list
+                A — Jump
+                B — Sneak
+                RT — Attack / Destroy
+                LT — Use Item / Place Block
+            end
+
+        end
+
+        subsection "Inventory And Items"
+
+            list
+                Y — Open Inventory
+                X — Crafting
+                D-Pad Down — Drop Item
+                Left Bumper — Previous Hotbar Slot
+                Right Bumper — Next Hotbar Slot
+            end
+
+        end
+
+        subsection "Chat And Multiplayer"
+
+            list
+                D-Pad Right — Open Chat
+                D-Pad Left — Emote
+                View / Back Button — Player List
+            end
+
+        end
+
+        subsection "Menus"
+
+            list
+                Menu Button — Pause Menu
+                B — Back / Close
+            end
+
+        end
+
+        subsection "Creative Mode"
+
+            list
+                A — Fly Up
+                B — Fly Down
+                Double-Tap A — Toggle Flying
+            end
+
+        end
+
+        subsection "Controller Customization"
+
+            text
+                Xbox controller buttons can be customized through Minecraft's controller settings where the current Bedrock version and platform support remapping.
+            end
+        end
+
+    end
+
+    section "PlayStation"
+
+        subsection "Movement And Camera"
+
+            list
+                Left Stick — Move
+                Right Stick — Look Around
+                Left Stick Click — Sprint
+            end
+
+        end
+
+        subsection "Actions"
+
+            list
+                Cross — Jump
+                Circle — Sneak
+                R2 — Attack / Destroy
+                L2 — Use Item / Place Block
+            end
+
+        end
+
+        subsection "Inventory And Items"
+
+            list
+                Triangle — Open Inventory
+                Square — Crafting
+                D-Pad Down — Drop Item
+                L1 — Previous Hotbar Slot
+                R1 — Next Hotbar Slot
+            end
+
+        end
+
+        subsection "Chat And Multiplayer"
+
+            list
+                D-Pad Right — Open Chat
+                D-Pad Left — Emote
+                Touchpad / Share Interface — Player List
+            end
+
+        end
+
+        subsection "Menus"
+
+            list
+                Options — Pause Menu
+                Circle — Back / Close
+            end
+
+        end
+
+        subsection "Creative Mode"
+
+            list
+                Cross — Fly Up
+                Circle — Fly Down
+                Double-Tap Cross — Toggle Flying
+            end
+
+        end
+
+        subsection "Controller Customization"
+
+            text
+                PlayStation controller buttons can be customized through Minecraft's controller settings where the current Bedrock version and platform support remapping.
+            end
+        end
+
+    end
+
+    section "Nintendo Switch"
+
+        subsection "Movement And Camera"
+
+            list
+                Left Stick — Move
+                Right Stick — Look Around
+                Left Stick Click — Sprint
+            end
+
+        end
+
+        subsection "Actions"
+
+            list
+                A — Jump
+                B — Sneak
+                ZR — Attack / Destroy
+                ZL — Use Item / Place Block
+            end
+
+        end
+
+        subsection "Inventory And Items"
+
+            list
+                X — Open Inventory
+                Y — Crafting
+                D-Pad Down — Drop Item
+                L — Previous Hotbar Slot
+                R — Next Hotbar Slot
+            end
+
+        end
+
+        subsection "Chat And Multiplayer"
+
+            list
+                D-Pad Right — Open Chat
+                D-Pad Left — Emote
+                Minus — Player List
+            end
+
+        end
+
+        subsection "Menus"
+
+            list
+                Plus — Pause Menu
+                B — Back / Close
+            end
+
+        end
+
+        subsection "Creative Mode"
+
+            list
+                A — Fly Up
+                B — Fly Down
+                Double-Tap A — Toggle Flying
+            end
+
+        end
+
+        subsection "Controller Customization"
+
+            text
+                Nintendo Switch controller controls can be customized through Minecraft's available controller settings.
+            end
+        end
+
+    end
+
+    section "Mobile And Tablet"
+
+        subsection "Movement"
+
+            list
+                Movement Control — Move
+                Touch And Drag — Look Around
+                Jump Button — Jump
+                Sneak Button — Sneak
+                Sprint Button — Sprint
+            end
+
+        end
+
+        subsection "Actions"
+
+            list
+                Tap And Hold Block — Break Block
+                Tap Interactable Object — Interact
+                Attack Control — Attack
+                Use Control — Use Item / Place Block
+            end
+
+        end
+
+        subsection "Hotbar"
+
+            list
+                Tap Hotbar Slot — Select Item
+                Swipe Hotbar — Change Selected Item
+                Touchscreen Item Controls — Manage Selected Items
+            end
+
+        end
+
+        subsection "Inventory"
+
+            list
+                Inventory / Three-Dot Button — Open Inventory And Crafting
+                Inventory Controls — Move And Manage Items
+                Close Button — Close Inventory
+            end
+
+        end
+
+        subsection "Menus"
+
+            list
+                Pause Button — Open Pause Menu
+                Resume Game — Return To Game
+            end
+
+        end
+
+        subsection "Touch Control Modes"
+
+            text
+                Bedrock supports multiple touchscreen control schemes. Available layouts can depend on the device and current version.
+
+                Touch control settings can be found in Minecraft's Controls settings.
+            end
+
+        end
+
+    end
+
+    section "Changing Controls"
+
+        subsection "Keyboard And Mouse"
+
+            text
+                To change keyboard and mouse controls, open Minecraft Settings and open the Keyboard and Mouse controls section.
+
+                Select the action you want to change and assign a different key or mouse input.
+            end
+
+        end
+
+        subsection "Controller"
+
+            text
+                To change controller controls, open Minecraft Settings and open the Controller controls section.
+
+                Available controller options depend on the platform and current Bedrock version.
+            end
+
+        end
+
+        subsection "Touch"
+
+            text
+                Touchscreen controls are configured through the Touch controls settings.
+
+                Different touch control schemes may provide different layouts and interaction methods.
+            end
+
+        end
+
+        subsection "Resetting Controls"
+
+            text
+                Minecraft provides an option to restore controls to their default settings.
+
+                Resetting controls is useful if custom bindings become confusing or stop matching the controls listed in this guide.
+            end
+
+        end
+
+    end
+
+    section "Control Categories"
+
+        text
+            Minecraft controls can generally be organized into movement, camera, combat, block interaction, item management, inventory, hotbar selection, chat, commands, menus, multiplayer, and creative-mode controls.
+
+            Keyboard and mouse players have the largest set of directly assignable physical inputs. Controller players use buttons, triggers, bumpers, sticks, and directional buttons. Touchscreen players use configurable virtual controls.
+        end
+
+    end
+
+    section "Important Notes"
+
+        note
+            Default controls can differ between platforms.
+        end
+
+        note
+            Controls can change between Minecraft versions.
+        end
+
+        note
+            A customized control takes priority over the default control listed in this guide.
+        end
+
+        note
+            Some actions only appear when the feature that uses them is available.
+        end
+
+        note
+            Touchscreen layouts are different from keyboard and mouse key bindings and cannot be represented as a normal keyboard key list.
+        end
+
+    end
+
+end

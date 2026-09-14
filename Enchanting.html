@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <title>Enchanting MC Guide</title>
+</head>
+
+<body>
+touch-action: manipulation;
+    <script src="mcd.js"></script>
+
+    <script>
+        MCD.load("mcds/Enchanting.mcd");      
+    </script>
+    
+    
+<script>
+(function () {
+    let lastTouchEnd = 0;
+
+    function blockMultiTouch(event) {
+        if (event.touches && event.touches.length > 1) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+
+    document.addEventListener("touchstart", blockMultiTouch, {
+        passive: false,
+        capture: true
+    });
+
+    document.addEventListener("touchmove", blockMultiTouch, {
+        passive: false,
+        capture: true
+    });
+
+    document.addEventListener("touchend", function (event) {
+        const now = Date.now();
+
+        if (now - lastTouchEnd < 300) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        lastTouchEnd = now;
+    }, {
+        passive: false,
+        capture: true
+    });
+
+    document.addEventListener("gesturestart", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }, {
+        passive: false,
+        capture: true
+    });
+
+    document.addEventListener("gesturechange", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }, {
+        passive: false,
+        capture: true
+    });
+
+    document.addEventListener("gestureend", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }, {
+        passive: false,
+        capture: true
+    });
+
+    document.addEventListener("wheel", function (event) {
+        if (event.ctrlKey) {
+            event.preventDefault();
+        }
+    }, {
+        passive: false,
+        capture: true
+    });
+})();
+</script>
+</body>
+</html>

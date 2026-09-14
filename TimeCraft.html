@@ -1,901 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
 
-<meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
->
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
 
-<title>Minecraft Time Calculator</title>
+    <title>Minecraft Time Calculator</title>
 
-<style>
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-html,
-body {
-    margin: 0;
-    min-height: 100%;
-    background: #090b10;
-    color: #f3f5f8;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    overscroll-behavior: none;
-    touch-action: manipulation;
-}
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            min-height: 100%;
+            background: #090b10;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            touch-action: manipulation;
+        }
 
-body {
-    padding: 18px;
-}
+        body {
+            padding: 20px;
+        }
 
-button,
-input,
-select {
-    font: inherit;
-}
+        .calculator {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
 
-button {
-    border: 0;
-    cursor: pointer;
-}
+        h1 {
+            margin: 0 0 20px;
+            font-size: 28px;
+        }
 
-.app {
-    max-width: 900px;
-    margin: auto;
-}
+        .toggle {
+            display: flex;
+            width: 100%;
+            margin-bottom: 18px;
+            padding: 4px;
+            background: #151922;
+            border-radius: 10px;
+        }
 
-header {
-    margin: 8px 0 22px;
-}
+        .toggle button {
+            flex: 1;
+            border: 0;
+            padding: 12px;
+            border-radius: 7px;
+            background: transparent;
+            color: #9ca3af;
+            font-size: 15px;
+            cursor: pointer;
+        }
 
-h1 {
-    margin: 0;
-    font-size: 30px;
-}
+        .toggle button.active {
+            background: #252b38;
+            color: #ffffff;
+        }
 
-.sub {
-    margin: 6px 0 0;
-    color: #8f98a8;
-}
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aeb6c4;
+            font-size: 14px;
+        }
 
-.tabs {
-    display: flex;
-    gap: 8px;
-    background: #11151d;
-    padding: 6px;
-    border-radius: 14px;
-    margin-bottom: 14px;
-}
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #2b3240;
+            border-radius: 9px;
+            outline: none;
+            background: #11151d;
+            color: #ffffff;
+            font-size: 17px;
+            touch-action: manipulation;
+        }
 
-.tab {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    background: transparent;
-    color: #9da6b5;
-    font-weight: 700;
-}
+        input:focus {
+            border-color: #566176;
+        }
 
-.tab.active {
-    background: #252c38;
-    color: #fff;
-}
+        .result {
+            margin-top: 18px;
+            padding: 18px;
+            border: 1px solid #202632;
+            border-radius: 10px;
+            background: #11151d;
+        }
 
-.panel {
-    background: #11151d;
-    border: 1px solid #202733;
-    border-radius: 18px;
-    padding: 18px;
-}
+        .result-label {
+            margin-bottom: 7px;
+            color: #8f98a8;
+            font-size: 13px;
+        }
 
-.hidden {
-    display: none !important;
-}
-
-label {
-    display: block;
-    color: #aeb6c4;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 7px;
-}
-
-.field {
-    margin-bottom: 14px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.field input,
-.field select {
-    width: 100%;
-    background: #0b0e14;
-    color: #fff;
-    border: 1px solid #29313e;
-    border-radius: 11px;
-    padding: 13px;
-    outline: none;
-    min-height: 48px;
-}
-
-.field input:focus,
-.field select:focus {
-    border-color: #68758a;
-}
-
-.primary {
-    width: 100%;
-    background: #e8edf4;
-    color: #0a0d12;
-    padding: 13px;
-    border-radius: 11px;
-    font-weight: 800;
-    margin-top: 4px;
-}
-
-.result {
-    margin-top: 16px;
-    background: #0b0e14;
-    border: 1px solid #242c38;
-    border-radius: 14px;
-    padding: 16px;
-}
-
-.result h2 {
-    margin: 0 0 8px;
-    font-size: 18px;
-}
-
-.big {
-    font-size: 27px;
-    font-weight: 850;
-    margin: 5px 0;
-}
-
-.muted {
-    color: #929baa;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 14px;
-}
-
-.card {
-    background: #0b0e14;
-    border: 1px solid #242c38;
-    border-radius: 14px;
-    padding: 15px;
-}
-
-.card b {
-    display: block;
-    font-size: 13px;
-    color: #9ea7b6;
-    margin-bottom: 6px;
-}
-
-.card span {
-    font-size: 19px;
-    font-weight: 800;
-}
-
-.note {
-    font-size: 12px;
-    color: #7f8999;
-    line-height: 1.5;
-    margin-top: 14px;
-}
-
-@media (max-width: 600px) {
-    body {
-        padding: 12px;
-    }
-
-    .grid,
-    .cards {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .grid .full {
-        grid-column: 1 / -1;
-    }
-
-    h1 {
-        font-size: 26px;
-    }
-}
-</style>
+        .result-value {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.35;
+            word-break: break-word;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="calculator">
 
-<header>
     <h1>Minecraft Time Calculator</h1>
 
-    <p class="sub">
-        Convert Minecraft time and real-world time in either direction.
-    </p>
-</header>
+    <div class="toggle">
+        <button id="minecraftButton" class="active">
+            Minecraft Time
+        </button>
 
-<div class="tabs">
-
-    <button
-        class="tab active"
-        data-tab="duration"
-    >
-        Duration
-    </button>
-
-    <button
-        class="tab"
-        data-tab="clock"
-    >
-        Minecraft Clock
-    </button>
-
-</div>
-
-<section
-    id="duration"
-    class="panel"
->
-
-    <div class="grid">
-
-        <div class="field full">
-
-            <label>
-                Enter a duration
-            </label>
-
-            <input
-                id="amount"
-                type="number"
-                min="0"
-                step="any"
-                value="20"
-            >
-
-        </div>
-
-        <div class="field">
-
-            <label>
-                Unit
-            </label>
-
-            <select id="unit">
-
-                <option value="real-seconds">
-                    Real seconds
-                </option>
-
-                <option value="real-minutes">
-                    Real minutes
-                </option>
-
-                <option value="real-hours">
-                    Real hours
-                </option>
-
-                <option value="real-days">
-                    Real days
-                </option>
-
-                <option value="mc-ticks">
-                    Minecraft ticks
-                </option>
-
-                <option value="mc-seconds">
-                    Minecraft seconds
-                </option>
-
-                <option value="mc-minutes">
-                    Minecraft minutes
-                </option>
-
-                <option value="mc-hours">
-                    Minecraft hours
-                </option>
-
-                <option value="mc-days">
-                    Minecraft days
-                </option>
-
-            </select>
-
-        </div>
-
+        <button id="realButton">
+            Real Time
+        </button>
     </div>
 
-    <button
-        class="primary"
-        id="convert"
+    <label id="inputLabel" for="timeInput">
+        Minecraft time
+    </label>
+
+    <input
+        id="timeInput"
+        type="number"
+        min="0"
+        step="any"
+        inputmode="decimal"
+        placeholder="Enter a value"
     >
-        Convert
-    </button>
 
     <div class="result">
-
-        <h2>
-            Equivalent time
-        </h2>
-
-        <div
-            class="big"
-            id="mainResult"
-        >
-            1 Minecraft day
+        <div class="result-label" id="resultLabel">
+            Real-world time
         </div>
 
-        <div
-            class="muted"
-            id="detailResult"
-        >
-            20 real minutes
+        <div class="result-value" id="result">
+            —
         </div>
-
     </div>
-
-    <div class="cards">
-
-        <div class="card">
-
-            <b>
-                Real-world time
-            </b>
-
-            <span id="realResult">
-                20 minutes
-            </span>
-
-        </div>
-
-        <div class="card">
-
-            <b>
-                Minecraft time
-            </b>
-
-            <span id="mcResult">
-                1 day
-            </span>
-
-        </div>
-
-    </div>
-
-    <p class="note">
-        Minecraft runs at 20 ticks per real second.
-        One Minecraft day is 24,000 ticks, which is exactly
-        20 real minutes.
-    </p>
-
-</section>
-
-<section
-    id="clock"
-    class="panel hidden"
->
-
-    <div class="grid">
-
-        <div class="field">
-
-            <label>
-                Hour
-            </label>
-
-            <input
-                id="mcHour"
-                type="number"
-                min="0"
-                max="23"
-                value="12"
-            >
-
-        </div>
-
-        <div class="field">
-
-            <label>
-                Minute
-            </label>
-
-            <input
-                id="mcMinute"
-                type="number"
-                min="0"
-                max="59"
-                value="0"
-            >
-
-        </div>
-
-        <div class="field">
-
-            <label>
-                Second
-            </label>
-
-            <input
-                id="mcSecond"
-                type="number"
-                min="0"
-                max="59"
-                value="0"
-            >
-
-        </div>
-
-    </div>
-
-    <button
-        class="primary"
-        id="clockConvert"
-    >
-        Convert Clock Time
-    </button>
-
-    <div class="result">
-
-        <h2>
-            Clock conversion
-        </h2>
-
-        <div
-            class="big"
-            id="clockMinecraft"
-        >
-            12:00:00
-        </div>
-
-        <div
-            class="muted"
-            id="clockReal"
-        >
-            10:00 real-world time into the Minecraft day
-        </div>
-
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-
-            <b>
-                Ticks since 6:00 AM
-            </b>
-
-            <span id="ticks">
-                7,200
-            </span>
-
-        </div>
-
-        <div class="card">
-
-            <b>
-                Real seconds since 6:00 AM
-            </b>
-
-            <span id="seconds">
-                360
-            </span>
-
-        </div>
-
-    </div>
-
-    <p class="note">
-        Minecraft's clock starts at 6:00 AM at tick 0.
-        One Minecraft hour = 1,000 ticks = 50 real seconds.
-    </p>
-
-</section>
 
 </div>
 
 <script>
-(function () {
+    const minecraftButton = document.getElementById("minecraftButton");
+    const realButton = document.getElementById("realButton");
+    const inputLabel = document.getElementById("inputLabel");
+    const resultLabel = document.getElementById("resultLabel");
+    const timeInput = document.getElementById("timeInput");
+    const result = document.getElementById("result");
 
-    const tabs = document.querySelectorAll(".tab");
+    let mode = "minecraft";
 
-    tabs.forEach(function (tab) {
+    function formatNumber(value) {
+        if (Number.isInteger(value)) {
+            return value.toLocaleString();
+        }
 
-        tab.addEventListener("click", function () {
-
-            tabs.forEach(function (item) {
-                item.classList.remove("active");
-            });
-
-            tab.classList.add("active");
-
-            document
-                .querySelectorAll(".panel")
-                .forEach(function (panel) {
-                    panel.classList.add("hidden");
-                });
-
-            document
-                .getElementById(tab.dataset.tab)
-                .classList.remove("hidden");
-
+        return value.toLocaleString(undefined, {
+            maximumFractionDigits: 2
         });
+    }
 
+    function formatRealTime(minutes) {
+        const totalSeconds = minutes * 60;
+
+        if (totalSeconds < 60) {
+            return formatNumber(totalSeconds) + " seconds";
+        }
+
+        const totalHours = minutes / 60;
+
+        if (totalHours < 24) {
+            return formatNumber(totalHours) + " hours";
+        }
+
+        const totalDays = totalHours / 24;
+
+        if (totalDays < 7) {
+            return formatNumber(totalDays) + " days";
+        }
+
+        const weeks = totalDays / 7;
+
+        if (weeks < 52) {
+            return formatNumber(weeks) + " weeks";
+        }
+
+        const years = totalDays / 365;
+
+        return formatNumber(years) + " years";
+    }
+
+    function formatMinecraftTime(days) {
+        if (days < 1 / 24) {
+            const minutes = days * 24 * 60;
+            return formatNumber(minutes) + " Minecraft minutes";
+        }
+
+        if (days < 1) {
+            const hours = days * 24;
+            return formatNumber(hours) + " Minecraft hours";
+        }
+
+        if (days < 7) {
+            return formatNumber(days) + " Minecraft days";
+        }
+
+        const weeks = days / 7;
+
+        if (weeks < 52) {
+            return formatNumber(weeks) + " Minecraft weeks";
+        }
+
+        const years = days / 365;
+
+        return formatNumber(years) + " Minecraft years";
+    }
+
+    function update() {
+        const value = Number(timeInput.value);
+
+        if (!Number.isFinite(value) || value < 0) {
+            result.textContent = "—";
+            return;
+        }
+
+        if (mode === "minecraft") {
+            resultLabel.textContent = "Real-world time";
+
+            const realMinutes = value * 20;
+
+            result.textContent = formatRealTime(realMinutes);
+        } else {
+            resultLabel.textContent = "Minecraft time";
+
+            const minecraftDays = value / 20;
+
+            result.textContent = formatMinecraftTime(minecraftDays);
+        }
+    }
+
+    function setMode(newMode) {
+        mode = newMode;
+
+        minecraftButton.classList.toggle(
+            "active",
+            mode === "minecraft"
+        );
+
+        realButton.classList.toggle(
+            "active",
+            mode === "real"
+        );
+
+        if (mode === "minecraft") {
+            inputLabel.textContent = "Minecraft time";
+        } else {
+            inputLabel.textContent = "Real-world time";
+        }
+
+        update();
+    }
+
+    minecraftButton.addEventListener("click", function () {
+        setMode("minecraft");
     });
 
-    function clean(number) {
+    realButton.addEventListener("click", function () {
+        setMode("real");
+    });
 
-        if (
-            Math.abs(
-                number - Math.round(number)
-            ) < 0.000000001
-        ) {
-            return Math.round(number);
+    timeInput.addEventListener("input", update);
+</script>
+
+<script>
+    document.addEventListener("touchstart", function (event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    document.addEventListener("gesturestart", function (event) {
+        event.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener("gesturechange", function (event) {
+        event.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener("gestureend", function (event) {
+        event.preventDefault();
+    }, { passive: false });
+
+    let lastTouchEnd = 0;
+
+    document.addEventListener("touchend", function (event) {
+        const now = Date.now();
+
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
         }
 
-        return Number(number.toFixed(3));
-    }
+        lastTouchEnd = now;
+    }, { passive: false });
 
-    function plural(
-        number,
-        one,
-        many
-    ) {
-
-        return number === 1
-            ? one
-            : many;
-
-    }
-
-    function durationText(seconds) {
-
-        if (seconds < 60) {
-
-            const value = clean(seconds);
-
-            return value + " " +
-                plural(
-                    value,
-                    "second",
-                    "seconds"
-                );
-
+    document.addEventListener("wheel", function (event) {
+        if (event.ctrlKey) {
+            event.preventDefault();
         }
-
-        const minutes = seconds / 60;
-
-        if (minutes < 60) {
-
-            const value = clean(minutes);
-
-            return value + " " +
-                plural(
-                    value,
-                    "minute",
-                    "minutes"
-                );
-
-        }
-
-        const hours = minutes / 60;
-
-        if (hours < 24) {
-
-            const value = clean(hours);
-
-            return value + " " +
-                plural(
-                    value,
-                    "hour",
-                    "hours"
-                );
-
-        }
-
-        const days = hours / 24;
-
-        const value = clean(days);
-
-        return value + " " +
-            plural(
-                value,
-                "day",
-                "days"
-            );
-
-    }
-
-    function mcText(ticks) {
-
-        if (ticks < 20) {
-
-            const value = clean(ticks);
-
-            return value + " " +
-                plural(
-                    value,
-                    "tick",
-                    "ticks"
-                );
-
-        }
-
-        const seconds = ticks / 20;
-
-        if (seconds < 60) {
-
-            const value = clean(seconds);
-
-            return value + " Minecraft " +
-                plural(
-                    value,
-                    "second",
-                    "seconds"
-                );
-
-        }
-
-        const minutes = seconds / 60;
-
-        if (minutes < 60) {
-
-            const value = clean(minutes);
-
-            return value + " Minecraft " +
-                plural(
-                    value,
-                    "minute",
-                    "minutes"
-                );
-
-        }
-
-        const hours = minutes / 60;
-
-        if (hours < 24) {
-
-            const value = clean(hours);
-
-            return value + " Minecraft " +
-                plural(
-                    value,
-                    "hour",
-                    "hours"
-                );
-
-        }
-
-        const days = hours / 24;
-
-        const value = clean(days);
-
-        return value + " Minecraft " +
-            plural(
-                value,
-                "day",
-                "days"
-            );
-
-    }
-
-    function convert() {
-
-        const amount =
-            Number(
-                document.getElementById("amount").value
-            ) || 0;
-
-        const unit =
-            document.getElementById("unit").value;
-
-        let realSeconds = 0;
-        let ticks = 0;
-
-        const conversions = {
-
-            "real-seconds": function (value) {
-                realSeconds = value;
-                ticks = value * 20;
-            },
-
-            "real-minutes": function (value) {
-                realSeconds = value * 60;
-                ticks = value * 1200;
-            },
-
-            "real-hours": function (value) {
-                realSeconds = value * 3600;
-                ticks = value * 72000;
-            },
-
-            "real-days": function (value) {
-                realSeconds = value * 86400;
-                ticks = value * 1728000;
-            },
-
-            "mc-ticks": function (value) {
-                ticks = value;
-                realSeconds = value / 20;
-            },
-
-            "mc-seconds": function (value) {
-                ticks = value * 20;
-                realSeconds = value;
-            },
-
-            "mc-minutes": function (value) {
-                ticks = value * 1200;
-                realSeconds = value * 60;
-            },
-
-            "mc-hours": function (value) {
-                ticks = value * 72000;
-                realSeconds = value * 3600;
-            },
-
-            "mc-days": function (value) {
-                ticks = value * 24000;
-                realSeconds = value * 1200;
-            }
-
-        };
-
-        conversions[unit](amount);
-
-        document.getElementById("realResult")
-            .textContent =
-            durationText(realSeconds);
-
-        document.getElementById("mcResult")
-            .textContent =
-            mcText(ticks);
-
-        document.getElementById("mainResult")
-            .textContent =
-            unit.startsWith("real-")
-                ? mcText(ticks)
-                : durationText(realSeconds);
-
-        document.getElementById("detailResult")
-            .textContent =
-            unit.startsWith("real-")
-                ? durationText(realSeconds) +
-                  " = " +
-                  Math.round(ticks).toLocaleString() +
-                  " Minecraft ticks"
-                : mcText(ticks) +
-                  " = " +
-                  durationText(realSeconds);
-
-    }
-
-    document
-        .getElementById("convert")
-        .addEventListener(
-            "click",
-            convert
-        );
-
-    document
-        .getElementById("amount")
-        .addEventListener(
-            "keydown",
-            function (event) {
-
-                if (event.key === "Enter") {
-                    convert();
-                }
-
-            }
-        );
-
-    function clockConvert() {
-
-        let hour =
-            Math.max(
-                0,
-                Math.min(
-                    23,
-                    Number(
-                        document.getElementById("mcHour").value
-                    ) || 0
-                )
-            );
-
-        let minute =
-            Math.max(
-                0,
-                Math.min(
-                    59,
-                    Number(
-                        document.getElementById("mcMinute").value
-                    ) || 0
-                )
-            );
-
-        let second =
-            Math.max(
-                0,
-                Math.min(
-                    59,
-                    Number(
-                        document.getElementById("mcSecond").value
-                    ) || 0
-                )
-            );
-
-        const minecraftHours =
-            hour +
-            minute / 60 +
-            second / 3600;
-
-        const hoursSince6 =
-            (
-                minecraftHours -
-                6 +
-                24
-            ) % 24;
-
-        const ticks =
-            hoursSince6 * 1000;
-
-        const realSeconds =
-            ticks / 20;
-
-        document.getElementById("clockMinecraft")
-            .textContent =
-            String(hour).padStart(2, "0") +
-            ":" +
-            String(minute).padStart(2, "0") +
-            ":" +
-            String(second).padStart(2, "0");
-
-        document.getElementById("clockReal")
-            .textContent =
-            durationText(realSeconds) +
-            " of real time since Minecraft 6:00 AM";
-
-        document.getElementById("ticks")
-            .textContent =
-            Math.round(ticks).toLocaleString();
-
-        document.getElementById("seconds")
-            .textContent =
-            clean(realSeconds).toLocaleString();
-
-    }
-
-    document
-        .getElementById("clockConvert")
-        .addEventListener(
-            "click",
-            clockConvert
-        );
-
-    clockConvert();
-    convert();
-
-})();
+    }, { passive: false });
 </script>
 
 </body>

@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
 >
 
 <title>BlockTools</title>
@@ -26,6 +26,8 @@ body {
     padding: 20px;
     color: #222;
     min-height: 100vh;
+
+    touch-action: manipulation;
 }
 
 h1 {
@@ -109,6 +111,24 @@ h1 {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* --- CATEGORY --- */
+
+.category {
+    max-width: 1000px;
+    margin: 0 auto 35px;
+}
+
+.category-title {
+    color: #222;
+    font-size: 24px;
+    margin-bottom: 15px;
+    padding-left: 5px;
+}
+
+.category .tool-grid {
+    margin-bottom: 0;
+}
+
 /* --- FOOTER --- */
 
 footer {
@@ -170,7 +190,7 @@ footer {
 
 <h1>BlockTools</h1>
 
-<div class="tool-grid" id="toolGrid"></div>
+<div id="categories"></div>
 
 <footer>
     &copy; 2026 BlockTools. All rights reserved.
@@ -183,90 +203,336 @@ footer {
     TOOL LIST
     =====================================================
 
-    Add new tools here.
+    linking:
 
-    You only need to add another object:
+    "auto"
+        Automatically checks the linked HTML page for
+        its category.
+
+    "manual"
+        Uses the category written here.
+
+    Example:
 
     {
-        name: "ToolName",
+        name: "BlockCalc",
         description: "What the tool does.",
-        link: "ToolName.html"
+        link: "BlockCalc.html",
+        linking: "manual",
+        category: "Tools"
     }
 
-    The website automatically creates the card.
+    For automatic linking:
+
+    {
+        name: "How To Play",
+        description: "Learn how to play Minecraft.",
+        link: "HowToPlay.html",
+        linking: "auto"
+    }
+
+    The linked HTML page can contain:
+
+    <meta name="blocktools-category" content="Guides">
+
 */
 
 const tools = [
+
     {
         name: "BlockCalc",
         description:
             "Quickly calculate how many blocks you need for any area, radius, or build in Minecraft.",
-        link: "BlockCalc.html"
+        link: "BlockCalc.html",
+        linking: "manual",
+        category: "Tools"
     },
 
     {
         name: "Stacker",
         description:
             "Convert items into stacks, shulker boxes, and chests with multipliers for better planning.",
-        link: "Stacker.html"
+        link: "Stacker.html",
+        linking: "manual",
+        category: "Tools"
     },
 
     {
         name: "TimeCraft",
         description:
             "Convert between real-world time and Minecraft time, including Minecraft clocks and ticks.",
-        link: "TimeCraft.html"
+        link: "TimeCraft.html",
+        linking: "manual",
+        category: "Tools"
     },
 
     {
         name: "Coordly",
         description:
             "Save Minecraft locations and see their distance, direction, coordinates, and navigation information.",
-        link: "Coordly.html"
+        link: "Coordly.html",
+        linking: "manual",
+        category: "Tools"
+    },
+
+    {
+        name: "How To Play",
+        description:
+            "Learn the basics of Minecraft and how to get started.",
+        link: "HowToPlay.html",
+        linking: "auto"
     }
+
 ];
 
 
 /*
     =====================================================
-    GENERATE TOOL CARDS
+    FETCH CATEGORY FROM HTML
     =====================================================
 */
 
-const toolGrid = document.getElementById("toolGrid");
+async function getCategory(tool) {
 
-tools.forEach((tool, index) => {
+    /*
+        Manual category
+    */
+
+    if (tool.linking === "manual") {
+        return tool.category || "Other";
+    }
+
+
+    /*
+        Automatic category
+    */
+
+    if (tool.linking === "auto") {
+
+        try {
+
+            const response = await fetch(tool.link);
+
+            if (!response.ok) {
+                throw new Error("Page could not be loaded.");
+            }
+
+            const html = await response.text();
+
+            const parser = new DOMParser();
+
+            const page = parser.parseFromString(
+                html,
+                "text/html"
+            );
+
+
+            /*
+                Look for:
+
+                <meta
+                    name="blocktools-category"
+                    content="Guides"
+                >
+            */
+
+            const categoryMeta = page.querySelector(
+                'meta[name="blocktools-category"]'
+            );
+
+
+            if (categoryMeta) {
+
+                const category =
+                    categoryMeta.getAttribute("content");
+
+                if (category && category.trim()) {
+                    return category.trim();
+                }
+
+            }
+
+
+            /*
+                If no category exists,
+                use Other.
+            */
+
+            return "Other";
+
+        } catch (error) {
+
+            console.error(
+                "Could not determine category for:",
+                tool.link,
+                error
+            );
+
+            return "Other";
+        }
+    }
+
+
+    return "Other";
+}
+
+
+/*
+    =====================================================
+    CREATE CARD
+    =====================================================
+*/
+
+function createCard(tool, index) {
 
     const card = document.createElement("div");
 
     card.className = "tool-card";
 
+    card.style.animationDelay =
+        `${(index + 1) * 0.1}s`;
+
+
+    const title = document.createElement("h3");
+
+    title.textContent = tool.name;
+
+
+    const description = document.createElement("p");
+
+    description.textContent = tool.description;
+
+
+    const link = document.createElement("a");
+
+    link.href = tool.link;
+    link.textContent = "Open";
+
+
+    card.appendChild(title);
+    card.appendChild(description);
+    card.appendChild(link);
+
+
+    return card;
+}
+
+
+/*
+    =====================================================
+    BUILD CATEGORIES
+    =====================================================
+*/
+
+async function buildCategories() {
+
+    const categoriesContainer =
+        document.getElementById("categories");
+
+
     /*
-        Automatically create the animation delay.
-
-        This means you don't need:
-
-        .tool-card:nth-child(1)
-        .tool-card:nth-child(2)
-        .tool-card:nth-child(3)
-
-        etc.
+        Determine every tool's category first.
     */
 
-    card.style.animationDelay = `${(index + 1) * 0.1}s`;
+    const categorizedTools =
+        await Promise.all(
 
-    card.innerHTML = `
-        <h3>${tool.name}</h3>
+            tools.map(async tool => {
 
-        <p>${tool.description}</p>
+                const category =
+                    await getCategory(tool);
 
-        <a href="${tool.link}">
-            Open Tool
-        </a>
-    `;
+                return {
+                    ...tool,
+                    resolvedCategory: category
+                };
 
-    toolGrid.appendChild(card);
-});
+            })
+
+        );
+
+
+    /*
+        Group tools by category.
+    */
+
+    const categories = {};
+
+
+    categorizedTools.forEach(tool => {
+
+        const category =
+            tool.resolvedCategory;
+
+
+        if (!categories[category]) {
+            categories[category] = [];
+        }
+
+
+        categories[category].push(tool);
+
+    });
+
+
+    /*
+        Create each category.
+    */
+
+    let animationIndex = 0;
+
+
+    Object.keys(categories).forEach(categoryName => {
+
+        const category =
+            document.createElement("section");
+
+        category.className = "category";
+
+
+        const title =
+            document.createElement("h2");
+
+        title.className = "category-title";
+
+        title.textContent = categoryName;
+
+
+        const grid =
+            document.createElement("div");
+
+        grid.className = "tool-grid";
+
+
+        categories[categoryName].forEach(tool => {
+
+            const card =
+                createCard(tool, animationIndex);
+
+            grid.appendChild(card);
+
+            animationIndex++;
+
+        });
+
+
+        category.appendChild(title);
+        category.appendChild(grid);
+
+        categoriesContainer.appendChild(category);
+
+    });
+
+}
+
+
+/*
+    =====================================================
+    START
+    =====================================================
+*/
+
+buildCategories();
 
 </script>
 

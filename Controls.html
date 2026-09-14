@@ -16,26 +16,73 @@ touch-action: manipulation;
     <script src="mcd.js"></script>
 
     <script>
-        MCD.load("mcds/Controls.mcd");
+        MCD.load("mcds/Controls.mcd");      
     </script>
+    
+    
 <script>
-document.addEventListener("gesturestart", function (event) {
-    event.preventDefault();
-});
+(function () {
+    let lastTouchEnd = 0;
 
-document.addEventListener("gesturechange", function (event) {
-    event.preventDefault();
-});
-
-document.addEventListener("gestureend", function (event) {
-    event.preventDefault();
-});
-
-document.addEventListener("touchmove", function (event) {
-    if (event.touches.length > 1) {
+    // Block Safari gesture-based zoom
+    document.addEventListener("gesturestart", function (event) {
         event.preventDefault();
-    }
-}, { passive: false });
+    }, { passive: false });
+
+    document.addEventListener("gesturechange", function (event) {
+        event.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener("gestureend", function (event) {
+        event.preventDefault();
+    }, { passive: false });
+
+    // Block pinch zoom and other multi-finger zoom gestures
+    document.addEventListener("touchstart", function (event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    document.addEventListener("touchmove", function (event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    // Block double-tap zoom
+    document.addEventListener("touchend", function (event) {
+        const now = Date.now();
+
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+
+        lastTouchEnd = now;
+    }, { passive: false });
+
+    // Prevent Ctrl/Command + wheel zoom where supported
+    document.addEventListener("wheel", function (event) {
+        if (event.ctrlKey) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    // Prevent keyboard zoom shortcuts where supported
+    document.addEventListener("keydown", function (event) {
+        if (
+            (event.ctrlKey || event.metaKey) &&
+            (
+                event.key === "+" ||
+                event.key === "-" ||
+                event.key === "=" ||
+                event.key === "0"
+            )
+        ) {
+            event.preventDefault();
+        }
+    });
+})();
 </script>
 </body>
 </html>

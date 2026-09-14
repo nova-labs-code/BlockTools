@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -16,6 +17,7 @@
 <title>Minecraft Coordinate Notebook</title>
 
 <style>
+
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -34,6 +36,16 @@ body {
 
 body {
     padding: 14px;
+}
+
+button,
+input,
+select {
+    touch-action: manipulation;
+}
+
+button {
+    cursor: pointer;
 }
 
 .app {
@@ -86,8 +98,7 @@ label {
 }
 
 input,
-select,
-textarea {
+select {
     width: 100%;
     background: #0b0e14;
     color: #fff;
@@ -98,14 +109,8 @@ textarea {
     min-height: 46px;
 }
 
-textarea {
-    resize: vertical;
-    min-height: 82px;
-}
-
 input:focus,
-select:focus,
-textarea:focus {
+select:focus {
     border-color: #68758a;
 }
 
@@ -117,6 +122,7 @@ textarea:focus {
 
 .primary {
     width: 100%;
+    border: 0;
     background: #e8edf4;
     color: #0a0d12;
     padding: 13px;
@@ -125,6 +131,7 @@ textarea:focus {
 }
 
 .secondary {
+    border: 0;
     background: #202733;
     color: #e8edf4;
     padding: 10px 12px;
@@ -133,6 +140,7 @@ textarea:focus {
 }
 
 .danger {
+    border: 0;
     background: #321b20;
     color: #ffb9c1;
     padding: 10px 12px;
@@ -188,25 +196,17 @@ textarea:focus {
 }
 
 .xyz {
-    margin: 11px 0;
+    margin: 11px 0 0;
     color: #dce2eb;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 13px;
+    line-height: 1.6;
 }
 
-.nav {
-    border-top: 1px solid #202733;
-    margin-top: 10px;
-    padding-top: 10px;
-}
-
-.nav strong {
-    font-size: 20px;
-}
-
-.small {
-    font-size: 12px;
+.overworld {
+    margin-top: 8px;
     color: #929baa;
+    font-size: 12px;
     line-height: 1.45;
 }
 
@@ -225,7 +225,7 @@ textarea:focus {
 
 .stat {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 9px;
     margin-bottom: 14px;
 }
@@ -282,14 +282,10 @@ textarea:focus {
     display: none !important;
 }
 
-.notice {
-    padding: 11px 12px;
-    background: #151b25;
-    border-radius: 11px;
-    color: #aeb7c6;
+.small {
     font-size: 12px;
+    color: #929baa;
     line-height: 1.45;
-    margin-top: 10px;
 }
 
 @media (max-width: 800px) {
@@ -310,16 +306,14 @@ textarea:focus {
         grid-template-columns: 1fr 1fr 1fr;
     }
 
-    .stat {
-        grid-template-columns: 1fr 1fr;
-    }
-
     h1 {
         font-size: 25px;
     }
 
 }
+
 </style>
+
 </head>
 
 <body>
@@ -333,7 +327,7 @@ textarea:focus {
     </h1>
 
     <p class="sub">
-        Save waypoints, find what's closest, and navigate by distance and direction.
+        Save and organize important locations in your Minecraft worlds.
     </p>
 
 </header>
@@ -343,107 +337,7 @@ textarea:focus {
 <section class="panel">
 
     <h2>
-        I'm here
-    </h2>
-
-    <div class="field">
-
-        <label>
-            Dimension
-        </label>
-
-        <select id="currentDim">
-
-            <option>
-                Overworld
-            </option>
-
-            <option>
-                Nether
-            </option>
-
-            <option>
-                The End
-            </option>
-
-        </select>
-
-    </div>
-
-    <div class="coords">
-
-        <div class="field">
-
-            <label>
-                X
-            </label>
-
-            <input
-                id="currentX"
-                type="number"
-                step="any"
-                value="0"
-            >
-
-        </div>
-
-        <div class="field">
-
-            <label>
-                Y
-            </label>
-
-            <input
-                id="currentY"
-                type="number"
-                step="any"
-                value="64"
-            >
-
-        </div>
-
-        <div class="field">
-
-            <label>
-                Z
-            </label>
-
-            <input
-                id="currentZ"
-                type="number"
-                step="any"
-                value="0"
-            >
-
-        </div>
-
-    </div>
-
-    <button
-        class="primary"
-        id="updateHere"
-    >
-        Update Navigation
-    </button>
-
-    <div class="notice">
-
-        Your current coordinates are kept only in this browser.
-        Saved locations use local storage, so the notebook works without
-        an account or server.
-
-    </div>
-
-    <hr
-        style="
-            border:0;
-            border-top:1px solid #202733;
-            margin:18px 0;
-        "
-    >
-
-    <h2>
-        Add location
+        Add Location
     </h2>
 
     <div class="field">
@@ -574,19 +468,6 @@ textarea:focus {
 
     </div>
 
-    <div class="field">
-
-        <label>
-            Notes
-        </label>
-
-        <textarea
-            id="notes"
-            placeholder="Main entrance, storage room, etc."
-        ></textarea>
-
-    </div>
-
     <button
         class="primary"
         id="save"
@@ -599,18 +480,6 @@ textarea:focus {
 <section class="panel">
 
     <div class="stat">
-
-        <div>
-
-            <b>
-                Current position
-            </b>
-
-            <span id="position">
-                Overworld • 0, 64, 0
-            </span>
-
-        </div>
 
         <div>
 
@@ -630,16 +499,16 @@ textarea:focus {
 
         <select id="sort">
 
-            <option value="nearest">
-                Nearest first
-            </option>
-
             <option value="name">
                 Name A–Z
             </option>
 
             <option value="category">
                 Category
+            </option>
+
+            <option value="dimension">
+                Dimension
             </option>
 
         </select>
@@ -678,7 +547,7 @@ textarea:focus {
         <input
             id="search"
             type="search"
-            placeholder="Search locations, categories, or notes..."
+            placeholder="Search locations or categories..."
         >
 
     </div>
@@ -730,6 +599,7 @@ textarea:focus {
 </div>
 
 <script>
+
 (function () {
 
     const STORAGE_KEY =
@@ -737,15 +607,10 @@ textarea:focus {
 
     let locations =
         JSON.parse(
-            localStorage.getItem(STORAGE_KEY) || "[]"
+            localStorage.getItem(
+                STORAGE_KEY
+            ) || "[]"
         );
-
-    let current = {
-        dim: "Overworld",
-        x: 0,
-        y: 64,
-        z: 0
-    };
 
     let pendingAction = null;
 
@@ -799,111 +664,14 @@ textarea:focus {
 
     }
 
-    function direction(dx, dz) {
-
-        if (
-            Math.abs(dx) < 0.5 &&
-            Math.abs(dz) < 0.5
-        ) {
-            return "Here";
-        }
-
-        const northSouth =
-            Math.abs(dz);
-
-        const eastWest =
-            Math.abs(dx);
-
-        const vertical =
-            dz < 0
-                ? "North"
-                : "South";
-
-        const horizontal =
-            dx > 0
-                ? "East"
-                : "West";
-
-        if (
-            northSouth <
-            eastWest * 0.414
-        ) {
-            return horizontal;
-        }
-
-        if (
-            eastWest <
-            northSouth * 0.414
-        ) {
-            return vertical;
-        }
-
-        return vertical + "-" + horizontal;
-
-    }
-
-    function distance(a, b) {
-
-        const dx =
-            b.x - a.x;
-
-        const dz =
-            b.z - a.z;
-
-        const dy =
-            b.y - a.y;
-
-        return {
-
-            horizontal:
-                Math.sqrt(
-                    dx * dx +
-                    dz * dz
-                ),
-
-            vertical:
-                Math.abs(dy),
-
-            dx: dx,
-            dz: dz,
-
-            total:
-                Math.sqrt(
-                    dx * dx +
-                    dy * dy +
-                    dz * dz
-                )
-
-        };
-
-    }
-
-    function formatDistance(number) {
-
-        if (number < 100) {
-            return fmt(number) + " blocks";
-        }
-
-        return Math.round(number)
-            .toLocaleString() +
-            " blocks";
-
-    }
-
-    function netherEquivalent(location) {
+    function getOverworldCoordinates(location) {
 
         if (location.dim === "Overworld") {
 
             return {
-
-                dim: "Nether",
-
-                x: location.x / 8,
-
+                x: location.x,
                 y: location.y,
-
-                z: location.z / 8
-
+                z: location.z
             };
 
         }
@@ -911,15 +679,9 @@ textarea:focus {
         if (location.dim === "Nether") {
 
             return {
-
-                dim: "Overworld",
-
                 x: location.x * 8,
-
                 y: location.y,
-
                 z: location.z * 8
-
             };
 
         }
@@ -928,108 +690,65 @@ textarea:focus {
 
     }
 
-    function sameDimension(a, b) {
+    $("save").addEventListener(
+        "click",
+        function () {
 
-        return a.dim === b.dim;
+            const name =
+                $("name").value.trim();
 
-    }
+            if (!name) {
 
-    function setCurrent() {
+                showModal(
+                    "Missing name",
+                    "Give this location a name before saving.",
+                    null,
+                    "OK"
+                );
 
-        current = {
-
-            dim: $("currentDim").value,
-
-            x: num("currentX"),
-
-            y: num("currentY"),
-
-            z: num("currentZ")
-
-        };
-
-        $("position").textContent =
-            current.dim +
-            " • " +
-            fmt(current.x) +
-            ", " +
-            fmt(current.y) +
-            ", " +
-            fmt(current.z);
-
-        render();
-
-    }
-
-    $("updateHere")
-        .addEventListener(
-            "click",
-            setCurrent
-        );
-
-    $("save")
-        .addEventListener(
-            "click",
-            function () {
-
-                const name =
-                    $("name").value.trim();
-
-                if (!name) {
-
-                    showModal(
-                        "Missing name",
-                        "Give this location a name before saving.",
-                        null,
-                        "OK"
-                    );
-
-                    return;
-
-                }
-
-                const location = {
-
-                    id:
-                        Date.now() +
-                        Math.random(),
-
-                    name: name,
-
-                    dim:
-                        $("dim").value,
-
-                    x:
-                        num("x"),
-
-                    y:
-                        num("y"),
-
-                    z:
-                        num("z"),
-
-                    category:
-                        $("category").value,
-
-                    notes:
-                        $("notes").value.trim()
-
-                };
-
-                locations.push(location);
-
-                saveData();
-
-                render();
-
-                $("name").value = "";
-                $("notes").value = "";
-                $("x").value = "";
-                $("y").value = "";
-                $("z").value = "";
+                return;
 
             }
-        );
+
+            const location = {
+
+                id:
+                    Date.now() +
+                    Math.random(),
+
+                name:
+                    name,
+
+                dim:
+                    $("dim").value,
+
+                x:
+                    num("x"),
+
+                y:
+                    num("y"),
+
+                z:
+                    num("z"),
+
+                category:
+                    $("category").value
+
+            };
+
+            locations.push(location);
+
+            saveData();
+
+            render();
+
+            $("name").value = "";
+            $("x").value = "";
+            $("y").value = "";
+            $("z").value = "";
+
+        }
+    );
 
     function showModal(
         title,
@@ -1056,82 +775,76 @@ textarea:focus {
 
     }
 
-    $("modalCancel")
-        .addEventListener(
-            "click",
-            function () {
+    $("modalCancel").addEventListener(
+        "click",
+        function () {
 
-                $("modal")
-                    .classList
-                    .add("hidden");
+            $("modal")
+                .classList
+                .add("hidden");
 
-                pendingAction = null;
+            pendingAction = null;
 
+        }
+    );
+
+    $("modalConfirm").addEventListener(
+        "click",
+        function () {
+
+            if (pendingAction) {
+                pendingAction();
             }
-        );
 
-    $("modalConfirm")
-        .addEventListener(
-            "click",
-            function () {
+            $("modal")
+                .classList
+                .add("hidden");
 
-                if (pendingAction) {
-                    pendingAction();
-                }
+            pendingAction = null;
 
-                $("modal")
-                    .classList
-                    .add("hidden");
+        }
+    );
 
-                pendingAction = null;
+    $("clearAll").addEventListener(
+        "click",
+        function () {
 
+            if (!locations.length) {
+                return;
             }
-        );
 
-    $("clearAll")
-        .addEventListener(
-            "click",
-            function () {
+            showModal(
+                "Clear all locations",
+                "This will permanently remove every saved location from this browser.",
+                function () {
 
-                if (!locations.length) {
-                    return;
-                }
+                    locations = [];
 
-                showModal(
-                    "Clear all locations",
-                    "This will permanently remove every saved waypoint from this browser.",
-                    function () {
+                    saveData();
 
-                        locations = [];
+                    render();
 
-                        saveData();
+                },
+                "Clear All"
+            );
 
-                        render();
+        }
+    );
 
-                    },
-                    "Clear All"
-                );
+    $("search").addEventListener(
+        "input",
+        render
+    );
 
-            }
-        );
+    $("sort").addEventListener(
+        "change",
+        render
+    );
 
-    $("search")
-        .addEventListener(
-            "input",
-            render
-        );
-
-    $("sort")
-        .addEventListener(
-            "change",
-            render
-        );
-
-    $("filter")
-        .addEventListener(
-            "change",
-            render
-        );
+    $("filter").addEventListener(
+        "change",
+        render
+    );
 
     function render() {
 
@@ -1157,7 +870,7 @@ textarea:focus {
                             " " +
                             location.category +
                             " " +
-                            location.notes
+                            location.dim
                         ).toLowerCase();
 
                     return (
@@ -1182,43 +895,6 @@ textarea:focus {
         list.sort(
             function (a, b) {
 
-                const distanceA =
-                    distance(
-                        current,
-                        a
-                    );
-
-                const distanceB =
-                    distance(
-                        current,
-                        b
-                    );
-
-                if (
-                    $("sort").value ===
-                    "nearest"
-                ) {
-
-                    const valueA =
-                        sameDimension(
-                            current,
-                            a
-                        )
-                            ? distanceA.horizontal
-                            : Infinity;
-
-                    const valueB =
-                        sameDimension(
-                            current,
-                            b
-                        )
-                            ? distanceB.horizontal
-                            : Infinity;
-
-                    return valueA - valueB;
-
-                }
-
                 if (
                     $("sort").value ===
                     "name"
@@ -1230,9 +906,25 @@ textarea:focus {
 
                 }
 
+                if (
+                    $("sort").value ===
+                    "category"
+                ) {
+
+                    return (
+                        a.category.localeCompare(
+                            b.category
+                        ) ||
+                        a.name.localeCompare(
+                            b.name
+                        )
+                    );
+
+                }
+
                 return (
-                    a.category.localeCompare(
-                        b.category
+                    a.dim.localeCompare(
+                        b.dim
                     ) ||
                     a.name.localeCompare(
                         b.name
@@ -1257,155 +949,32 @@ textarea:focus {
             list.map(
                 function (location) {
 
-                    const d =
-                        distance(
-                            current,
+                    const overworld =
+                        getOverworldCoordinates(
                             location
                         );
 
-                    let navigation = "";
+                    let overworldHTML = "";
 
-                    if (
-                        sameDimension(
-                            current,
-                            location
-                        )
-                    ) {
+                    if (overworld) {
 
-                        const dir =
-                            direction(
-                                d.dx,
-                                d.dz
-                            );
+                        overworldHTML =
+                            '<div class="overworld">' +
 
-                        navigation =
-                            '<div class="nav">' +
+                            'Overworld: ' +
 
-                            '<strong>' +
-                            escapeHTML(dir) +
-                            '</strong>' +
+                            'X ' +
+                            fmt(overworld.x) +
 
-                            '<br>' +
+                            ' &nbsp; Y ' +
+                            fmt(overworld.y) +
 
-                            '<span class="small">' +
-
-                            formatDistance(
-                                d.horizontal
-                            ) +
-
-                            ' horizontally';
-
-                        if (d.vertical) {
-
-                            navigation +=
-                                ' • ' +
-                                formatDistance(
-                                    d.vertical
-                                ) +
-                                ' vertically';
-
-                        }
-
-                        navigation +=
-                            '<br>' +
-
-                            Math.round(
-                                Math.abs(d.dx)
-                            ).toLocaleString() +
-
-                            ' blocks ' +
-
-                            (
-                                d.dx > 0
-                                    ? "east"
-                                    : "west"
-                            ) +
-
-                            ' • ' +
-
-                            Math.round(
-                                Math.abs(d.dz)
-                            ).toLocaleString() +
-
-                            ' blocks ' +
-
-                            (
-                                d.dz < 0
-                                    ? "north"
-                                    : "south"
-                            ) +
-
-                            '</span>' +
-
-                            '</div>';
-
-                    } else {
-
-                        navigation =
-                            '<div class="nav">' +
-
-                            '<strong>' +
-                            'Different dimension' +
-                            '</strong>' +
-
-                            '<br>' +
-
-                            '<span class="small">' +
-
-                            'You are in ' +
-
-                            escapeHTML(
-                                current.dim
-                            ) +
-
-                            '. Switch dimensions to get walking distance.' +
-
-                            '</span>' +
+                            ' &nbsp; Z ' +
+                            fmt(overworld.z) +
 
                             '</div>';
 
                     }
-
-                    const equivalent =
-                        netherEquivalent(
-                            location
-                        );
-
-                    let equivalentHTML = "";
-
-                    if (equivalent) {
-
-                        equivalentHTML =
-                            '<div class="small" style="margin-top:8px">' +
-
-                            'Portal coordinate: ' +
-
-                            fmt(equivalent.x) +
-                            ', ' +
-                            fmt(equivalent.y) +
-                            ', ' +
-                            fmt(equivalent.z) +
-
-                            ' in ' +
-
-                            equivalent.dim +
-
-                            '</div>';
-
-                    }
-
-                    const notesHTML =
-                        location.notes
-
-                            ? (
-                                '<div class="small" style="margin-top:8px">' +
-                                escapeHTML(
-                                    location.notes
-                                ) +
-                                '</div>'
-                            )
-
-                            : "";
 
                     return (
 
@@ -1441,6 +1010,12 @@ textarea:focus {
 
                         '<div class="xyz">' +
 
+                        escapeHTML(
+                            location.dim
+                        ) +
+
+                        '<br>' +
+
                         'X ' +
                         fmt(location.x) +
 
@@ -1452,24 +1027,18 @@ textarea:focus {
 
                         '</div>' +
 
-                        navigation +
-
-                        equivalentHTML +
-
-                        notesHTML +
+                        overworldHTML +
 
                         '<div class="actions">' +
 
-                        '<button class="secondary" data-nav="' +
+                        '<button ' +
+                        'class="danger" ' +
+                        'data-delete="' +
                         location.id +
                         '">' +
-                        'Navigate' +
-                        '</button>' +
 
-                        '<button class="danger" data-delete="' +
-                        location.id +
-                        '">' +
                         'Delete' +
+
                         '</button>' +
 
                         '</div>' +
@@ -1480,47 +1049,6 @@ textarea:focus {
 
                 }
             ).join("");
-
-        document
-            .querySelectorAll("[data-nav]")
-            .forEach(
-                function (button) {
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            const location =
-                                locations.find(
-                                    function (item) {
-                                        return String(item.id) ===
-                                            button.dataset.nav;
-                                    }
-                                );
-
-                            if (!location) {
-                                return;
-                            }
-
-                            $("currentDim").value =
-                                location.dim;
-
-                            $("currentX").value =
-                                location.x;
-
-                            $("currentY").value =
-                                location.y;
-
-                            $("currentZ").value =
-                                location.z;
-
-                            setCurrent();
-
-                        }
-                    );
-
-                }
-            );
 
         document
             .querySelectorAll("[data-delete]")
@@ -1534,8 +1062,12 @@ textarea:focus {
                             const location =
                                 locations.find(
                                     function (item) {
-                                        return String(item.id) ===
-                                            button.dataset.delete;
+
+                                        return String(
+                                            item.id
+                                        ) ===
+                                        button.dataset.delete;
+
                                     }
                                 );
 
@@ -1554,8 +1086,10 @@ textarea:focus {
                                     locations =
                                         locations.filter(
                                             function (item) {
+
                                                 return item.id !==
                                                     location.id;
+
                                             }
                                         );
 
@@ -1576,9 +1110,141 @@ textarea:focus {
 
     }
 
-    setCurrent();
+    render();
 
 })();
+
+</script>
+
+<script>
+
+/*
+    Disable browser zoom.
+
+    Multi-touch is blocked during capture,
+    before buttons or other page elements
+    can process the gesture.
+*/
+
+(function () {
+
+    let lastTouchEnd = 0;
+
+    function blockMultiTouch(event) {
+
+        if (
+            event.touches &&
+            event.touches.length > 1
+        ) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+        }
+
+    }
+
+    document.addEventListener(
+        "touchstart",
+        blockMultiTouch,
+        {
+            passive: false,
+            capture: true
+        }
+    );
+
+    document.addEventListener(
+        "touchmove",
+        blockMultiTouch,
+        {
+            passive: false,
+            capture: true
+        }
+    );
+
+    document.addEventListener(
+        "gesturestart",
+        function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+        },
+        {
+            passive: false,
+            capture: true
+        }
+    );
+
+    document.addEventListener(
+        "gesturechange",
+        function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+        },
+        {
+            passive: false,
+            capture: true
+        }
+    );
+
+    document.addEventListener(
+        "gestureend",
+        function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+        },
+        {
+            passive: false,
+            capture: true
+        }
+    );
+
+    document.addEventListener(
+        "touchend",
+        function (event) {
+
+            const now = Date.now();
+
+            if (
+                now - lastTouchEnd < 300
+            ) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+            }
+
+            lastTouchEnd = now;
+
+        },
+        {
+            passive: false,
+            capture: true
+        }
+    );
+
+    document.addEventListener(
+        "wheel",
+        function (event) {
+
+            if (event.ctrlKey) {
+                event.preventDefault();
+            }
+
+        },
+        {
+            passive: false,
+            capture: true
+        }
+    );
+
+})();
+
 </script>
 
 </body>

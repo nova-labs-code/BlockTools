@@ -288,7 +288,6 @@ topic "Building And Automation"
     description "Learn the basics of building, redstone, and farms."
 
     section "Building"
-        subsection "Basic Building Principles"
             text
 Start by choosing a building location and planning the shape of the structure.
 

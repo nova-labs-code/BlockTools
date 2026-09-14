@@ -1,229 +1,724 @@
 document "Minecraft Controls"
+description "A complete controls reference for Minecraft Bedrock Edition, including default controls and configurable key bindings."
 
-    description "A complete controls reference for Minecraft Bedrock Edition, including default controls and configurable key bindings."
+topic "Keyboard And Mouse"
+    description "Default keyboard and mouse controls for Minecraft Bedrock Edition on PC."
 
-    topic "Keyboard And Mouse"
-
-        description "Controls for playing Minecraft Bedrock Edition with a keyboard and mouse."
-
-        section "Movement"
-            ...
+    section "Movement"
+        subsection "Basic Movement"
+            text
+W - Move forward.
+A - Move left.
+S - Move backward.
+D - Move right.
+Space - Jump.
+Left Shift - Sneak.
+Left Control - Sprint.
+            end
         end
 
-        section "Mouse"
-            ...
+        subsection "Movement While Flying"
+            text
+Space - Fly upward in Creative Mode.
+Left Shift - Fly downward in Creative Mode.
+Double-tap Space - Start or stop flying in Creative Mode.
+            end
         end
-
-        section "Hotbar"
-            ...
-        end
-
-        section "Inventory And Items"
-            ...
-        end
-
-        section "Chat And Commands"
-            ...
-        end
-
-        section "Interface"
-            ...
-        end
-
-        section "Multiplayer"
-            ...
-        end
-
-        section "Creative Mode"
-            ...
-        end
-
-        section "Configurable Key Bindings"
-            ...
-        end
-
-        section "Command Macros"
-            ...
-        end
-
     end
 
-    topic "Xbox"
-
-        description "Controls for playing Minecraft Bedrock Edition with an Xbox controller."
-
-        section "Movement And Camera"
-            ...
+    section "Mouse"
+        subsection "Camera"
+            text
+Move the mouse - Look around.
+            end
         end
 
-        section "Actions"
-            ...
+        subsection "Mouse Buttons"
+            text
+Left mouse button - Attack or destroy blocks.
+Right mouse button - Use an item, place a block, or interact with an object.
+Mouse wheel - Change the selected hotbar slot.
+Middle mouse button - Pick block in Creative Mode.
+            end
         end
-
-        section "Inventory And Items"
-            ...
-        end
-
-        section "Chat And Multiplayer"
-            ...
-        end
-
-        section "Menus"
-            ...
-        end
-
-        section "Creative Mode"
-            ...
-        end
-
-        section "Controller Customization"
-            ...
-        end
-
     end
 
-    topic "PlayStation"
-
-        description "Controls for playing Minecraft Bedrock Edition with a PlayStation controller."
-
-        section "Movement And Camera"
-            ...
+    section "Hotbar"
+        subsection "Selecting Items"
+            text
+1 through 9 - Select the corresponding hotbar slot.
+Mouse wheel up or down - Cycle through hotbar slots.
+            end
         end
 
-        section "Actions"
-            ...
+        subsection "Offhand"
+            text
+F - Swap the selected item with the item in your offhand.
+            end
         end
-
-        section "Inventory And Items"
-            ...
-        end
-
-        section "Chat And Multiplayer"
-            ...
-        end
-
-        section "Menus"
-            ...
-        end
-
-        section "Creative Mode"
-            ...
-        end
-
-        section "Controller Customization"
-            ...
-        end
-
     end
 
-    topic "Nintendo Switch"
-
-        description "Controls for playing Minecraft Bedrock Edition on Nintendo Switch."
-
-        section "Movement And Camera"
-            ...
+    section "Inventory And Items"
+        subsection "Inventory"
+            text
+E - Open or close the inventory.
+            end
         end
 
-        section "Actions"
-            ...
+        subsection "Item Management"
+            text
+Left click - Pick up or place an item stack.
+Right click - Pick up or place half of a stack.
+Shift + click - Quickly move an item between inventories.
+Double click - Collect matching items into one stack when possible.
+Drop key - Drop the selected item.
+Q - Drop one item from the selected hotbar slot.
+Ctrl + Q - Drop the entire selected stack.
+            end
         end
-
-        section "Inventory And Items"
-            ...
-        end
-
-        section "Chat And Multiplayer"
-            ...
-        end
-
-        section "Menus"
-            ...
-        end
-
-        section "Creative Mode"
-            ...
-        end
-
-        section "Controller Customization"
-            ...
-        end
-
     end
 
-    topic "Mobile And Tablet"
-
-        description "Touchscreen controls for Minecraft Bedrock Edition on mobile devices and tablets."
-
-        section "Movement"
-            ...
+    section "Chat And Commands"
+        subsection "Chat"
+            text
+T - Open chat.
+Enter - Open chat.
+            end
         end
 
-        section "Actions"
-            ...
+        subsection "Commands"
+            text
+/ - Open chat with the command prefix.
+Up Arrow - Recall a previous chat or command.
+Tab - Complete names and command arguments when supported.
+            end
         end
-
-        section "Hotbar"
-            ...
-        end
-
-        section "Inventory"
-            ...
-        end
-
-        section "Menus"
-            ...
-        end
-
-        section "Touch Control Modes"
-            ...
-        end
-
     end
 
-    topic "Changing Controls"
-
-        description "Learn how to customize Minecraft Bedrock Edition controls."
-
-        section "Keyboard And Mouse"
-            ...
+    section "Interface"
+        subsection "Menus"
+            text
+Esc - Open or close the pause menu.
+            end
         end
 
-        section "Controller"
-            ...
+        subsection "Information"
+            text
+F1 - Hide or show the HUD when supported.
+F2 - Take a screenshot.
+            end
         end
-
-        section "Touch"
-            ...
-        end
-
-        section "Resetting Controls"
-            ...
-        end
-
     end
 
-    topic "Control Categories"
-
-        section "Overview"
-            ...
+    section "Multiplayer"
+        subsection "Player List"
+            text
+Tab - Display the player list while held.
+            end
         end
-
     end
 
-    topic "Important Notes"
-
-        section "Version And Platform Differences"
-            ...
+    section "Creative Mode"
+        subsection "Creative Inventory"
+            text
+E - Open the Creative inventory.
+            end
         end
 
-        section "Customized Controls"
-            ...
+        subsection "Block Picking"
+            text
+Middle mouse button - Pick the block you are looking at.
+            end
         end
 
-        section "Feature Availability"
-            ...
+        subsection "Flying"
+            text
+Double-tap Space - Start or stop flying.
+Space - Fly upward.
+Left Shift - Fly downward.
+            end
         end
-
     end
 
+    section "Configurable Key Bindings"
+        subsection "Changing Keyboard Controls"
+            text
+Minecraft Bedrock Edition allows many keyboard and mouse controls to be changed from the Settings menu.
+
+Open Settings, select Keyboard & Mouse, and choose the control you want to change.
+
+Select the current key binding and press the new key or mouse button you want to assign.
+            end
+        end
+
+        subsection "Key Conflicts"
+            warning
+Two actions may not be able to use the same key effectively. If a new binding conflicts with another action, review your controls and assign different keys where necessary.
+            end
+        end
+    end
+
+    section "Command Macros"
+        subsection "Using Macros"
+            text
+Keyboard shortcuts and available command-related controls can vary depending on the version of Minecraft Bedrock Edition and the platform.
+            end
+        end
+    end
+end
+
+topic "Xbox"
+    description "Default Xbox controller controls for Minecraft Bedrock Edition."
+
+    section "Movement And Camera"
+        subsection "Movement"
+            text
+Left Stick - Move.
+Press Left Stick - Sprint.
+            end
+        end
+
+        subsection "Camera"
+            text
+Right Stick - Look around.
+            end
+        end
+    end
+
+    section "Actions"
+        subsection "Basic Actions"
+            text
+A - Jump.
+B - Sneak.
+X - Attack or destroy blocks.
+RT - Use an item, place a block, or interact.
+            end
+        end
+    end
+
+    section "Inventory And Items"
+        subsection "Inventory"
+            text
+Y - Open or close the inventory.
+            end
+        end
+
+        subsection "Hotbar"
+            text
+LB / RB - Change the selected hotbar slot.
+            end
+        end
+
+        subsection "Offhand"
+            text
+Use the controller's assigned offhand or item-swap control when available.
+            end
+        end
+    end
+
+    section "Chat And Multiplayer"
+        subsection "Chat"
+            text
+Open the chat interface using the controller's assigned chat control.
+            end
+        end
+
+        subsection "Player List"
+            text
+Use the assigned multiplayer/player-list control to view players in the world.
+            end
+        end
+    end
+
+    section "Menus"
+        subsection "Pause Menu"
+            text
+Menu - Open or close the pause menu.
+            end
+        end
+
+        subsection "Navigation"
+            text
+D-pad - Navigate menus and select interface options.
+A - Confirm a selection.
+B - Go back.
+            end
+        end
+    end
+
+    section "Creative Mode"
+        subsection "Flying"
+            text
+Double-tap A - Start or stop flying.
+A - Fly upward.
+B - Fly downward.
+            end
+        end
+
+        subsection "Block Selection"
+            text
+Use the Creative inventory to select blocks and items.
+            end
+        end
+    end
+
+    section "Controller Customization"
+        subsection "Changing Controls"
+            text
+Open Settings and select Controller to view and change available controller bindings.
+
+Controller options may vary between Minecraft versions and devices.
+            end
+        end
+    end
+end
+
+topic "PlayStation"
+    description "Default PlayStation controller controls for Minecraft Bedrock Edition."
+
+    section "Movement And Camera"
+        subsection "Movement"
+            text
+Left Stick - Move.
+Press Left Stick - Sprint.
+            end
+        end
+
+        subsection "Camera"
+            text
+Right Stick - Look around.
+            end
+        end
+    end
+
+    section "Actions"
+        subsection "Basic Actions"
+            text
+Cross - Jump.
+Circle - Sneak.
+Square - Attack or destroy blocks.
+R2 - Use an item, place a block, or interact.
+            end
+        end
+    end
+
+    section "Inventory And Items"
+        subsection "Inventory"
+            text
+Triangle - Open or close the inventory.
+            end
+        end
+
+        subsection "Hotbar"
+            text
+L1 / R1 - Change the selected hotbar slot.
+            end
+        end
+    end
+
+    section "Chat And Multiplayer"
+        subsection "Chat"
+            text
+Open the chat interface using the controller's assigned chat control.
+            end
+        end
+
+        subsection "Player List"
+            text
+Use the assigned multiplayer/player-list control to view players in the world.
+            end
+        end
+    end
+
+    section "Menus"
+        subsection "Pause Menu"
+            text
+Options - Open or close the pause menu.
+            end
+        end
+
+        subsection "Navigation"
+            text
+D-pad - Navigate menus.
+Cross - Confirm a selection.
+Circle - Go back.
+            end
+        end
+    end
+
+    section "Creative Mode"
+        subsection "Flying"
+            text
+Double-tap Cross - Start or stop flying.
+Cross - Fly upward.
+Circle - Fly downward.
+            end
+        end
+
+        subsection "Block Selection"
+            text
+Use the Creative inventory to select blocks and items.
+            end
+        end
+    end
+
+    section "Controller Customization"
+        subsection "Changing Controls"
+            text
+Open Settings and select Controller to view available controller bindings.
+
+Available controls and customization options can vary between versions and devices.
+            end
+        end
+    end
+end
+
+topic "Nintendo Switch"
+    description "Default Nintendo Switch controller controls for Minecraft Bedrock Edition."
+
+    section "Movement And Camera"
+        subsection "Movement"
+            text
+Left Stick - Move.
+Press Left Stick - Sprint.
+            end
+        end
+
+        subsection "Camera"
+            text
+Right Stick - Look around.
+            end
+        end
+    end
+
+    section "Actions"
+        subsection "Basic Actions"
+            text
+A - Jump.
+B - Sneak.
+Y - Attack or destroy blocks.
+ZR - Use an item, place a block, or interact.
+            end
+        end
+    end
+
+    section "Inventory And Items"
+        subsection "Inventory"
+            text
+X - Open or close the inventory.
+            end
+        end
+
+        subsection "Hotbar"
+            text
+L / R - Change the selected hotbar slot.
+            end
+        end
+    end
+
+    section "Chat And Multiplayer"
+        subsection "Chat"
+            text
+Open the chat interface using the controller's assigned chat control.
+            end
+        end
+
+        subsection "Player List"
+            text
+Use the assigned multiplayer/player-list control to view players in the world.
+            end
+        end
+    end
+
+    section "Menus"
+        subsection "Pause Menu"
+            text
++ - Open or close the pause menu.
+            end
+        end
+
+        subsection "Navigation"
+            text
+D-pad - Navigate menus.
+A - Confirm a selection.
+B - Go back.
+            end
+        end
+    end
+
+    section "Creative Mode"
+        subsection "Flying"
+            text
+Double-tap A - Start or stop flying.
+A - Fly upward.
+B - Fly downward.
+            end
+        end
+
+        subsection "Block Selection"
+            text
+Use the Creative inventory to select blocks and items.
+            end
+        end
+    end
+
+    section "Controller Customization"
+        subsection "Changing Controls"
+            text
+Open Settings and select Controller to view available controller bindings.
+
+Available controls and customization options can vary between versions and devices.
+            end
+        end
+    end
+end
+
+topic "Mobile And Tablet"
+    description "Touchscreen controls for Minecraft Bedrock Edition on phones and tablets."
+
+    section "Movement"
+        subsection "Touch Movement"
+            text
+Use the on-screen movement controls to move your character.
+
+Depending on your selected touch control scheme, movement controls may appear in different locations.
+            end
+        end
+
+        subsection "Jumping"
+            text
+Use the on-screen jump button to jump.
+
+When flying in Creative Mode, use the on-screen controls to move vertically.
+            end
+        end
+    end
+
+    section "Looking Around"
+        subsection "Camera"
+            text
+Drag across the screen to look around.
+
+The exact camera behavior depends on the selected touch-control configuration.
+            end
+        end
+    end
+
+    section "Actions"
+        subsection "Breaking Blocks"
+            text
+Press and hold a block to break it.
+
+The amount of time required depends on the block and the item being used.
+            end
+        end
+
+        subsection "Placing And Interacting"
+            text
+Tap the screen to place a block or interact with an available object, depending on the current control layout.
+            end
+        end
+    end
+
+    section "Hotbar"
+        subsection "Selecting Items"
+            text
+Tap an item in the hotbar to select it.
+
+Swipe across the hotbar when supported to change the selected item.
+            end
+        end
+    end
+
+    section "Inventory And Items"
+        subsection "Inventory"
+            text
+Tap the inventory button to open the inventory.
+
+Touch controls for moving, splitting, and combining item stacks are displayed within the inventory interface.
+            end
+        end
+    end
+
+    section "Chat And Commands"
+        subsection "Chat"
+            text
+Use the chat button to open the chat interface.
+
+Use the on-screen keyboard to enter messages and commands.
+            end
+        end
+
+        subsection "Commands"
+            text
+Type / at the beginning of a message to enter a command.
+            end
+        end
+    end
+
+    section "Creative Mode"
+        subsection "Creative Inventory"
+            text
+Open the Creative inventory to browse blocks and items.
+
+Tap an item to select it.
+            end
+        end
+
+        subsection "Flying"
+            text
+Use the touchscreen flight controls when flying in Creative Mode.
+
+The exact controls depend on the selected touch-control layout.
+            end
+        end
+    end
+
+    section "Touch Control Settings"
+        subsection "Changing Touch Controls"
+            text
+Open Settings and select Touch to view available touchscreen control options.
+
+Minecraft Bedrock Edition provides different touchscreen control schemes and options depending on the version and device.
+            end
+        end
+    end
+end
+
+topic "Changing Controls"
+    description "How to customize controls in Minecraft Bedrock Edition."
+
+    section "Keyboard And Mouse"
+        subsection "Opening Settings"
+            text
+Open the Minecraft Settings menu.
+
+Select Keyboard & Mouse to view the available keyboard and mouse bindings.
+            end
+        end
+
+        subsection "Changing A Binding"
+            text
+Select the action you want to change.
+
+Choose its current key binding and press the new key or mouse button you want to assign.
+            end
+        end
+    end
+
+    section "Controller"
+        subsection "Opening Controller Settings"
+            text
+Open the Minecraft Settings menu.
+
+Select Controller to view the available controller controls and customization options.
+            end
+        end
+
+        subsection "Changing A Binding"
+            text
+Select an available control and assign the button or input you want to use when the option is supported.
+            end
+        end
+    end
+
+    section "Touch"
+        subsection "Opening Touch Settings"
+            text
+Open the Minecraft Settings menu.
+
+Select Touch to view touchscreen control options.
+            end
+        end
+
+        subsection "Changing The Touch Layout"
+            text
+Choose from the available touch-control schemes and configure the options provided by your version of Minecraft Bedrock Edition.
+            end
+        end
+    end
+
+    section "Resetting Controls"
+        subsection "Reset To Defaults"
+            warning
+Resetting controls returns customized bindings to their default settings. Make sure you want to remove your custom bindings before confirming the reset.
+            end
+        end
+    end
+end
+
+topic "Control Categories"
+    description "A reference for the major types of controls used throughout Minecraft Bedrock Edition."
+
+    section "Movement"
+        text
+Movement controls change your character's position in the world, including walking, sprinting, sneaking, jumping, swimming, and flying.
+        end
+    end
+
+    section "Camera"
+        text
+Camera controls change the direction you are looking.
+        end
+    end
+
+    section "Interaction"
+        text
+Interaction controls are used for placing blocks, using items, opening containers, activating objects, and interacting with entities.
+        end
+    end
+
+    section "Combat"
+        text
+Combat controls are used to attack entities and defend yourself.
+        end
+    end
+
+    section "Inventory"
+        text
+Inventory controls are used to manage items, equipment, crafting materials, and containers.
+        end
+    end
+
+    section "Interface"
+        text
+Interface controls are used to open menus, chat, settings, inventories, and other game screens.
+        end
+    end
+
+    section "Creative"
+        text
+Creative controls include flying, accessing the Creative inventory, and quickly selecting blocks and items.
+        end
+    end
+end
+
+topic "Important Notes"
+    description "Important information about Minecraft Bedrock Edition controls."
+
+    section "Control Differences"
+        text
+Controls can differ between keyboard and mouse, Xbox, PlayStation, Nintendo Switch, mobile, and tablet devices.
+
+Some controls may also change between Minecraft Bedrock Edition versions.
+        end
+    end
+
+    section "Custom Bindings"
+        text
+If you change a control in Settings, the customized binding takes precedence over the default binding shown in this document.
+        end
+    end
+
+    section "Control Schemes"
+        text
+Touchscreen devices may provide multiple control schemes. The controls displayed on screen depend on the selected scheme and device.
+        end
+    end
+
+    section "Version Changes"
+        note
+Minecraft Bedrock Edition receives updates that can change controls, menus, and available settings. If a control does not match your game, check the current Settings menu for the binding assigned to that action.
+        end
+    end
 end

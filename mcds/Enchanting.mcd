@@ -1,0 +1,589 @@
+document "Minecraft Enchanting"
+
+description "A complete enchanting guide for Minecraft Bedrock Edition."
+
+section "Enchanting Basics"
+
+    text
+        Enchanting is a system that adds special abilities and improvements to tools, weapons, armor, and some other items.
+
+        Enchantments can increase durability, improve combat, make tools more effective, protect the player, or provide other useful effects.
+    end
+
+    subsection "What You Need"
+
+        list
+            Enchanting Table
+            Experience Levels
+            Lapis Lazuli
+            An enchantable item
+        end
+
+        text
+            An enchanting table is the primary block used to apply enchantments directly to items.
+
+            Experience levels and lapis lazuli are consumed when using the enchanting table.
+        end
+
+    end
+
+    subsection "Creating An Enchanting Table"
+
+        text
+            An enchanting table is crafted using diamonds, obsidian, and a book.
+        end
+
+        list
+            1 Book
+            2 Diamonds
+            4 Obsidian
+        end
+
+        text
+            Arrange the materials in the required crafting pattern at a crafting table.
+        end
+
+    end
+
+end
+
+section "Using The Enchanting Table"
+
+    subsection "Opening The Table"
+
+        text
+            Place the enchanting table in the world and interact with it to open the enchanting interface.
+        end
+
+    end
+
+    subsection "Adding An Item"
+
+        text
+            Place an enchantable item into the item slot of the enchanting table.
+
+            The available enchantment options will appear when the required materials and experience are available.
+        end
+
+    end
+
+    subsection "Adding Lapis Lazuli"
+
+        text
+            Place lapis lazuli into the lapis slot of the enchanting table.
+
+            Each available enchantment option displays the amount of lapis lazuli and experience levels required.
+        end
+
+    end
+
+    subsection "Choosing An Enchantment"
+
+        text
+            Select one of the available enchantment options to apply an enchantment to the item.
+
+            The exact enchantment offered is influenced by the item, the enchanting setup, and the game's enchantment selection system.
+        end
+
+    end
+
+end
+
+section "Bookshelves"
+
+    subsection "Why Bookshelves Matter"
+
+        text
+            Bookshelves placed around an enchanting table can increase the maximum enchantment power available from the table.
+        end
+
+    end
+
+    subsection "Bookshelf Placement"
+
+        text
+            Bookshelves need to be positioned around the enchanting table with the required open space between the table and the shelves.
+
+            Decorative blocks or other objects placed in the wrong locations can prevent nearby bookshelves from contributing their enchanting power.
+        end
+
+    end
+
+    subsection "Maximum Enchanting Power"
+
+        text
+            A properly arranged setup can provide the highest level of enchantment options available from the enchanting table.
+
+            More bookshelves do not continue increasing the enchanting power indefinitely.
+        end
+
+    end
+
+end
+
+section "Experience Levels"
+
+    subsection "Using Experience"
+
+        text
+            Enchanting requires experience levels. The displayed cost is shown in the enchanting interface before you select an enchantment.
+        end
+
+    end
+
+    subsection "Levels Are Not Stored As Items"
+
+        text
+            Experience levels represent your current experience progress. Enchanting spends levels from your current experience total.
+        end
+
+    end
+
+    subsection "Getting Experience"
+
+        list
+            Defeating mobs
+            Mining certain blocks
+            Smelting items
+            Breeding animals
+            Fishing
+            Trading
+            Completing other experience-granting activities
+        end
+
+    end
+
+end
+
+section "Enchantments"
+
+    subsection "Armor Enchantments"
+
+        text
+            Armor can receive enchantments that improve protection, durability, movement, or other defensive abilities.
+        end
+
+        list
+            Protection
+            Fire Protection
+            Blast Protection
+            Projectile Protection
+            Feather Falling
+            Respiration
+            Aqua Affinity
+            Thorns
+            Depth Strider
+            Frost Walker
+            Soul Speed
+            Swift Sneak
+            Unbreaking
+            Mending
+        end
+
+    end
+
+    subsection "Sword Enchantments"
+
+        list
+            Sharpness
+            Smite
+            Bane of Arthropods
+            Knockback
+            Fire Aspect
+            Looting
+            Sweeping Edge
+            Unbreaking
+            Mending
+        end
+
+        note
+            Enchantment availability and compatibility can differ between Minecraft editions.
+        end
+
+    end
+
+    subsection "Pickaxe Enchantments"
+
+        list
+            Efficiency
+            Fortune
+            Silk Touch
+            Unbreaking
+            Mending
+        end
+
+    end
+
+    subsection "Axe Enchantments"
+
+        list
+            Efficiency
+            Fortune
+            Silk Touch
+            Sharpness
+            Smite
+            Bane of Arthropods
+            Unbreaking
+            Mending
+        end
+
+    end
+
+    subsection "Shovel Enchantments"
+
+        list
+            Efficiency
+            Fortune
+            Silk Touch
+            Unbreaking
+            Mending
+        end
+
+    end
+
+    subsection "Hoe Enchantments"
+
+        list
+            Efficiency
+            Fortune
+            Silk Touch
+            Unbreaking
+            Mending
+        end
+
+    end
+
+    subsection "Bow Enchantments"
+
+        list
+            Power
+            Punch
+            Flame
+            Infinity
+            Unbreaking
+            Mending
+        end
+
+        note
+            Some enchantment combinations are incompatible with one another.
+        end
+
+    end
+
+    subsection "Crossbow Enchantments"
+
+        list
+            Quick Charge
+            Multishot
+            Piercing
+            Unbreaking
+            Mending
+        end
+
+    end
+
+    subsection "Fishing Rod Enchantments"
+
+        list
+            Luck of the Sea
+            Lure
+            Unbreaking
+            Mending
+        end
+
+    end
+
+    subsection "Trident Enchantments"
+
+        list
+            Loyalty
+            Impaling
+            Riptide
+            Channeling
+            Unbreaking
+            Mending
+        end
+
+    end
+
+    subsection "Shield Enchantments"
+
+        list
+            Unbreaking
+            Mending
+        end
+
+    end
+
+end
+
+section "Enchantment Compatibility"
+
+    subsection "Incompatible Enchantments"
+
+        text
+            Some enchantments cannot normally exist together on the same item.
+
+            For example, an item generally cannot have multiple mutually exclusive protection enchantments through ordinary enchanting methods.
+        end
+
+    end
+
+    subsection "Checking Compatibility"
+
+        text
+            When combining items or enchanted books with an anvil, incompatible enchantments may prevent certain combinations from being performed.
+        end
+
+    end
+
+end
+
+section "Enchanted Books"
+
+    subsection "What Are Enchanted Books?"
+
+        text
+            Enchanted books store enchantments that can be transferred to compatible items using an anvil.
+        end
+
+    end
+
+    subsection "Using An Enchanted Book"
+
+        list
+            Obtain an enchanted book.
+            Place the item you want to enchant into the first anvil slot.
+            Place the enchanted book into the second slot.
+            Check the resulting item.
+            Confirm the operation if you have the required experience.
+        end
+
+    end
+
+    subsection "Sources Of Enchanted Books"
+
+        text
+            Enchanted books can be obtained through several activities, including enchanting books and obtaining them through certain forms of loot or trading.
+        end
+
+    end
+
+end
+
+section "Anvils"
+
+    subsection "What Is An Anvil?"
+
+        text
+            An anvil allows you to combine compatible enchanted items, apply enchanted books, repair certain items, and rename items.
+        end
+
+    end
+
+    subsection "Combining Enchantments"
+
+        text
+            Compatible enchanted items or enchanted books can be combined with an item through an anvil.
+
+            Combining items can transfer compatible enchantments and may increase their enchantment levels when the applicable rules allow it.
+        end
+
+    end
+
+    subsection "Anvil Costs"
+
+        text
+            Anvil operations can require experience levels.
+
+            The cost depends on the operation and the items involved.
+        end
+
+        note
+            Repeatedly modifying the same item can make later anvil operations increasingly expensive.
+        end
+
+    end
+
+end
+
+section "Repairing Enchanted Items"
+
+    subsection "Repairing With An Anvil"
+
+        text
+            Some items can be repaired with an anvil using suitable materials or another compatible item.
+
+            Repairing can preserve enchantments depending on the items and operation being used.
+        end
+
+    end
+
+    subsection "Mending"
+
+        text
+            Mending is an enchantment that uses collected experience to restore durability to an item instead of adding that experience directly to the player's level total when the item is eligible to receive it.
+        end
+
+    end
+
+    subsection "Unbreaking"
+
+        text
+            Unbreaking gives an item a chance to avoid losing durability when it is used.
+        end
+
+    end
+
+end
+
+section "Removing Enchantments"
+
+    subsection "Grindstone"
+
+        text
+            A grindstone can remove applicable enchantments from items.
+
+            Removing enchantments can return some experience, but curse enchantments are not removed by a grindstone.
+        end
+
+    end
+
+    subsection "Curses"
+
+        text
+            Curse enchantments have special behavior and are designed to make certain items more difficult to remove or manage.
+        end
+
+        list
+            Curse of Binding
+            Curse of Vanishing
+        end
+
+    end
+
+end
+
+section "Enchanting Strategy"
+
+    subsection "Choosing Enchantments"
+
+        text
+            Consider how you use an item before spending valuable experience and materials on enchantments.
+
+            A mining tool, combat weapon, armor piece, and utility item can benefit from different enchantment combinations.
+        end
+
+    end
+
+    subsection "Using Enchanted Books"
+
+        text
+            Enchanted books can give you more control over the enchantments you apply than relying only on the options offered by an enchanting table.
+        end
+
+    end
+
+    subsection "Combining Items"
+
+        text
+            An anvil can be used to build stronger enchantment combinations by combining compatible enchanted items and books.
+        end
+
+    end
+
+end
+
+section "Useful Enchanting Tips"
+
+    tip
+        Build an enchanting setup with properly positioned bookshelves before spending large amounts of experience.
+    end
+
+    tip
+        Keep lapis lazuli available when planning to enchant several items.
+    end
+
+    tip
+        Check all available enchantment options before choosing one.
+    end
+
+    tip
+        Use enchanted books when you need a specific enchantment that is difficult to obtain directly from the enchanting table.
+    end
+
+    tip
+        Keep valuable enchanted equipment safe before experimenting with an anvil or grindstone.
+    end
+
+    tip
+        Remember that some enchantments are mutually exclusive.
+    end
+
+end
+
+section "Enchanting Troubleshooting"
+
+    subsection "No Strong Enchantments"
+
+        list
+            Check the bookshelf placement.
+            Make sure the required space around the enchanting table is clear.
+            Check your available experience levels.
+            Check that you have enough lapis lazuli.
+        end
+
+    end
+
+    subsection "An Enchantment Cannot Be Applied"
+
+        text
+            The item may not support that enchantment, the enchantment may be incompatible with an existing enchantment, or the selected operation may not support the combination.
+        end
+
+    end
+
+    subsection "Anvil Says The Items Cannot Be Combined"
+
+        text
+            Check whether the items are compatible and whether their enchantments can exist together.
+
+            Some combinations are intentionally prevented by Minecraft's enchantment rules.
+        end
+
+    end
+
+end
+
+section "Important Notes"
+
+    note
+        This guide is for Minecraft Bedrock Edition.
+    end
+
+    note
+        Enchantment availability, compatibility, costs, and mechanics can change between Minecraft versions.
+    end
+
+    note
+        The exact enchantments offered by an enchanting table are generated by Minecraft's enchantment system and are not guaranteed to be the same every time.
+    end
+
+    note
+        Enchantments obtained through commands or other unusual methods may follow different rules from normal survival enchanting.
+    end
+
+end
+
+section "Related Guides"
+
+    link "How To Play Guide" "HowToPlay.html"
+    link "Controls Guide" "Controls.html"
+    link "Crafting Guide" "Crafting.html"
+    link "Brewing Guide" "Brewing.html"
+    link "Villagers Guide" "Villagers.html"
+    link "Combat Guide" "Combat.html"
+
+end
+
+end

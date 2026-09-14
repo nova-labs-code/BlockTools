@@ -2,135 +2,273 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
 <title>BlockTools</title>
+
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
+
 <style>
-* { box-sizing:border-box; margin:0; padding:0; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-  background: linear-gradient(135deg,#c8f0ff,#eef2f6);
-  padding:20px; color:#222;
-  min-height:100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #c8f0ff, #eef2f6);
+    padding: 20px;
+    color: #222;
+    min-height: 100vh;
 }
 
 h1 {
-  text-align:center;
-  color:#1f6feb; text-shadow:1px 1px 3px #ccc;
-  margin-bottom:40px;
-  position: relative;
+    text-align: center;
+    color: #1f6feb;
+    text-shadow: 1px 1px 3px #ccc;
+    margin-bottom: 40px;
 }
 
 /* --- TOOL GRID --- */
+
 .tool-grid {
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-  gap:25px;
-  max-width:1000px;
-  margin:0 auto 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    max-width: 1000px;
+    margin: 0 auto 40px;
 }
 
 /* --- TOOL CARD --- */
+
 .tool-card {
-  background: linear-gradient(135deg,#fff,#f0f8ff);
-  border-radius:12px;
-  padding:22px;
-  text-align:center;
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  transition: all 0.3s;
-  opacity:0;
-  transform: translateY(10px);
-  animation: fadeIn 0.5s forwards;
+    background: linear-gradient(135deg, #fff, #f0f8ff);
+    border-radius: 12px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    opacity: 0;
+    transform: translateY(10px);
+
+    animation: fadeIn 0.5s forwards;
+
+    transition: all 0.3s;
 }
-.tool-card:nth-child(1){ animation-delay:0.1s; }
-.tool-card:nth-child(2){ animation-delay:0.2s; }
-.tool-card:nth-child(3){ animation-delay:0.3s; }
 
 .tool-card:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow:0 15px 30px rgba(0,0,0,0.25);
-  background: linear-gradient(135deg,#f0f8ff,#ffffff);
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, #f0f8ff, #ffffff);
 }
 
 .tool-card h3 {
-  margin-bottom:10px;
-  color:#1f6feb;
+    margin-bottom: 10px;
+    color: #1f6feb;
 }
 
 .tool-card p {
-  font-size:15px;
-  line-height:1.5;
-  color:#444;
-  margin-bottom:18px;
-  flex:1;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #444;
+    margin-bottom: 18px;
+    flex: 1;
 }
 
 .tool-card a {
-  display:inline-block;
-  padding:10px 20px;
-  background:#1f6feb;
-  color:#fff;
-  text-decoration:none;
-  font-weight:700;
-  border-radius:8px;
-  transition:all 0.2s;
+    display: inline-block;
+    padding: 10px 20px;
+
+    background: #1f6feb;
+    color: #fff;
+
+    text-decoration: none;
+    font-weight: 700;
+
+    border-radius: 8px;
+
+    transition: all 0.2s;
 }
-.tool-card a:hover { background:#155ac4; }
+
+.tool-card a:hover {
+    background: #155ac4;
+}
+
 .tool-card a:active {
-  transform: translateY(1px);
-  box-shadow:0 3px 8px rgba(0,0,0,0.15);
+    transform: translateY(1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* --- FOOTER --- */
+
 footer {
-  text-align:center;
-  margin-top:40px;
-  font-size:14px;
-  color:#666;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #666;
 }
 
 /* --- ANIMATION --- */
+
 @keyframes fadeIn {
-  to { opacity:1; transform: translateY(0); }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* --- MOBILE --- */
-@media(max-width:768px){
-  .tool-grid { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:20px; }
-  body { padding:15px; }
-  .tool-card { padding:18px; }
-  .tool-card p { font-size:16px; }
-  .tool-card a { padding:12px 25px; font-size:16px; }
+
+@media (max-width: 768px) {
+    .tool-grid {
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(180px, 1fr)
+        );
+
+        gap: 20px;
+    }
+
+    body {
+        padding: 15px;
+    }
+
+    .tool-card {
+        padding: 18px;
+    }
+
+    .tool-card p {
+        font-size: 16px;
+    }
+
+    .tool-card a {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
 }
-@media(max-width:500px){
-  .tool-grid { grid-template-columns:1fr; gap:15px; }
+
+@media (max-width: 500px) {
+    .tool-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }
 </style>
 </head>
+
 <body>
 
 <h1>BlockTools</h1>
 
-<div class="tool-grid">
-  <div class="tool-card">
-    <h3>BlockCalc</h3>
-    <p>Quickly calculate how many blocks you need for any area, radius, or build in Minecraft.</p>
-    <a href="BlockCalc.html">Open Tool</a>
-  </div>
-
-  <div class="tool-card">
-    <h3>Stacker</h3>
-    <p>Convert items into stacks, shulker boxes, and chests with multipliers for better planning.</p>
-    <a href="Stacker.html">Open Tool</a>
-  </div>
+<div class="tool-grid" id="toolGrid"></div>
 
 <footer>
-  &copy; 2026 BlockTools. All rights reserved.
+    &copy; 2026 BlockTools. All rights reserved.
 </footer>
+
+<script>
+
+/*
+    =====================================================
+    TOOL LIST
+    =====================================================
+
+    Add new tools here.
+
+    You only need to add another object:
+
+    {
+        name: "ToolName",
+        description: "What the tool does.",
+        link: "ToolName.html"
+    }
+
+    The website automatically creates the card.
+*/
+
+const tools = [
+    {
+        name: "BlockCalc",
+        description:
+            "Quickly calculate how many blocks you need for any area, radius, or build in Minecraft.",
+        link: "BlockCalc.html"
+    },
+
+    {
+        name: "Stacker",
+        description:
+            "Convert items into stacks, shulker boxes, and chests with multipliers for better planning.",
+        link: "Stacker.html"
+    },
+
+    {
+        name: "TimeCraft",
+        description:
+            "Convert between real-world time and Minecraft time, including Minecraft clocks and ticks.",
+        link: "TimeCraft.html"
+    },
+
+    {
+        name: "Coordly",
+        description:
+            "Save Minecraft locations and see their distance, direction, coordinates, and navigation information.",
+        link: "Coordly.html"
+    }
+];
+
+
+/*
+    =====================================================
+    GENERATE TOOL CARDS
+    =====================================================
+*/
+
+const toolGrid = document.getElementById("toolGrid");
+
+tools.forEach((tool, index) => {
+
+    const card = document.createElement("div");
+
+    card.className = "tool-card";
+
+    /*
+        Automatically create the animation delay.
+
+        This means you don't need:
+
+        .tool-card:nth-child(1)
+        .tool-card:nth-child(2)
+        .tool-card:nth-child(3)
+
+        etc.
+    */
+
+    card.style.animationDelay = `${(index + 1) * 0.1}s`;
+
+    card.innerHTML = `
+        <h3>${tool.name}</h3>
+
+        <p>${tool.description}</p>
+
+        <a href="${tool.link}">
+            Open Tool
+        </a>
+    `;
+
+    toolGrid.appendChild(card);
+});
+
+</script>
 
 </body>
 </html>

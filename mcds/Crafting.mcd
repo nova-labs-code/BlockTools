@@ -1,0 +1,508 @@
+document "Minecraft Crafting"
+
+description "A complete crafting guide for Minecraft Bedrock Edition."
+
+section "Crafting Basics"
+
+    text
+        Crafting is one of the most important parts of Minecraft. It allows you to turn materials you collect into tools, weapons, blocks, armor, food, and many other useful items.
+
+        Most crafting recipes are made by placing items into a crafting grid in a specific pattern.
+    end
+
+    subsection "The 2 × 2 Crafting Grid"
+
+        text
+            Your inventory contains a 2 × 2 crafting grid. This grid can be used to make simple recipes that require up to four crafting slots.
+
+            You can open your inventory to access the 2 × 2 crafting grid.
+        end
+
+        list
+            Open your inventory.
+            Place the required materials into the crafting grid.
+            Arrange the materials according to the recipe.
+            Take the crafted item from the output slot.
+        end
+
+        note
+            The 2 × 2 crafting grid cannot be used for recipes that require a 3 × 3 crafting grid.
+        end
+
+    end
+
+    subsection "The Crafting Table"
+
+        text
+            A crafting table provides a 3 × 3 crafting grid. This allows you to craft many more items than the inventory crafting grid.
+        end
+
+        list
+            Collect four wooden planks.
+            Open your inventory.
+            Place the four planks into the 2 × 2 crafting grid.
+            Take the crafting table from the output slot.
+            Place the crafting table in the world.
+            Interact with the crafting table to open its 3 × 3 crafting grid.
+        end
+
+    end
+
+end
+
+section "Using The Crafting Table"
+
+    subsection "Opening The Crafting Interface"
+
+        text
+            Place a crafting table in the world and interact with it. The crafting table interface contains a 3 × 3 crafting grid and an output slot.
+        end
+
+    end
+
+    subsection "Placing Materials"
+
+        text
+            Place the required materials into the crafting grid. The position of each material matters for shaped recipes.
+
+            Some recipes require a specific arrangement, while others only require the correct ingredients and do not care about their exact positions.
+        end
+
+    end
+
+    subsection "Taking The Result"
+
+        text
+            When the materials match a valid recipe, the crafted item appears in the output slot.
+
+            Select the output item to move the crafted item into your inventory.
+        end
+
+    end
+
+end
+
+section "Recipe Book"
+
+    subsection "What Is The Recipe Book?"
+
+        text
+            The recipe book is an in-game crafting reference that shows recipes available to you.
+
+            It can help you find recipes without having to memorize their crafting patterns.
+        end
+
+    end
+
+    subsection "Using The Recipe Book"
+
+        list
+            Open your inventory or a crafting interface.
+            Open the recipe book.
+            Browse or search for a recipe.
+            Select a recipe to view its requirements.
+            Craft the item if you have the required materials.
+        end
+
+    end
+
+    subsection "Recipe Availability"
+
+        text
+            Recipes may become available as you obtain or discover their required materials. The exact recipe-book behavior can depend on your game settings and version.
+        end
+
+        note
+            A recipe appearing in the recipe book does not necessarily mean that you currently have enough materials to craft it.
+        end
+
+    end
+
+end
+
+section "Crafting Recipes"
+
+    subsection "Shaped Recipes"
+
+        text
+            A shaped recipe requires materials to be arranged in a particular pattern.
+
+            The positions of the ingredients in the crafting grid determine whether the recipe is valid.
+        end
+
+        code
+            A B
+            C D
+        end
+
+        text
+            In a shaped recipe, changing the position of an ingredient can produce a different result or make the recipe invalid.
+        end
+
+    end
+
+    subsection "Shapeless Recipes"
+
+        text
+            A shapeless recipe requires specific ingredients but does not require them to be placed in a particular pattern.
+
+            The ingredients can generally be arranged in different positions within the crafting grid and still produce the same result.
+        end
+
+    end
+
+    subsection "Recipe Output"
+
+        text
+            Recipes can produce one item or multiple items. The amount produced depends on the recipe.
+
+            Some crafting operations also consume different amounts of materials depending on the recipe.
+        end
+
+    end
+
+end
+
+section "Crafting Materials"
+
+    subsection "Wood"
+
+        text
+            Wood is one of the earliest and most useful crafting materials in Minecraft.
+
+            Logs can be converted into planks, and planks can be used to create many basic items and blocks.
+        end
+
+        list
+            Logs
+            Stripped Logs
+            Wood
+            Stripped Wood
+            Planks
+            Sticks
+        end
+
+    end
+
+    subsection "Stone"
+
+        text
+            Stone and related materials are used for stronger early-game tools, weapons, furnaces, building blocks, and other items.
+        end
+
+        list
+            Cobblestone
+            Stone
+            Stone-related blocks
+            Deepslate
+        end
+
+    end
+
+    subsection "Ores And Metals"
+
+        text
+            Ores can provide materials that are used for tools, armor, blocks, and other crafted items.
+
+            Some materials must be smelted or processed before they can be used in certain crafting recipes.
+        end
+
+        list
+            Coal
+            Iron
+            Copper
+            Gold
+            Redstone
+            Lapis Lazuli
+            Diamond
+            Emerald
+        end
+
+    end
+
+    subsection "Other Materials"
+
+        list
+            Sticks
+            String
+            Leather
+            Paper
+            Sugar
+            Glass
+            Wool
+            Flint
+            Clay
+            Nether materials
+            End materials
+        end
+
+    end
+
+end
+
+section "Essential Early Game Crafting"
+
+    subsection "Basic Items"
+
+        list
+            Crafting Table
+            Sticks
+            Torches
+            Chest
+            Furnace
+            Bed
+        end
+
+    end
+
+    subsection "Basic Tools"
+
+        text
+            Tools allow you to collect materials more efficiently and access resources that cannot easily be collected by hand.
+        end
+
+        list
+            Pickaxe
+            Axe
+            Shovel
+            Hoe
+        end
+
+    end
+
+    subsection "Basic Weapons"
+
+        list
+            Sword
+            Bow
+            Crossbow
+            Shield
+        end
+
+    end
+
+    subsection "Basic Equipment"
+
+        list
+            Helmet
+            Chestplate
+            Leggings
+            Boots
+        end
+
+    end
+
+end
+
+section "Crafting Progression"
+
+    subsection "Early Game"
+
+        text
+            Early in a world, focus on crafting the equipment and utility blocks needed to gather resources and survive.
+
+            Wooden tools can help you get started, while stone tools provide a significant improvement once you collect stone.
+        end
+
+    end
+
+    subsection "Iron Equipment"
+
+        text
+            Iron allows you to create stronger tools, weapons, armor, buckets, shears, and many other useful items.
+        end
+
+    end
+
+    subsection "Diamond Equipment"
+
+        text
+            Diamonds can be used to craft high-tier tools, weapons, and armor.
+
+            Diamond equipment is highly durable and can later be upgraded through other systems.
+        end
+
+    end
+
+    subsection "Netherite Equipment"
+
+        text
+            Netherite is used to upgrade diamond equipment. Netherite-related crafting requires materials obtained from the Nether.
+        end
+
+    end
+
+end
+
+section "Useful Crafting Blocks"
+
+    subsection "Furnace"
+
+        text
+            A furnace is used primarily for smelting and cooking. It is different from a crafting table because it processes materials rather than using normal crafting recipes.
+        end
+
+    end
+
+    subsection "Crafting Table"
+
+        text
+            The crafting table provides the 3 × 3 crafting grid required by many recipes.
+        end
+
+    end
+
+    subsection "Chest"
+
+        text
+            Chests provide additional storage space for items and blocks.
+        end
+
+    end
+
+    subsection "Other Utility Blocks"
+
+        list
+            Anvil
+            Smithing Table
+            Stonecutter
+            Cartography Table
+            Loom
+            Grindstone
+            Blast Furnace
+            Smoker
+            Brewing Stand
+            Enchanting Table
+        end
+
+        note
+            Some utility blocks have their own interfaces and systems rather than using normal crafting alone.
+        end
+
+    end
+
+end
+
+section "Crafting Tips"
+
+    tip
+        Keep extra wood available. Wooden planks and sticks are used in many early-game recipes.
+    end
+
+    tip
+        Craft a crafting table early so you can access the full 3 × 3 crafting grid.
+    end
+
+    tip
+        Use the recipe book when you do not remember a crafting pattern.
+    end
+
+    tip
+        Store extra crafting materials in an organized storage system so important resources are easy to find.
+    end
+
+    tip
+        Before crafting a large number of items, check how many materials the recipe consumes and how many items it produces.
+    end
+
+    tip
+        Remember that some items are created through processes such as smelting, stonecutting, brewing, or smithing rather than ordinary crafting.
+    end
+
+end
+
+section "Crafting And Inventory Management"
+
+    subsection "Managing Materials"
+
+        text
+            Keep commonly used materials organized in your inventory or storage system.
+
+            Materials such as wood, stone, iron, coal, and other frequently used resources are useful to keep available.
+        end
+
+    end
+
+    subsection "Crafting In Large Quantities"
+
+        text
+            If you need many copies of an item, craft them in batches when possible. This can save time when preparing materials for a large build or project.
+        end
+
+    end
+
+    subsection "Avoiding Waste"
+
+        text
+            Check the recipe before crafting expensive items. Some materials can be difficult to replace, especially during early progression.
+        end
+
+    end
+
+end
+
+section "Crafting Troubleshooting"
+
+    subsection "The Recipe Does Not Work"
+
+        list
+            Check that you are using the correct materials.
+            Check that the materials are placed in the correct positions.
+            Check whether the recipe requires a 2 × 2 or 3 × 3 crafting grid.
+            Check whether you are using the correct crafting interface.
+            Check whether the recipe requires another crafting or processing station.
+        end
+
+    end
+
+    subsection "The Recipe Is Not In The Recipe Book"
+
+        text
+            Check that you have obtained or discovered the materials required for the recipe.
+
+            Recipe-book availability can also depend on game settings and the current Minecraft version.
+        end
+
+    end
+
+    subsection "Not Enough Materials"
+
+        text
+            If a recipe cannot be crafted because you do not have enough materials, collect the missing resources before attempting the recipe again.
+        end
+
+    end
+
+end
+
+section "Important Notes"
+
+    note
+        Crafting recipes can change between Minecraft versions. This guide is intended for Minecraft Bedrock Edition.
+    end
+
+    note
+        Some recipes are affected by the current game version, enabled features, or game settings.
+    end
+
+    note
+        The recipe book is useful for discovering recipes, but learning common crafting patterns can make crafting faster.
+    end
+
+    note
+        Not every item in Minecraft is created through the standard crafting grid.
+    end
+
+end
+
+section "Related Guides"
+
+    link "How To Play Guide" "HowToPlay.html"
+    link "Controls Guide" "Controls.html"
+    link "Enchanting Guide" "Enchanting.html"
+    link "Brewing Guide" "Brewing.html"
+    link "Redstone Guide" "Redstone.html"
+
+end
+
+end

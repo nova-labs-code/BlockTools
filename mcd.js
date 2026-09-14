@@ -27,15 +27,53 @@
     };
 
     /* =========================================================
+       DISABLE PAGE ZOOM
+       ========================================================= */
+
+    function disablePageZoom() {
+        let viewport =
+            document.querySelector(
+                'meta[name="viewport"]'
+            );
+
+        if (!viewport) {
+            viewport =
+                document.createElement("meta");
+
+            viewport.name = "viewport";
+
+            document.head.appendChild(
+                viewport
+            );
+        }
+
+        viewport.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+        );
+
+        document.documentElement.style.touchAction =
+            "manipulation";
+
+        if (document.body) {
+            document.body.style.touchAction =
+                "manipulation";
+        }
+    }
+
+    /* =========================================================
        CSS
-    ========================================================= */
+       ========================================================= */
 
     function injectCSS() {
+        disablePageZoom();
+
         if (document.getElementById("mcd-styles")) {
             return;
         }
 
-        const style = document.createElement("style");
+        const style =
+            document.createElement("style");
 
         style.id = "mcd-styles";
 
@@ -559,15 +597,20 @@
             }
         `;
 
-        document.head.appendChild(style);
+        document.head.appendChild(
+            style
+        );
     }
 
     /* =========================================================
        UTILITIES
-    ========================================================= */
+       ========================================================= */
 
     function stripNotes(source) {
-        return source.replace(/<[\s\S]*?>/g, "");
+        return source.replace(
+            /<[\s\S]*?>/g,
+            ""
+        );
     }
 
     function unquote(value) {
@@ -589,48 +632,66 @@
 
     function parseCommand(line) {
         const match =
-            line.match(/^([a-zA-Z_][\w-]*)(?:\s+(.*))?$/);
+            line.match(
+                /^([a-zA-Z_][\w-]*)(?:\s+(.*))?$/
+            );
 
         if (!match) {
             return null;
         }
 
         return {
-            command: match[1].toLowerCase(),
-            value: match[2] ? match[2].trim() : ""
+            command:
+                match[1].toLowerCase(),
+            value:
+                match[2]
+                    ? match[2].trim()
+                    : ""
         };
     }
 
     function parseProperty(line) {
         const match =
-            line.match(/^([a-zA-Z_][\w-]*)(?:\s+(.*))?$/);
+            line.match(
+                /^([a-zA-Z_][\w-]*)(?:\s+(.*))?$/
+            );
 
         if (!match) {
             return null;
         }
 
         let value =
-            match[2] ? match[2].trim() : "";
+            match[2]
+                ? match[2].trim()
+                : "";
 
         if (
             value.startsWith('"') &&
             value.endsWith('"')
         ) {
             value = unquote(value);
-        } else if (!Number.isNaN(Number(value))) {
+        } else if (
+            !Number.isNaN(
+                Number(value)
+            )
+        ) {
             value = Number(value);
         }
 
         return {
-            key: match[1].toLowerCase(),
+            key:
+                match[1].toLowerCase(),
             value
         };
     }
 
-    function normalizePosition(position) {
+    function normalizePosition(
+        position
+    ) {
         position =
-            String(position || "center")
-                .toLowerCase();
+            String(
+                position || "center"
+            ).toLowerCase();
 
         if (
             position !== "left" &&
@@ -652,13 +713,15 @@
 
     /* =========================================================
        HTML MCD.LOAD DETECTION
-    ========================================================= */
+       ========================================================= */
 
     function getHTMLMCDLoadCount() {
         let count = 0;
 
         const scripts =
-            document.querySelectorAll("script");
+            document.querySelectorAll(
+                "script"
+            );
 
         for (const script of scripts) {
             const source =
@@ -668,31 +731,16 @@
                 continue;
             }
 
-            /*
-                Matches:
-
-                    MCD.load("file.mcd")
-                    MCD.load('file.mcd')
-                    MCD.load ( "file.mcd" )
-
-                It intentionally counts each MCD.load()
-                call in the HTML page.
-            */
-
             const matches =
                 source.match(
                     /\bMCD\s*\.\s*load\s*\(/g
                 );
 
             if (matches) {
-                count += matches.length;
+                count +=
+                    matches.length;
             }
         }
-
-        /*
-            Also check inline event-style attributes or
-            other HTML text that may contain MCD.load().
-        */
 
         const html =
             document.documentElement
@@ -706,8 +754,8 @@
 
         if (htmlMatches) {
             /*
-                The script contents are already included
-                in outerHTML, so do not add these matches.
+                Script contents are already included
+                in outerHTML, so do not count them again.
             */
         }
 
@@ -715,20 +763,29 @@
     }
 
     function areMultipleDocumentsLoaded() {
-        return getHTMLMCDLoadCount() > 1;
+        return (
+            getHTMLMCDLoadCount() > 1
+        );
     }
 
     /* =========================================================
        PARSER
-    ========================================================= */
+       ========================================================= */
 
     function parse(source) {
         source = stripNotes(source);
 
-        const lines = source
-            .replace(/\r\n/g, "\n")
-            .replace(/\r/g, "\n")
-            .split("\n");
+        const lines =
+            source
+                .replace(
+                    /\r\n/g,
+                    "\n"
+                )
+                .replace(
+                    /\r/g,
+                    "\n"
+                )
+                .split("\n");
 
         const root = {
             type: "root",
@@ -740,8 +797,11 @@
         let i = 0;
 
         while (i < lines.length) {
-            let raw = lines[i];
-            let line = raw.trim();
+            const raw =
+                lines[i];
+
+            const line =
+                raw.trim();
 
             i++;
 
@@ -756,11 +816,16 @@
                 continue;
             }
 
-            const command = parsed.command;
-            const value = parsed.value;
+            const command =
+                parsed.command;
+
+            const value =
+                parsed.value;
 
             if (command === "end") {
-                if (stack.length > 1) {
+                if (
+                    stack.length > 1
+                ) {
                     stack.pop();
                 }
 
@@ -779,7 +844,9 @@
                     children: []
                 };
 
-                stack[stack.length - 1]
+                stack[
+                    stack.length - 1
+                ]
                     .children
                     .push(node);
 
@@ -800,7 +867,9 @@
                     content: []
                 };
 
-                while (i < lines.length) {
+                while (
+                    i < lines.length
+                ) {
                     const contentLine =
                         lines[i].trim();
 
@@ -812,7 +881,10 @@
                         break;
                     }
 
-                    node.content.push(lines[i]);
+                    node.content.push(
+                        lines[i]
+                    );
+
                     i++;
                 }
 
@@ -821,7 +893,9 @@
                         .join("\n")
                         .trim();
 
-                stack[stack.length - 1]
+                stack[
+                    stack.length - 1
+                ]
                     .children
                     .push(node);
 
@@ -834,7 +908,9 @@
                     items: []
                 };
 
-                while (i < lines.length) {
+                while (
+                    i < lines.length
+                ) {
                     const itemLine =
                         lines[i].trim();
 
@@ -847,13 +923,17 @@
                     }
 
                     if (itemLine) {
-                        node.items.push(itemLine);
+                        node.items.push(
+                            itemLine
+                        );
                     }
 
                     i++;
                 }
 
-                stack[stack.length - 1]
+                stack[
+                    stack.length - 1
+                ]
                     .children
                     .push(node);
 
@@ -869,17 +949,27 @@
                 if (linkMatch) {
                     const node = {
                         type: "link",
-                        text: unquote(linkMatch[1]),
-                        url: unquote(linkMatch[2]),
+                        text:
+                            unquote(
+                                linkMatch[1]
+                            ),
+                        url:
+                            unquote(
+                                linkMatch[2]
+                            ),
                         title: ""
                     };
 
                     if (linkMatch[3]) {
                         node.title =
-                            unquote(linkMatch[3]);
+                            unquote(
+                                linkMatch[3]
+                            );
                     }
 
-                    stack[stack.length - 1]
+                    stack[
+                        stack.length - 1
+                    ]
                         .children
                         .push(node);
                 }
@@ -894,11 +984,14 @@
                     title: "",
                     alt: "",
                     caption: "",
-                    width: CONFIG.defaultImageWidth,
+                    width:
+                        CONFIG.defaultImageWidth,
                     position: "center"
                 };
 
-                while (i < lines.length) {
+                while (
+                    i < lines.length
+                ) {
                     const propertyLine =
                         lines[i].trim();
 
@@ -992,7 +1085,9 @@
                     i++;
                 }
 
-                stack[stack.length - 1]
+                stack[
+                    stack.length - 1
+                ]
                     .children
                     .push(node);
 
@@ -1006,7 +1101,9 @@
                     rows: []
                 };
 
-                while (i < lines.length) {
+                while (
+                    i < lines.length
+                ) {
                     const tableLine =
                         lines[i].trim();
 
@@ -1024,7 +1121,9 @@
                     ) {
                         i++;
 
-                        while (i < lines.length) {
+                        while (
+                            i < lines.length
+                        ) {
                             const headerLine =
                                 lines[i].trim();
 
@@ -1058,7 +1157,9 @@
                     ) {
                         i++;
 
-                        while (i < lines.length) {
+                        while (
+                            i < lines.length
+                        ) {
                             const rowLine =
                                 lines[i].trim();
 
@@ -1090,7 +1191,9 @@
                     i++;
                 }
 
-                stack[stack.length - 1]
+                stack[
+                    stack.length - 1
+                ]
                     .children
                     .push(node);
 
@@ -1103,14 +1206,16 @@
 
     /* =========================================================
        DOM HELPERS
-    ========================================================= */
+       ========================================================= */
 
     function createElement(
         tag,
         className
     ) {
         const element =
-            document.createElement(tag);
+            document.createElement(
+                tag
+            );
 
         if (className) {
             element.className =
@@ -1217,7 +1322,7 @@
 
     /* =========================================================
        CONTENT RENDERING
-    ========================================================= */
+       ========================================================= */
 
     function renderText(
         node,
@@ -1273,8 +1378,14 @@
                 node.title;
         }
 
-        if (isExternalURL(destination)) {
-            link.target = "_blank";
+        if (
+            isExternalURL(
+                destination
+            )
+        ) {
+            link.target =
+                "_blank";
+
             link.rel =
                 "noopener noreferrer";
 
@@ -1507,7 +1618,9 @@
                 "mcd-table"
             );
 
-        if (node.headers.length) {
+        if (
+            node.headers.length
+        ) {
             const thead =
                 createElement(
                     "thead"
@@ -1592,7 +1705,7 @@
 
     /* =========================================================
        STRUCTURE RENDERING
-    ========================================================= */
+       ========================================================= */
 
     function renderChildren(
         children,
@@ -1613,7 +1726,9 @@
     }
 
     function slugify(value) {
-        return String(value || "")
+        return String(
+            value || ""
+        )
             .toLowerCase()
             .trim()
             .replace(
@@ -1643,7 +1758,7 @@
 
     /* =========================================================
        DOCUMENT
-    ========================================================= */
+       ========================================================= */
 
     function renderDocument(
         node,
@@ -1651,11 +1766,6 @@
         baseURL,
         collapsible
     ) {
-        /*
-            If this HTML page has only ONE MCD.load(),
-            the document is completely normal and visible.
-        */
-
         if (!collapsible) {
             const container =
                 createElement(
@@ -1720,11 +1830,6 @@
             return;
         }
 
-        /*
-            If this HTML page has TWO OR MORE MCD.load()
-            calls, each loaded document becomes collapsible.
-        */
-
         const documentElement =
             createElement(
                 "section",
@@ -1787,7 +1892,7 @@
 
     /* =========================================================
        TOPIC
-    ========================================================= */
+       ========================================================= */
 
     function renderTopic(
         node,
@@ -1842,7 +1947,7 @@
 
     /* =========================================================
        SECTION
-    ========================================================= */
+       ========================================================= */
 
     function renderSection(
         node,
@@ -1897,7 +2002,7 @@
 
     /* =========================================================
        SUBSECTION
-    ========================================================= */
+       ========================================================= */
 
     function renderSubsection(
         node,
@@ -1952,7 +2057,7 @@
 
     /* =========================================================
        NODE RENDERER
-    ========================================================= */
+       ========================================================= */
 
     function renderNode(
         node,
@@ -2055,7 +2160,7 @@
 
     /* =========================================================
        DOCUMENT DESCRIPTION
-    ========================================================= */
+       ========================================================= */
 
     function extractDocumentDescription(
         source
@@ -2086,7 +2191,9 @@
                     "document"
             );
 
-        if (documents.length) {
+        if (
+            documents.length
+        ) {
             documents[0].description =
                 description;
         }
@@ -2094,13 +2201,14 @@
 
     /* =========================================================
        ERROR UI
-    ========================================================= */
+       ========================================================= */
 
     function showError(
         target,
         message
     ) {
-        target.innerHTML = "";
+        target.innerHTML =
+            "";
 
         const error =
             createElement(
@@ -2141,7 +2249,7 @@
 
     /* =========================================================
        TARGET RESOLUTION
-    ========================================================= */
+       ========================================================= */
 
     function resolveTarget(
         target
@@ -2170,7 +2278,7 @@
 
     /* =========================================================
        LOAD
-    ========================================================= */
+       ========================================================= */
 
     MCD.load = async function (
         url,
@@ -2195,7 +2303,8 @@
                 await fetch(
                     url,
                     {
-                        cache: "no-cache"
+                        cache:
+                            "no-cache"
                     }
                 );
 
@@ -2226,22 +2335,6 @@
                     document.baseURI
                 ).href;
 
-            /*
-                IMPORTANT:
-
-                Do NOT count documents inside the
-                .mcd file here.
-
-                The collapse state is based on how many
-                MCD.load() calls exist in the HTML page.
-
-                1 MCD.load():
-                    document is not collapsible.
-
-                2+ MCD.load():
-                    document is collapsible.
-            */
-
             const documentCollapsible =
                 areMultipleDocumentsLoaded();
 
@@ -2267,7 +2360,7 @@
 
     /* =========================================================
        PARSER API
-    ========================================================= */
+       ========================================================= */
 
     MCD.parse = function (
         source
@@ -2277,7 +2370,7 @@
 
     /* =========================================================
        GLOBAL API
-    ========================================================= */
+       ========================================================= */
 
     window.MCD = MCD;
 

@@ -1,219 +1,401 @@
-document "Minecraft Guide"
+document "How To Play"
+description "A complete beginner's guide to Minecraft Bedrock Edition."
 
-    description "A complete beginner's guide to Minecraft Bedrock Edition."
+topic "Getting Started"
+    description "Learn what Minecraft is, choose a game mode, create a world, and learn the basic controls."
 
-    topic "Getting Started"
+    section "What Is Minecraft?"
+        text
+Minecraft is a sandbox game where you can explore, gather resources, craft items, build structures, fight hostile creatures, and create your own adventures.
 
-        description "Learn what Minecraft is, choose a game mode, create a world, and understand the basics."
-
-        section "What Is Minecraft?"
-            ...
+There is no single required way to play Minecraft. You can focus on survival, building, exploration, automation, or any combination of them.
         end
-
-        section "Game Modes"
-            ...
-        end
-
-        section "Creating A World"
-
-            subsection "World Name"
-                ...
-            end
-
-            subsection "Game Mode"
-                ...
-            end
-
-            subsection "Difficulty"
-                ...
-            end
-
-        end
-
-        section "Controls"
-            ...
-        end
-
     end
 
-    topic "Starting Survival"
-
-        description "Learn what to do during your first few minutes and how to survive your first night."
-
-        section "The First Few Minutes"
-
-            subsection "Gather Wood"
-                ...
+    section "Game Modes"
+        subsection "Survival"
+            text
+Survival Mode requires you to gather resources, manage health and hunger, craft equipment, build shelter, and survive the dangers of the world.
             end
-
-            subsection "Make A Crafting Table"
-                ...
-            end
-
-            subsection "Craft Basic Tools"
-                ...
-            end
-
-            subsection "Find Food"
-                ...
-            end
-
         end
 
-        section "Your First Shelter"
+        subsection "Creative"
+            text
+Creative Mode gives you access to blocks and items without requiring you to gather them normally.
 
-            subsection "Choose A Location"
-                ...
+You can fly, build freely, and focus on designing structures and testing ideas.
             end
-
-            subsection "Build The Shelter"
-                ...
-            end
-
         end
 
-        section "Surviving The Night"
-            ...
+        subsection "Adventure"
+            text
+Adventure Mode is designed for custom maps and experiences where the world creator can control how players interact with blocks and items.
+            end
         end
 
+        subsection "Spectator"
+            text
+Spectator Mode allows you to observe the world without normally interacting with it.
+
+Availability and behavior can depend on the Minecraft Bedrock Edition version and world settings.
+            end
+        end
     end
 
-    topic "Resources And Equipment"
+    section "Creating A World"
+        subsection "World Name"
+            text
+Choose a name for your world.
 
-        description "Learn how to gather, craft, organize, and use the resources and equipment you need."
+The name is used to identify the world in your world list.
+            end
+        end
 
-        section "Mining"
+        subsection "Game Mode"
+            text
+Choose the game mode you want to use.
 
-            subsection "Useful Early Resources"
-                ...
+Survival is recommended when you want the traditional Minecraft progression experience.
+            end
+        end
+
+        subsection "Difficulty"
+            text
+Choose the difficulty that matches the experience you want.
+
+Difficulty affects gameplay elements such as hostile mobs and survival conditions.
             end
 
-            subsection "Mining Safety"
-                ...
+            tip
+If you are learning Minecraft for the first time, you can start with an easier difficulty while you learn the basic mechanics.
             end
-
         end
-
-        section "Crafting"
-            ...
-        end
-
-        section "Tools"
-            ...
-        end
-
-        section "Food And Hunger"
-
-            subsection "Early Food Sources"
-                ...
-            end
-
-        end
-
-        section "Armor"
-            ...
-        end
-
-        section "Inventory Management"
-            ...
-        end
-
-        section "Storage"
-            ...
-        end
-
     end
 
-    topic "Exploration"
+    section "Controls"
+        text
+Minecraft has different controls depending on whether you are playing with a keyboard and mouse, controller, or touchscreen device.
 
-        description "Learn how to explore Minecraft's world safely and keep track of important locations."
+For the complete controls reference, see the Controls guide.
+        end
 
-        section "Exploring"
+        link "Open Controls" "Controls.html"
+    end
+end
 
-            subsection "Bring These Items"
-                ...
+topic "Starting Survival"
+    description "Learn what to do during your first few minutes in a new Survival world."
+
+    section "The First Few Minutes"
+        subsection "Gather Wood"
+            text
+Find a tree and collect logs.
+
+Wood is one of the most important early resources because it can be turned into planks, sticks, crafting tables, tools, and other useful items.
             end
-
         end
 
-        section "Coordinates"
+        subsection "Make A Crafting Table"
+            text
+Turn your logs into wooden planks.
 
-            subsection "Using Coordinates"
-                ...
+Use four wooden planks to craft a crafting table.
+
+The crafting table provides access to a larger crafting grid for creating tools and other items.
             end
-
         end
 
-        section "Villages"
-            ...
+        subsection "Craft Basic Tools"
+            text
+Use your crafting table to make basic tools.
+
+A wooden pickaxe is especially important because it allows you to collect stone and progress to stronger tools.
+            end
         end
 
+        subsection "Find Food"
+            text
+Find a reliable food source.
+
+Food can restore hunger and help you survive while exploring and gathering resources.
+            end
+        end
     end
 
-    topic "Building And Automation"
+    section "Your First Shelter"
+        subsection "Choose A Location"
+            text
+Choose a location that is reasonably safe and gives you enough space to build.
 
-        description "Learn how to build larger projects and create systems that make your world more efficient."
+Being near useful resources, trees, water, and open land can make your early game easier.
+            end
+        end
 
-        section "Building"
+        subsection "Build The Shelter"
+            text
+Build a simple shelter using materials that are easy to obtain.
 
-            subsection "Basic Building Principles"
-                ...
+Make sure it has walls, a roof, an entrance, and enough room for basic equipment.
             end
 
-        end
-
-        section "Redstone"
-            ...
-        end
-
-        section "Farms"
-            ...
-        end
-
-    end
-
-    topic "Advanced Progression"
-
-        description "Continue progressing through Minecraft after establishing your basic Survival world."
-
-        section "Enchanting"
-            ...
-        end
-
-        section "The Nether"
-
-            subsection "Before Entering"
-                ...
+            tip
+Your first shelter does not need to be impressive. The main goal is to give you a safe place to spend the night and store your belongings.
             end
-
         end
-
-        section "The End"
-            ...
-        end
-
-        section "Progression"
-            ...
-        end
-
     end
 
-    topic "Managing Your World"
+    section "Surviving The Night"
+        text
+Hostile mobs can become a major danger at night.
 
-        description "Learn how to handle death, saving, and your next projects as your world develops."
+Stay inside your shelter, light the area around you, or travel somewhere safe.
 
-        section "Death"
-            ...
+A bed can be used to sleep when conditions allow and can also set your respawn point.
+        end
+    end
+end
+
+topic "Resources And Equipment"
+    description "Learn how to gather resources, craft equipment, manage food, and organize your items."
+
+    section "Mining"
+        subsection "Useful Early Resources"
+            text
+Important early resources include stone, coal, iron, and other ores.
+
+Stone allows you to upgrade from wooden tools.
+
+Coal can be used for torches and fuel.
+
+Iron can be used to create stronger tools, weapons, armor, buckets, and many other items.
+            end
         end
 
-        section "Saving And Leaving"
-            ...
-        end
+        subsection "Mining Safety"
+            text
+Always be careful when mining.
 
-        section "What To Do Next"
-            ...
-        end
+Watch for hostile mobs, lava, falls, and other hazards.
 
+Bring enough tools, food, torches, and storage space for the mining trip.
+            end
+        end
     end
 
+    section "Crafting"
+        text
+Crafting allows you to turn collected resources into useful items.
+
+Use the crafting interface or crafting table to create tools, weapons, armor, blocks, food, and other items.
+        end
+    end
+
+    section "Tools"
+        text
+Tools allow you to gather resources more efficiently.
+
+Common tools include pickaxes, axes, shovels, hoes, and shears.
+
+Different materials have different levels of durability and effectiveness.
+        end
+    end
+
+    section "Food And Hunger"
+        subsection "Early Food Sources"
+            text
+Early food sources can include crops, animals, and other food items that can be found or produced in the world.
+
+Keep a supply of food with you when exploring and mining.
+            end
+        end
+    end
+
+    section "Armor"
+        text
+Armor protects you from many forms of damage.
+
+As you progress, you can craft stronger armor from better materials.
+
+Equip armor from your inventory to benefit from its protection.
+        end
+    end
+
+    section "Inventory Management"
+        text
+Keep your inventory organized so you can quickly find important items.
+
+Group similar items together, keep frequently used items in your hotbar, and avoid carrying unnecessary items during long trips.
+        end
+    end
+
+    section "Storage"
+        text
+Use chests and other storage blocks to keep resources organized.
+
+Create separate storage areas for categories such as building blocks, ores, tools, food, and valuables.
+        end
+    end
+end
+
+topic "Exploration"
+    description "Learn how to travel through the world, use coordinates, and find useful locations."
+
+    section "Exploring"
+        text
+Minecraft worlds contain many different environments, structures, resources, and points of interest.
+
+Explore carefully and keep track of where you are going so you can return to important locations.
+        end
+
+        subsection "Bring These Items"
+            list
+Food
+Tools
+Weapons
+Armor
+Torches
+Building blocks
+A bed
+A map or other navigation aid when useful
+            end
+        end
+    end
+
+    section "Coordinates"
+        subsection "Using Coordinates"
+            text
+Coordinates show your position in the Minecraft world.
+
+The three coordinates represent your position along the X, Y, and Z axes.
+
+Use coordinates to record the locations of important places such as your base, villages, mines, and portals.
+            end
+        end
+    end
+
+    section "Villages"
+        text
+Villages contain buildings, villagers, and useful resources.
+
+Villagers can provide trading opportunities and can become an important part of a developed survival world.
+        end
+
+        link "Open Villagers Guide" "Villagers.html"
+    end
+end
+
+topic "Building And Automation"
+    description "Learn the basics of building, redstone, and farms."
+
+    section "Building"
+        subsection "Basic Building Principles"
+            text
+Start by choosing a building location and planning the shape of the structure.
+
+Think about the foundation, walls, entrances, windows, roof, interior space, and surrounding area.
+
+Use different blocks, shapes, heights, and details to make structures more interesting.
+            end
+        end
+    end
+
+    section "Redstone"
+        text
+Redstone allows you to create mechanisms and automated systems.
+
+You can use redstone components to build doors, switches, farms, transportation systems, storage systems, and many other machines.
+        end
+
+        link "Open Redstone Guide" "Redstone.html"
+    end
+
+    section "Farms"
+        text
+Farms provide renewable supplies of resources.
+
+Farms can range from simple manual crop farms to large automated systems using villagers, redstone, water, and other mechanics.
+        end
+
+        link "Open Farms Guide" "Farms.html"
+    end
+end
+
+topic "Advanced Progression"
+    description "Continue progressing after establishing a stable survival base."
+
+    section "Enchanting"
+        text
+Enchanting allows you to improve equipment with special abilities.
+
+An enchanting setup can become an important part of progressing toward stronger equipment and more advanced survival activities.
+        end
+
+        link "Open Enchanting Guide" "Enchanting.html"
+    end
+
+    section "The Nether"
+        subsection "Before Entering"
+            text
+The Nether is a dangerous dimension containing unique environments, structures, mobs, and resources.
+
+Before entering, bring useful equipment, food, blocks, and other supplies.
+
+Make sure you can find your way back to your Nether portal.
+            end
+        end
+
+        link "Open Dimensions Guide" "Dimensions.html"
+    end
+
+    section "The End"
+        text
+The End is another dimension containing unique terrain and structures.
+
+Reaching The End is an important part of Minecraft's progression and requires preparation for a major challenge.
+        end
+
+        link "Open Dimensions Guide" "Dimensions.html"
+    end
+
+    section "Progression"
+        text
+Minecraft progression is open-ended.
+
+After establishing your first shelter, continue improving your equipment, exploring new areas, gathering rarer resources, building larger projects, creating farms, and preparing for advanced challenges.
+
+You can also focus on large building projects, redstone machines, exploration, or any other goals you create for yourself.
+        end
+    end
+end
+
+topic "Managing Your World"
+    description "Learn how to handle death, save your progress, and decide what to do next."
+
+    section "Death"
+        text
+When you die, you may drop items depending on the world's settings.
+
+If possible, return to the location where you died and recover your belongings.
+
+Keeping valuable items organized and storing important resources can reduce the impact of death.
+        end
+    end
+
+    section "Saving And Leaving"
+        text
+Minecraft automatically saves your world as you play.
+
+When you are finished playing, leave the world through the game's normal menu so your progress can be saved properly.
+        end
+    end
+
+    section "What To Do Next"
+        text
+Once you have a stable base, food supply, equipment, and storage, choose your next goal.
+
+You could improve your base, build a large project, explore new areas, create farms, work with villagers, mine for valuable resources, learn redstone, or prepare for the Nether and The End.
+
+Minecraft does not require you to follow one fixed path. Your world can develop around whatever goals you decide to pursue.
+        end
+    end
 end

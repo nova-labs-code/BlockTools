@@ -72,6 +72,20 @@
             color: #ffffff;
         }
 
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-wrap {
+            flex: 1;
+        }
+
+        .unit-wrap {
+            width: 135px;
+            position: relative;
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
@@ -81,18 +95,83 @@
 
         input {
             width: 100%;
-            padding: 14px;
+            height: 48px;
+            padding: 0 14px;
             border: 1px solid #2b3240;
             border-radius: 9px;
             outline: none;
             background: #11151d;
             color: #ffffff;
-            font-size: 17px;
+            font-size: 16px;
             touch-action: manipulation;
         }
 
         input:focus {
             border-color: #566176;
+        }
+
+        .custom-dropdown {
+            position: relative;
+        }
+
+        .dropdown-button {
+            width: 100%;
+            height: 48px;
+            padding: 0 14px;
+            border: 1px solid #2b3240;
+            border-radius: 9px;
+            background: #11151d;
+            color: #ffffff;
+            font-size: 16px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .dropdown-button::after {
+            content: "";
+            position: absolute;
+            right: 14px;
+            top: 21px;
+            width: 7px;
+            height: 7px;
+            border-right: 2px solid #9ca3af;
+            border-bottom: 2px solid #9ca3af;
+            transform: rotate(45deg);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            z-index: 20;
+            left: 0;
+            right: 0;
+            top: 56px;
+            padding: 5px;
+            border: 1px solid #2b3240;
+            border-radius: 9px;
+            background: #11151d;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+        }
+
+        .dropdown-menu.open {
+            display: block;
+        }
+
+        .dropdown-option {
+            width: 100%;
+            padding: 11px 10px;
+            border: 0;
+            border-radius: 6px;
+            background: transparent;
+            color: #ffffff;
+            font-size: 15px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .dropdown-option:hover,
+        .dropdown-option.selected {
+            background: #252b38;
         }
 
         .result {
@@ -115,6 +194,16 @@
             line-height: 1.35;
             word-break: break-word;
         }
+
+        @media (max-width: 400px) {
+            .row {
+                flex-direction: column;
+            }
+
+            .unit-wrap {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -122,7 +211,7 @@
 
 <div class="calculator">
 
-    <h1>Minecraft Time Calculator</h1>
+    <h1>TimeCraft</h1>
 
     <div class="toggle">
         <button id="minecraftButton" class="active">
@@ -134,40 +223,177 @@
         </button>
     </div>
 
-    <label id="inputLabel" for="timeInput">
-        Minecraft time
-    </label>
+    <div class="row">
 
-    <input
-        id="timeInput"
-        type="number"
-        min="0"
-        step="any"
-        inputmode="decimal"
-        placeholder="Enter a value"
-    >
+        <div class="input-wrap">
+            <label for="timeInput">Amount</label>
+
+            <input
+                id="timeInput"
+                type="number"
+                min="0"
+                step="any"
+                inputmode="decimal"
+                placeholder="Enter a value"
+            >
+        </div>
+
+        <div class="unit-wrap">
+
+            <label>Unit</label>
+
+            <div class="custom-dropdown">
+
+                <button
+                    type="button"
+                    class="dropdown-button"
+                    id="dropdownButton"
+                >
+                    Days
+                </button>
+
+                <div
+                    class="dropdown-menu"
+                    id="dropdownMenu"
+                >
+                    <button
+                        type="button"
+                        class="dropdown-option"
+                        data-value="minutes"
+                    >
+                        Minutes
+                    </button>
+
+                    <button
+                        type="button"
+                        class="dropdown-option"
+                        data-value="hours"
+                    >
+                        Hours
+                    </button>
+
+                    <button
+                        type="button"
+                        class="dropdown-option selected"
+                        data-value="days"
+                    >
+                        Days
+                    </button>
+
+                    <button
+                        type="button"
+                        class="dropdown-option"
+                        data-value="years"
+                    >
+                        Years
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
     <div class="result">
-        <div class="result-label" id="resultLabel">
+
+        <div
+            class="result-label"
+            id="resultLabel"
+        >
             Real-world time
         </div>
 
-        <div class="result-value" id="result">
+        <div
+            class="result-value"
+            id="result"
+        >
             —
         </div>
+
     </div>
 
 </div>
 
 <script>
-    const minecraftButton = document.getElementById("minecraftButton");
-    const realButton = document.getElementById("realButton");
-    const inputLabel = document.getElementById("inputLabel");
-    const resultLabel = document.getElementById("resultLabel");
-    const timeInput = document.getElementById("timeInput");
-    const result = document.getElementById("result");
+    const minecraftButton =
+        document.getElementById("minecraftButton");
+
+    const realButton =
+        document.getElementById("realButton");
+
+    const timeInput =
+        document.getElementById("timeInput");
+
+    const dropdownButton =
+        document.getElementById("dropdownButton");
+
+    const dropdownMenu =
+        document.getElementById("dropdownMenu");
+
+    const resultLabel =
+        document.getElementById("resultLabel");
+
+    const result =
+        document.getElementById("result");
+
+    const options =
+        document.querySelectorAll(".dropdown-option");
 
     let mode = "minecraft";
+    let unit = "days";
+
+    dropdownButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        dropdownMenu.classList.toggle("open");
+    });
+
+    options.forEach(function (option) {
+
+        option.addEventListener("click", function () {
+
+            unit = option.dataset.value;
+
+            dropdownButton.textContent =
+                option.textContent;
+
+            options.forEach(function (item) {
+                item.classList.remove("selected");
+            });
+
+            option.classList.add("selected");
+
+            dropdownMenu.classList.remove("open");
+
+            update();
+        });
+
+    });
+
+    document.addEventListener("click", function () {
+        dropdownMenu.classList.remove("open");
+    });
+
+    minecraftButton.addEventListener("click", function () {
+        mode = "minecraft";
+
+        minecraftButton.classList.add("active");
+        realButton.classList.remove("active");
+
+        update();
+    });
+
+    realButton.addEventListener("click", function () {
+        mode = "real";
+
+        realButton.classList.add("active");
+        minecraftButton.classList.remove("active");
+
+        update();
+    });
+
+    timeInput.addEventListener("input", update);
 
     function formatNumber(value) {
         if (Number.isInteger(value)) {
@@ -179,63 +405,88 @@
         });
     }
 
-    function formatRealTime(minutes) {
-        const totalSeconds = minutes * 60;
+    function getMinutes(value) {
 
-        if (totalSeconds < 60) {
-            return formatNumber(totalSeconds) + " seconds";
+        if (unit === "minutes") {
+            return value;
         }
 
-        const totalHours = minutes / 60;
-
-        if (totalHours < 24) {
-            return formatNumber(totalHours) + " hours";
+        if (unit === "hours") {
+            return value * 60;
         }
 
-        const totalDays = totalHours / 24;
-
-        if (totalDays < 7) {
-            return formatNumber(totalDays) + " days";
+        if (unit === "days") {
+            return value * 1440;
         }
 
-        const weeks = totalDays / 7;
-
-        if (weeks < 52) {
-            return formatNumber(weeks) + " weeks";
+        if (unit === "years") {
+            return value * 365 * 1440;
         }
 
-        const years = totalDays / 365;
-
-        return formatNumber(years) + " years";
+        return 0;
     }
 
-    function formatMinecraftTime(days) {
-        if (days < 1 / 24) {
-            const minutes = days * 24 * 60;
-            return formatNumber(minutes) + " Minecraft minutes";
+    function formatRealTime(minutes) {
+
+        if (minutes < 1) {
+            return formatNumber(minutes * 60) +
+                " seconds";
         }
 
-        if (days < 1) {
-            const hours = days * 24;
-            return formatNumber(hours) + " Minecraft hours";
+        if (minutes < 60) {
+            return formatNumber(minutes) +
+                " minutes";
         }
 
-        if (days < 7) {
-            return formatNumber(days) + " Minecraft days";
+        const hours = minutes / 60;
+
+        if (hours < 24) {
+            return formatNumber(hours) +
+                " hours";
         }
 
-        const weeks = days / 7;
+        const days = hours / 24;
 
-        if (weeks < 52) {
-            return formatNumber(weeks) + " Minecraft weeks";
+        if (days < 365) {
+            return formatNumber(days) +
+                " days";
         }
 
         const years = days / 365;
 
-        return formatNumber(years) + " Minecraft years";
+        return formatNumber(years) +
+            " years";
+    }
+
+    function formatMinecraftTime(minutes) {
+
+        if (minutes < 60) {
+            return formatNumber(minutes) +
+                " Minecraft minutes";
+        }
+
+        const hours = minutes / 60;
+
+        if (hours < 24) {
+            return formatNumber(hours) +
+                " Minecraft hours";
+        }
+
+        const days = hours / 24;
+
+        if (days < 365) {
+            return formatNumber(days) +
+                " Minecraft days";
+        }
+
+        const years = days / 365;
+
+        return formatNumber(years) +
+            " Minecraft years";
     }
 
     function update() {
+
         const value = Number(timeInput.value);
 
         if (!Number.isFinite(value) || value < 0) {
@@ -243,90 +494,103 @@
             return;
         }
 
-        if (mode === "minecraft") {
-            resultLabel.textContent = "Real-world time";
-
-            const realMinutes = value * 20;
-
-            result.textContent = formatRealTime(realMinutes);
-        } else {
-            resultLabel.textContent = "Minecraft time";
-
-            const minecraftDays = value / 20;
-
-            result.textContent = formatMinecraftTime(minecraftDays);
-        }
-    }
-
-    function setMode(newMode) {
-        mode = newMode;
-
-        minecraftButton.classList.toggle(
-            "active",
-            mode === "minecraft"
-        );
-
-        realButton.classList.toggle(
-            "active",
-            mode === "real"
-        );
+        const minutes = getMinutes(value);
 
         if (mode === "minecraft") {
-            inputLabel.textContent = "Minecraft time";
+
+            /*
+                1 Minecraft day = 20 real minutes.
+                1 Minecraft minute = 20 / 1440 real minutes.
+            */
+
+            const realMinutes =
+                minutes / 72;
+
+            resultLabel.textContent =
+                "Real-world time";
+
+            result.textContent =
+                formatRealTime(realMinutes);
+
         } else {
-            inputLabel.textContent = "Real-world time";
+
+            /*
+                1 real minute = 72 Minecraft minutes.
+            */
+
+            const minecraftMinutes =
+                minutes * 72;
+
+            resultLabel.textContent =
+                "Minecraft time";
+
+            result.textContent =
+                formatMinecraftTime(minecraftMinutes);
         }
-
-        update();
     }
-
-    minecraftButton.addEventListener("click", function () {
-        setMode("minecraft");
-    });
-
-    realButton.addEventListener("click", function () {
-        setMode("real");
-    });
-
-    timeInput.addEventListener("input", update);
 </script>
 
 <script>
-    document.addEventListener("touchstart", function (event) {
-        if (event.touches.length > 1) {
+    document.addEventListener(
+        "touchstart",
+        function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        },
+        { passive: false }
+    );
+
+    document.addEventListener(
+        "gesturestart",
+        function (event) {
             event.preventDefault();
-        }
-    }, { passive: false });
+        },
+        { passive: false }
+    );
 
-    document.addEventListener("gesturestart", function (event) {
-        event.preventDefault();
-    }, { passive: false });
+    document.addEventListener(
+        "gesturechange",
+        function (event) {
+            event.preventDefault();
+        },
+        { passive: false }
+    );
 
-    document.addEventListener("gesturechange", function (event) {
-        event.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener("gestureend", function (event) {
-        event.preventDefault();
-    }, { passive: false });
+    document.addEventListener(
+        "gestureend",
+        function (event) {
+            event.preventDefault();
+        },
+        { passive: false }
+    );
 
     let lastTouchEnd = 0;
 
-    document.addEventListener("touchend", function (event) {
-        const now = Date.now();
+    document.addEventListener(
+        "touchend",
+        function (event) {
 
-        if (now - lastTouchEnd <= 300) {
-            event.preventDefault();
-        }
+            const now = Date.now();
 
-        lastTouchEnd = now;
-    }, { passive: false });
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
 
-    document.addEventListener("wheel", function (event) {
-        if (event.ctrlKey) {
-            event.preventDefault();
-        }
-    }, { passive: false });
+            lastTouchEnd = now;
+        },
+        { passive: false }
+    );
+
+    document.addEventListener(
+        "wheel",
+        function (event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+            }
+        },
+        { passive: false }
+    );
 </script>
 
 </body>

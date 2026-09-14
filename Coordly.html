@@ -14,7 +14,7 @@
     content="yes"
 >
 
-<title>Minecraft Coordinate Notebook</title>
+<title>Coordly</title>
 
 <style>
 
@@ -203,11 +203,12 @@ select:focus {
     line-height: 1.6;
 }
 
-.overworld {
+.converted {
     margin-top: 8px;
     color: #929baa;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 12px;
-    line-height: 1.45;
+    line-height: 1.6;
 }
 
 .actions {
@@ -664,14 +665,15 @@ select:focus {
 
     }
 
-    function getOverworldCoordinates(location) {
+    function getConvertedCoordinates(location) {
 
         if (location.dim === "Overworld") {
 
             return {
-                x: location.x,
+                dimension: "Nether",
+                x: location.x / 8,
                 y: location.y,
-                z: location.z
+                z: location.z / 8
             };
 
         }
@@ -679,6 +681,7 @@ select:focus {
         if (location.dim === "Nether") {
 
             return {
+                dimension: "Overworld",
                 x: location.x * 8,
                 y: location.y,
                 z: location.z * 8
@@ -949,28 +952,32 @@ select:focus {
             list.map(
                 function (location) {
 
-                    const overworld =
-                        getOverworldCoordinates(
+                    const converted =
+                        getConvertedCoordinates(
                             location
                         );
 
-                    let overworldHTML = "";
+                    let convertedHTML = "";
 
-                    if (overworld) {
+                    if (converted) {
 
-                        overworldHTML =
-                            '<div class="overworld">' +
+                        convertedHTML =
+                            '<div class="converted">' +
 
-                            'Overworld: ' +
+                            escapeHTML(
+                                converted.dimension
+                            ) +
+
+                            ': ' +
 
                             'X ' +
-                            fmt(overworld.x) +
+                            fmt(converted.x) +
 
                             ' &nbsp; Y ' +
-                            fmt(overworld.y) +
+                            fmt(converted.y) +
 
                             ' &nbsp; Z ' +
-                            fmt(overworld.z) +
+                            fmt(converted.z) +
 
                             '</div>';
 
@@ -1027,7 +1034,7 @@ select:focus {
 
                         '</div>' +
 
-                        overworldHTML +
+                        convertedHTML +
 
                         '<div class="actions">' +
 
@@ -1117,14 +1124,6 @@ select:focus {
 </script>
 
 <script>
-
-/*
-    Disable browser zoom.
-
-    Multi-touch is blocked during capture,
-    before buttons or other page elements
-    can process the gesture.
-*/
 
 (function () {
 

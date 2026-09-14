@@ -1,7 +1,7 @@
 /*
     MCD.js
     Minecraft Document Renderer
-    Version 1.0
+    Version 1.1
 
     Usage:
 
@@ -12,6 +12,14 @@
 
     The .mcd file contains the document data.
     This file creates all HTML and CSS automatically.
+
+    Supported link syntax:
+
+        link "Redstone Guide" "Redstone.html"
+
+        link "Minecraft Wiki" "https://minecraft.wiki/"
+
+        link "Beacon Basics" "#beacon-basics"
 */
 
 (function () {
@@ -49,6 +57,7 @@
             html {
                 touch-action: manipulation;
                 overscroll-behavior-x: none;
+                scroll-behavior: smooth;
             }
 
             body {
@@ -73,6 +82,15 @@
             img,
             a {
                 touch-action: manipulation;
+            }
+
+            a {
+                color: #72b2ff;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
             }
 
             .mcd-app {
@@ -255,6 +273,22 @@
 
             .mcd-text:last-child {
                 margin-bottom: 0;
+            }
+
+            .mcd-link {
+                color: #72b2ff;
+                font-weight: 500;
+                text-decoration: none;
+            }
+
+            .mcd-link:hover {
+                text-decoration: underline;
+            }
+
+            .mcd-link-external::after {
+                content: " ↗";
+                font-size: 0.8em;
+                opacity: 0.7;
             }
 
             .mcd-image-block {
@@ -509,7 +543,8 @@
     }
 
     function parseCommand(line) {
-        const match = line.match(/^([a-zA-Z_][\w-]*)(?:\s+(.*))?$/);
+        const match =
+            line.match(/^([a-zA-Z_][\w-]*)(?:\s+(.*))?$/);
 
         if (!match) {
             return null;
@@ -522,13 +557,15 @@
     }
 
     function parseProperty(line) {
-        const match = line.match(/^([a-zA-Z_][\w-]*)(?:\s+(.*))?$/);
+        const match =
+            line.match(/^([a-zA-Z_][\w-]*)(?:\s+(.*))?$/);
 
         if (!match) {
             return null;
         }
 
-        let value = match[2] ? match[2].trim() : "";
+        let value =
+            match[2] ? match[2].trim() : "";
 
         if (
             value.startsWith('"') &&
@@ -546,7 +583,9 @@
     }
 
     function normalizePosition(position) {
-        position = String(position || "center").toLowerCase();
+        position =
+            String(position || "center")
+                .toLowerCase();
 
         if (
             position !== "left" &&
@@ -557,6 +596,13 @@
         }
 
         return position;
+    }
+
+    function isExternalURL(url) {
+        return (
+            /^https?:\/\//i.test(url) ||
+            /^\/\//.test(url)
+        );
     }
 
     /* =========================================================
@@ -590,7 +636,8 @@
                 continue;
             }
 
-            const parsed = parseCommand(line);
+            const parsed =
+                parseCommand(line);
 
             if (!parsed) {
                 continue;
@@ -627,7 +674,10 @@
                     children: []
                 };
 
-                stack[stack.length - 1].children.push(node);
+                stack[stack.length - 1]
+                    .children
+                    .push(node);
+
                 stack.push(node);
 
                 continue;
@@ -650,9 +700,13 @@
                 };
 
                 while (i < lines.length) {
-                    const contentLine = lines[i].trim();
+                    const contentLine =
+                        lines[i].trim();
 
-                    if (contentLine.toLowerCase() === "end") {
+                    if (
+                        contentLine.toLowerCase() ===
+                        "end"
+                    ) {
                         i++;
                         break;
                     }
@@ -661,9 +715,14 @@
                     i++;
                 }
 
-                node.content = node.content.join("\n").trim();
+                node.content =
+                    node.content
+                        .join("\n")
+                        .trim();
 
-                stack[stack.length - 1].children.push(node);
+                stack[stack.length - 1]
+                    .children
+                    .push(node);
 
                 continue;
             }
@@ -679,9 +738,13 @@
                 };
 
                 while (i < lines.length) {
-                    const itemLine = lines[i].trim();
+                    const itemLine =
+                        lines[i].trim();
 
-                    if (itemLine.toLowerCase() === "end") {
+                    if (
+                        itemLine.toLowerCase() ===
+                        "end"
+                    ) {
                         i++;
                         break;
                     }
@@ -693,7 +756,40 @@
                     i++;
                 }
 
-                stack[stack.length - 1].children.push(node);
+                stack[stack.length - 1]
+                    .children
+                    .push(node);
+
+                continue;
+            }
+
+            /* ---------------------------------------------
+               LINK
+            --------------------------------------------- */
+
+            if (command === "link") {
+                const linkMatch =
+                    value.match(
+                        /^(".*?"|\S+)\s+(".*?"|\S+)(?:\s+(.*))?$/
+                    );
+
+                if (linkMatch) {
+                    const node = {
+                        type: "link",
+                        text: unquote(linkMatch[1]),
+                        url: unquote(linkMatch[2]),
+                        title: ""
+                    };
+
+                    if (linkMatch[3]) {
+                        node.title =
+                            unquote(linkMatch[3]);
+                    }
+
+                    stack[stack.length - 1]
+                        .children
+                        .push(node);
+                }
 
                 continue;
             }
@@ -714,47 +810,92 @@
                 };
 
                 while (i < lines.length) {
-                    const propertyLine = lines[i].trim();
+                    const propertyLine =
+                        lines[i].trim();
 
-                    if (propertyLine.toLowerCase() === "end") {
+                    if (
+                        propertyLine.toLowerCase() ===
+                        "end"
+                    ) {
                         i++;
                         break;
                     }
 
                     if (propertyLine) {
-                        const property = parseProperty(propertyLine);
+                        const property =
+                            parseProperty(
+                                propertyLine
+                            );
 
                         if (property) {
-                            if (property.key === "src") {
-                                node.src = String(property.value);
+                            if (
+                                property.key ===
+                                "src"
+                            ) {
+                                node.src =
+                                    String(
+                                        property.value
+                                    );
                             }
 
-                            if (property.key === "title") {
-                                node.title = String(property.value);
+                            if (
+                                property.key ===
+                                "title"
+                            ) {
+                                node.title =
+                                    String(
+                                        property.value
+                                    );
                             }
 
-                            if (property.key === "alt") {
-                                node.alt = String(property.value);
+                            if (
+                                property.key ===
+                                "alt"
+                            ) {
+                                node.alt =
+                                    String(
+                                        property.value
+                                    );
                             }
 
-                            if (property.key === "caption") {
-                                node.caption = String(property.value);
+                            if (
+                                property.key ===
+                                "caption"
+                            ) {
+                                node.caption =
+                                    String(
+                                        property.value
+                                    );
                             }
 
-                            if (property.key === "width") {
-                                const width = Number(property.value);
+                            if (
+                                property.key ===
+                                "width"
+                            ) {
+                                const width =
+                                    Number(
+                                        property.value
+                                    );
 
                                 if (
-                                    Number.isFinite(width) &&
+                                    Number.isFinite(
+                                        width
+                                    ) &&
                                     width > 0
                                 ) {
-                                    node.width = width;
+                                    node.width =
+                                        width;
                                 }
                             }
 
-                            if (property.key === "position") {
+                            if (
+                                property.key ===
+                                "position"
+                            ) {
                                 node.position =
-                                    normalizePosition(property.value);
+                                    normalizePosition(
+                                        property.value
+                                    );
                             }
                         }
                     }
@@ -762,7 +903,9 @@
                     i++;
                 }
 
-                stack[stack.length - 1].children.push(node);
+                stack[stack.length - 1]
+                    .children
+                    .push(node);
 
                 continue;
             }
@@ -779,20 +922,31 @@
                 };
 
                 while (i < lines.length) {
-                    const tableLine = lines[i].trim();
+                    const tableLine =
+                        lines[i].trim();
 
-                    if (tableLine.toLowerCase() === "end") {
+                    if (
+                        tableLine.toLowerCase() ===
+                        "end"
+                    ) {
                         i++;
                         break;
                     }
 
-                    if (tableLine.toLowerCase() === "headers") {
+                    if (
+                        tableLine.toLowerCase() ===
+                        "headers"
+                    ) {
                         i++;
 
                         while (i < lines.length) {
-                            const headerLine = lines[i].trim();
+                            const headerLine =
+                                lines[i].trim();
 
-                            if (headerLine.toLowerCase() === "end") {
+                            if (
+                                headerLine.toLowerCase() ===
+                                "end"
+                            ) {
                                 i++;
                                 break;
                             }
@@ -801,7 +955,10 @@
                                 node.headers =
                                     headerLine
                                         .split("|")
-                                        .map(cell => cell.trim());
+                                        .map(
+                                            cell =>
+                                                cell.trim()
+                                        );
                             }
 
                             i++;
@@ -810,13 +967,20 @@
                         continue;
                     }
 
-                    if (tableLine.toLowerCase() === "row") {
+                    if (
+                        tableLine.toLowerCase() ===
+                        "row"
+                    ) {
                         i++;
 
                         while (i < lines.length) {
-                            const rowLine = lines[i].trim();
+                            const rowLine =
+                                lines[i].trim();
 
-                            if (rowLine.toLowerCase() === "end") {
+                            if (
+                                rowLine.toLowerCase() ===
+                                "end"
+                            ) {
                                 i++;
                                 break;
                             }
@@ -825,7 +989,10 @@
                                 node.rows.push(
                                     rowLine
                                         .split("|")
-                                        .map(cell => cell.trim())
+                                        .map(
+                                            cell =>
+                                                cell.trim()
+                                        )
                                 );
                             }
 
@@ -838,7 +1005,9 @@
                     i++;
                 }
 
-                stack[stack.length - 1].children.push(node);
+                stack[stack.length - 1]
+                    .children
+                    .push(node);
 
                 continue;
             }
@@ -851,18 +1020,26 @@
        DOM HELPERS
     ========================================================= */
 
-    function createElement(tag, className) {
-        const element = document.createElement(tag);
+    function createElement(
+        tag,
+        className
+    ) {
+        const element =
+            document.createElement(tag);
 
         if (className) {
-            element.className = className;
+            element.className =
+                className;
         }
 
         return element;
     }
 
     function createChevron() {
-        return createElement("span", "mcd-chevron");
+        return createElement(
+            "span",
+            "mcd-chevron"
+        );
     }
 
     function createCollapsibleHeader(
@@ -871,21 +1048,39 @@
         title,
         target
     ) {
-        const button = createElement("button", className);
+        const button =
+            createElement(
+                "button",
+                className
+            );
 
         button.type = "button";
 
         const titleElement =
-            createElement("span", titleClassName);
+            createElement(
+                "span",
+                titleClassName
+            );
 
-        titleElement.textContent = title;
+        titleElement.textContent =
+            title;
 
-        button.appendChild(titleElement);
-        button.appendChild(createChevron());
+        button.appendChild(
+            titleElement
+        );
 
-        button.addEventListener("click", function () {
-            target.classList.toggle("mcd-open");
-        });
+        button.appendChild(
+            createChevron()
+        );
+
+        button.addEventListener(
+            "click",
+            function () {
+                target.classList.toggle(
+                    "mcd-open"
+                );
+            }
+        );
 
         return button;
     }
@@ -894,88 +1089,227 @@
        CONTENT RENDERING
     ========================================================= */
 
-    function renderText(node, parent) {
+    function renderText(
+        node,
+        parent
+    ) {
         const element =
-            createElement("p", "mcd-text");
+            createElement(
+                "p",
+                "mcd-text"
+            );
 
-        element.textContent = node.content;
+        element.textContent =
+            node.content;
 
-        parent.appendChild(element);
+        parent.appendChild(
+            element
+        );
     }
 
-    function renderImage(node, parent) {
+    function renderLink(
+        node,
+        parent,
+        baseURL
+    ) {
+        const link =
+            createElement(
+                "a",
+                "mcd-link"
+            );
+
+        link.textContent =
+            node.text;
+
+        let destination =
+            node.url;
+
+        /*
+            Resolve relative links against
+            the current .mcd file.
+        */
+
+        try {
+            destination =
+                new URL(
+                    node.url,
+                    baseURL
+                ).href;
+        } catch (error) {
+            destination =
+                node.url;
+        }
+
+        link.href =
+            destination;
+
+        if (node.title) {
+            link.title =
+                node.title;
+        }
+
+        /*
+            External links open in a
+            new tab/window.
+        */
+
+        if (isExternalURL(destination)) {
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.classList.add(
+                "mcd-link-external"
+            );
+        }
+
+        parent.appendChild(
+            link
+        );
+    }
+
+    function renderImage(
+        node,
+        parent,
+        baseURL
+    ) {
         const block =
-            createElement("figure", "mcd-image-block");
+            createElement(
+                "figure",
+                "mcd-image-block"
+            );
 
         if (node.title) {
             const title =
-                createElement("div", "mcd-image-title");
+                createElement(
+                    "div",
+                    "mcd-image-title"
+                );
 
-            title.textContent = node.title;
+            title.textContent =
+                node.title;
 
-            block.appendChild(title);
+            block.appendChild(
+                title
+            );
         }
 
         const wrap =
-            createElement("div", "mcd-image-wrap");
+            createElement(
+                "div",
+                "mcd-image-wrap"
+            );
 
         const image =
-            createElement("img", "mcd-image");
+            createElement(
+                "img",
+                "mcd-image"
+            );
 
-        image.src = node.src;
-        image.alt = node.alt || node.title || "";
+        try {
+            image.src =
+                new URL(
+                    node.src,
+                    baseURL
+                ).href;
+        } catch (error) {
+            image.src =
+                node.src;
+        }
+
+        image.alt =
+            node.alt ||
+            node.title ||
+            "";
 
         if (node.title) {
-            image.title = node.title;
+            image.title =
+                node.title;
         }
 
         image.style.width =
-            `${Math.max(1, Number(node.width))}px`;
+            `${Math.max(
+                1,
+                Number(node.width)
+            )}px`;
 
         image.classList.add(
             `mcd-image-position-${node.position}`
         );
 
-        wrap.appendChild(image);
-        block.appendChild(wrap);
+        wrap.appendChild(
+            image
+        );
+
+        block.appendChild(
+            wrap
+        );
 
         if (node.caption) {
             const caption =
-                createElement("figcaption", "mcd-image-caption");
+                createElement(
+                    "figcaption",
+                    "mcd-image-caption"
+                );
 
-            caption.textContent = node.caption;
+            caption.textContent =
+                node.caption;
 
-            block.appendChild(caption);
+            block.appendChild(
+                caption
+            );
         }
 
-        parent.appendChild(block);
+        parent.appendChild(
+            block
+        );
     }
 
-    function renderList(node, parent) {
+    function renderList(
+        node,
+        parent
+    ) {
         const list =
-            createElement("ul", "mcd-list");
+            createElement(
+                "ul",
+                "mcd-list"
+            );
 
-        node.items.forEach(function (item) {
-            const li =
-                createElement("li");
+        node.items.forEach(
+            function (item) {
+                const li =
+                    createElement("li");
 
-            li.textContent = item;
+                li.textContent =
+                    item;
 
-            list.appendChild(li);
-        });
+                list.appendChild(
+                    li
+                );
+            }
+        );
 
-        parent.appendChild(list);
+        parent.appendChild(
+            list
+        );
     }
 
-    function renderCallout(node, parent) {
+    function renderCallout(
+        node,
+        parent
+    ) {
         const className =
             `mcd-callout mcd-${node.type}`;
 
         const box =
-            createElement("div", className);
+            createElement(
+                "div",
+                className
+            );
 
         const title =
-            createElement("div", "mcd-callout-title");
+            createElement(
+                "div",
+                "mcd-callout-title"
+            );
 
         const titles = {
             tip: "Tip",
@@ -984,111 +1318,240 @@
         };
 
         title.textContent =
-            titles[node.type] || node.type;
+            titles[node.type] ||
+            node.type;
 
         const content =
-            createElement("p", "mcd-callout-content");
+            createElement(
+                "p",
+                "mcd-callout-content"
+            );
 
-        content.textContent = node.content;
+        content.textContent =
+            node.content;
 
-        box.appendChild(title);
-        box.appendChild(content);
+        box.appendChild(
+            title
+        );
 
-        parent.appendChild(box);
+        box.appendChild(
+            content
+        );
+
+        parent.appendChild(
+            box
+        );
     }
 
-    function renderCode(node, parent) {
+    function renderCode(
+        node,
+        parent
+    ) {
         const wrapper =
-            createElement("div", "mcd-code");
+            createElement(
+                "div",
+                "mcd-code"
+            );
 
         const pre =
             createElement("pre");
 
-        pre.textContent = node.content;
+        pre.textContent =
+            node.content;
 
-        wrapper.appendChild(pre);
+        wrapper.appendChild(
+            pre
+        );
 
-        parent.appendChild(wrapper);
+        parent.appendChild(
+            wrapper
+        );
     }
 
-    function renderTable(node, parent) {
+    function renderTable(
+        node,
+        parent
+    ) {
         const wrapper =
-            createElement("div", "mcd-table-wrap");
+            createElement(
+                "div",
+                "mcd-table-wrap"
+            );
 
         const table =
-            createElement("table", "mcd-table");
+            createElement(
+                "table",
+                "mcd-table"
+            );
 
         if (node.headers.length) {
             const thead =
-                createElement("thead");
+                createElement(
+                    "thead"
+                );
 
             const tr =
                 createElement("tr");
 
-            node.headers.forEach(function (header) {
-                const th =
-                    createElement("th");
+            node.headers.forEach(
+                function (header) {
+                    const th =
+                        createElement(
+                            "th"
+                        );
 
-                th.textContent = header;
+                    th.textContent =
+                        header;
 
-                tr.appendChild(th);
-            });
+                    tr.appendChild(
+                        th
+                    );
+                }
+            );
 
-            thead.appendChild(tr);
-            table.appendChild(thead);
+            thead.appendChild(
+                tr
+            );
+
+            table.appendChild(
+                thead
+            );
         }
 
         const tbody =
-            createElement("tbody");
+            createElement(
+                "tbody"
+            );
 
-        node.rows.forEach(function (row) {
-            const tr =
-                createElement("tr");
+        node.rows.forEach(
+            function (row) {
+                const tr =
+                    createElement(
+                        "tr"
+                    );
 
-            row.forEach(function (cell) {
-                const td =
-                    createElement("td");
+                row.forEach(
+                    function (cell) {
+                        const td =
+                            createElement(
+                                "td"
+                            );
 
-                td.textContent = cell;
+                        td.textContent =
+                            cell;
 
-                tr.appendChild(td);
-            });
+                        tr.appendChild(
+                            td
+                        );
+                    }
+                );
 
-            tbody.appendChild(tr);
-        });
+                tbody.appendChild(
+                    tr
+                );
+            }
+        );
 
-        table.appendChild(tbody);
-        wrapper.appendChild(table);
+        table.appendChild(
+            tbody
+        );
 
-        parent.appendChild(wrapper);
+        wrapper.appendChild(
+            table
+        );
+
+        parent.appendChild(
+            wrapper
+        );
     }
 
     /* =========================================================
        STRUCTURE RENDERING
     ========================================================= */
 
-    function renderChildren(children, parent) {
-        children.forEach(function (node) {
-            renderNode(node, parent);
-        });
+    function renderChildren(
+        children,
+        parent,
+        baseURL
+    ) {
+        children.forEach(
+            function (node) {
+                renderNode(
+                    node,
+                    parent,
+                    baseURL
+                );
+            }
+        );
     }
 
-    function renderDocument(node, parent) {
+    function slugify(value) {
+        return String(value || "")
+            .toLowerCase()
+            .trim()
+            .replace(
+                /[^a-z0-9]+/g,
+                "-"
+            )
+            .replace(
+                /^-+|-+$/g,
+                ""
+            );
+    }
+
+    function applyHeadingID(
+        element,
+        title
+    ) {
+        const id =
+            slugify(title);
+
+        if (id) {
+            element.id =
+                id;
+        }
+
+        return id;
+    }
+
+    function renderDocument(
+        node,
+        parent,
+        baseURL
+    ) {
         const container =
-            createElement("div", "mcd-container");
+            createElement(
+                "div",
+                "mcd-container"
+            );
 
         const header =
-            createElement("header", "mcd-header");
+            createElement(
+                "header",
+                "mcd-header"
+            );
 
         const title =
-            createElement("h1", "mcd-title");
+            createElement(
+                "h1",
+                "mcd-title"
+            );
 
-        title.textContent = node.title;
+        title.textContent =
+            node.title;
 
-        header.appendChild(title);
+        applyHeadingID(
+            title,
+            node.title
+        );
+
+        header.appendChild(
+            title
+        );
 
         const description =
-            node.description || "";
+            node.description ||
+            "";
 
         if (description) {
             const descriptionElement =
@@ -1100,19 +1563,41 @@
             descriptionElement.textContent =
                 description;
 
-            header.appendChild(descriptionElement);
+            header.appendChild(
+                descriptionElement
+            );
         }
 
-        container.appendChild(header);
+        container.appendChild(
+            header
+        );
 
-        renderChildren(node.children, container);
+        renderChildren(
+            node.children,
+            container,
+            baseURL
+        );
 
-        parent.appendChild(container);
+        parent.appendChild(
+            container
+        );
     }
 
-    function renderTopic(node, parent) {
+    function renderTopic(
+        node,
+        parent,
+        baseURL
+    ) {
         const topic =
-            createElement("section", "mcd-topic mcd-open");
+            createElement(
+                "section",
+                "mcd-topic mcd-open"
+            );
+
+        applyHeadingID(
+            topic,
+            node.title
+        );
 
         const header =
             createCollapsibleHeader(
@@ -1122,7 +1607,9 @@
                 topic
             );
 
-        topic.appendChild(header);
+        topic.appendChild(
+            header
+        );
 
         const content =
             createElement(
@@ -1130,19 +1617,36 @@
                 "mcd-collapsible-content mcd-content"
             );
 
-        renderChildren(node.children, content);
+        renderChildren(
+            node.children,
+            content,
+            baseURL
+        );
 
-        topic.appendChild(content);
+        topic.appendChild(
+            content
+        );
 
-        parent.appendChild(topic);
+        parent.appendChild(
+            topic
+        );
     }
 
-    function renderSection(node, parent) {
+    function renderSection(
+        node,
+        parent,
+        baseURL
+    ) {
         const section =
             createElement(
                 "section",
                 "mcd-section mcd-open"
             );
+
+        applyHeadingID(
+            section,
+            node.title
+        );
 
         const header =
             createCollapsibleHeader(
@@ -1152,7 +1656,9 @@
                 section
             );
 
-        section.appendChild(header);
+        section.appendChild(
+            header
+        );
 
         const content =
             createElement(
@@ -1160,19 +1666,36 @@
                 "mcd-collapsible-content mcd-content"
             );
 
-        renderChildren(node.children, content);
+        renderChildren(
+            node.children,
+            content,
+            baseURL
+        );
 
-        section.appendChild(content);
+        section.appendChild(
+            content
+        );
 
-        parent.appendChild(section);
+        parent.appendChild(
+            section
+        );
     }
 
-    function renderSubsection(node, parent) {
+    function renderSubsection(
+        node,
+        parent,
+        baseURL
+    ) {
         const subsection =
             createElement(
                 "section",
                 "mcd-subsection mcd-open"
             );
+
+        applyHeadingID(
+            subsection,
+            node.title
+        );
 
         const header =
             createCollapsibleHeader(
@@ -1182,7 +1705,9 @@
                 subsection
             );
 
-        subsection.appendChild(header);
+        subsection.appendChild(
+            header
+        );
 
         const content =
             createElement(
@@ -1190,55 +1715,110 @@
                 "mcd-collapsible-content mcd-content"
             );
 
-        renderChildren(node.children, content);
+        renderChildren(
+            node.children,
+            content,
+            baseURL
+        );
 
-        subsection.appendChild(content);
+        subsection.appendChild(
+            content
+        );
 
-        parent.appendChild(subsection);
+        parent.appendChild(
+            subsection
+        );
     }
 
-    function renderNode(node, parent) {
+    function renderNode(
+        node,
+        parent,
+        baseURL
+    ) {
         switch (node.type) {
             case "document":
-                renderDocument(node, parent);
+                renderDocument(
+                    node,
+                    parent,
+                    baseURL
+                );
                 break;
 
             case "topic":
-                renderTopic(node, parent);
+                renderTopic(
+                    node,
+                    parent,
+                    baseURL
+                );
                 break;
 
             case "section":
-                renderSection(node, parent);
+                renderSection(
+                    node,
+                    parent,
+                    baseURL
+                );
                 break;
 
             case "subsection":
-                renderSubsection(node, parent);
+                renderSubsection(
+                    node,
+                    parent,
+                    baseURL
+                );
                 break;
 
             case "text":
-                renderText(node, parent);
+                renderText(
+                    node,
+                    parent
+                );
+                break;
+
+            case "link":
+                renderLink(
+                    node,
+                    parent,
+                    baseURL
+                );
                 break;
 
             case "image":
-                renderImage(node, parent);
+                renderImage(
+                    node,
+                    parent,
+                    baseURL
+                );
                 break;
 
             case "list":
-                renderList(node, parent);
+                renderList(
+                    node,
+                    parent
+                );
                 break;
 
             case "table":
-                renderTable(node, parent);
+                renderTable(
+                    node,
+                    parent
+                );
                 break;
 
             case "tip":
             case "note":
             case "warning":
-                renderCallout(node, parent);
+                renderCallout(
+                    node,
+                    parent
+                );
                 break;
 
             case "code":
-                renderCode(node, parent);
+                renderCode(
+                    node,
+                    parent
+                );
                 break;
         }
     }
@@ -1247,16 +1827,23 @@
        DOCUMENT DESCRIPTION SUPPORT
     ========================================================= */
 
-    function extractDocumentDescription(source) {
+    function extractDocumentDescription(
+        source
+    ) {
         const match =
             source.match(
                 /^\s*description\s+"([\s\S]*?)"\s*$/m
             );
 
-        return match ? match[1] : "";
+        return match
+            ? match[1]
+            : "";
     }
 
-    function applyDocumentDescription(tree, source) {
+    function applyDocumentDescription(
+        tree,
+        source
+    ) {
         const description =
             extractDocumentDescription(
                 stripNotes(source)
@@ -1264,7 +1851,9 @@
 
         const documentNode =
             tree.children.find(
-                node => node.type === "document"
+                node =>
+                    node.type ===
+                    "document"
             );
 
         if (documentNode) {
@@ -1277,43 +1866,72 @@
        ERROR UI
     ========================================================= */
 
-    function showError(target, message) {
+    function showError(
+        target,
+        message
+    ) {
         target.innerHTML = "";
 
         const error =
-            createElement("div", "mcd-error");
+            createElement(
+                "div",
+                "mcd-error"
+            );
 
         const title =
-            createElement("div", "mcd-error-title");
+            createElement(
+                "div",
+                "mcd-error-title"
+            );
 
         title.textContent =
             "Unable to load Minecraft document";
 
         const text =
-            createElement("p", "mcd-error-message");
+            createElement(
+                "p",
+                "mcd-error-message"
+            );
 
-        text.textContent = message;
+        text.textContent =
+            message;
 
-        error.appendChild(title);
-        error.appendChild(text);
+        error.appendChild(
+            title
+        );
 
-        target.appendChild(error);
+        error.appendChild(
+            text
+        );
+
+        target.appendChild(
+            error
+        );
     }
 
     /* =========================================================
        TARGET RESOLUTION
     ========================================================= */
 
-    function resolveTarget(target) {
+    function resolveTarget(
+        target
+    ) {
         if (!target) {
             return document.body;
         }
 
-        if (typeof target === "string") {
-            return document.querySelector(target);
+        if (
+            typeof target ===
+            "string"
+        ) {
+            return document.querySelector(
+                target
+            );
         }
 
-        if (target instanceof Element) {
+        if (
+            target instanceof Element
+        ) {
             return target;
         }
 
@@ -1324,7 +1942,10 @@
        LOAD
     ========================================================= */
 
-    MCD.load = async function (url, target) {
+    MCD.load = async function (
+        url,
+        target
+    ) {
         injectCSS();
 
         const targetElement =
@@ -1336,13 +1957,17 @@
             );
         }
 
-        targetElement.innerHTML = "";
+        targetElement.innerHTML =
+            "";
 
         try {
             const response =
-                await fetch(url, {
-                    cache: "no-cache"
-                });
+                await fetch(
+                    url,
+                    {
+                        cache: "no-cache"
+                    }
+                );
 
             if (!response.ok) {
                 throw new Error(
@@ -1365,9 +1990,22 @@
                 "mcd-app"
             );
 
+            /*
+                Resolve images and links relative
+                to the .mcd file rather than the
+                HTML page.
+            */
+
+            const baseURL =
+                new URL(
+                    url,
+                    document.baseURI
+                ).href;
+
             renderChildren(
                 tree.children,
-                targetElement
+                targetElement,
+                baseURL
             );
 
             return tree;
@@ -1386,7 +2024,9 @@
        OPTIONAL PARSER API
     ========================================================= */
 
-    MCD.parse = function (source) {
+    MCD.parse = function (
+        source
+    ) {
         return parse(source);
     };
 

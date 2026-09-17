@@ -289,30 +289,6 @@ select:focus {
     line-height: 1.45;
 }
 
-@media (max-width: 800px) {
-
-    .layout {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-@media (max-width: 500px) {
-
-    body {
-        padding: 10px;
-    }
-
-    .coords {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    h1 {
-        font-size: 25px;
-    }
-
-}
-
 </style>
 
 </head>
@@ -452,8 +428,8 @@ select:focus {
             <option>
                 Travel
             </option>
-            
-             <option>
+
+            <option>
                 Biome
             </option>
 
@@ -694,6 +670,83 @@ select:focus {
         }
 
         return null;
+
+    }
+
+    async function copyCoordinates(location, button) {
+
+        const text =
+            location.name +
+            " - X: " +
+            fmt(location.x) +
+            "   Y: " +
+            fmt(location.y) +
+            "   Z: " +
+            fmt(location.z);
+
+        try {
+
+            if (
+                navigator.clipboard &&
+                window.isSecureContext
+            ) {
+
+                await navigator.clipboard.writeText(
+                    text
+                );
+
+            } else {
+
+                const textarea =
+                    document.createElement("textarea");
+
+                textarea.value = text;
+
+                textarea.style.position = "fixed";
+                textarea.style.opacity = "0";
+                textarea.style.pointerEvents = "none";
+
+                document.body.appendChild(
+                    textarea
+                );
+
+                textarea.focus();
+                textarea.select();
+
+                document.execCommand(
+                    "copy"
+                );
+
+                textarea.remove();
+
+            }
+
+            const originalText =
+                button.textContent;
+
+            button.textContent =
+                "Copied!";
+
+            setTimeout(
+                function () {
+
+                    button.textContent =
+                        originalText;
+
+                },
+                1200
+            );
+
+        } catch (error) {
+
+            showModal(
+                "Copy failed",
+                "Your browser did not allow Coordly to copy the coordinates automatically.",
+                null,
+                "OK"
+            );
+
+        }
 
     }
 
@@ -1043,6 +1096,16 @@ select:focus {
                         '<div class="actions">' +
 
                         '<button ' +
+                        'class="secondary" ' +
+                        'data-copy="' +
+                        location.id +
+                        '">' +
+
+                        'Copy Coordinates' +
+
+                        '</button>' +
+
+                        '<button ' +
                         'class="danger" ' +
                         'data-delete="' +
                         location.id +
@@ -1060,6 +1123,42 @@ select:focus {
 
                 }
             ).join("");
+
+        document
+            .querySelectorAll("[data-copy]")
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            const location =
+                                locations.find(
+                                    function (item) {
+
+                                        return String(
+                                            item.id
+                                        ) ===
+                                        button.dataset.copy;
+
+                                    }
+                                );
+
+                            if (!location) {
+                                return;
+                            }
+
+                            copyCoordinates(
+                                location,
+                                button
+                            );
+
+                        }
+                    );
+
+                }
+            );
 
         document
             .querySelectorAll("[data-delete]")

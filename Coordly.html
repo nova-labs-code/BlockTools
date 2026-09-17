@@ -19,19 +19,37 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-html,
-body {
-    margin: 0;
-    padding: 0;
+html {
+    width: 100%;
     min-height: 100%;
     background: #0d1117;
-    color: #f0f3f6;
-    font-family: Arial, Helvetica, sans-serif;
-    touch-action: manipulation;
+    overflow-x: hidden;
 }
 
 body {
-    padding: 20px;
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    background: #0d1117;
+    color: #f0f3f6;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    overflow-x: hidden;
+
+    /*
+       Safe-area support for iPhone/iPad.
+       The top padding keeps content away from
+       the browser/device area.
+    */
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(12px, env(safe-area-inset-left));
+
+    touch-action: manipulation;
 }
 
 button,
@@ -42,6 +60,8 @@ select {
 
 button {
     cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .container {
@@ -50,31 +70,46 @@ button {
     margin: 0 auto;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 .header {
     margin-bottom: 18px;
+    padding-top: 4px;
 }
 
 .header h1 {
     margin: 0 0 6px;
     font-size: 32px;
+    line-height: 1.15;
 }
 
 .header p {
     margin: 0;
     color: #8b949e;
+    line-height: 1.4;
 }
 
+/* =========================
+   PANELS
+========================= */
+
 .panel {
+    width: 100%;
     background: #161b22;
     border: 1px solid #30363d;
     border-radius: 14px;
     padding: 18px;
     margin-bottom: 14px;
+
+    overflow: hidden;
 }
 
 .panel h2 {
     margin: 0 0 14px;
     font-size: 21px;
+    line-height: 1.25;
 }
 
 .layout {
@@ -83,7 +118,12 @@ button {
     gap: 14px;
 }
 
+/* =========================
+   FIELDS
+========================= */
+
 .field {
+    width: 100%;
     margin-bottom: 12px;
 }
 
@@ -100,13 +140,30 @@ button {
 
 input,
 select {
+    display: block;
     width: 100%;
-    padding: 11px 12px;
+    min-width: 0;
+
+    padding: 12px;
+
     border-radius: 9px;
     border: 1px solid #30363d;
+
     background: #0d1117;
     color: #f0f3f6;
+
     outline: none;
+
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input {
+    min-height: 44px;
+}
+
+select {
+    min-height: 44px;
 }
 
 input:focus,
@@ -114,17 +171,32 @@ select:focus {
     border-color: #58a6ff;
 }
 
+/* =========================
+   BUTTONS
+========================= */
+
 button {
+    min-height: 44px;
+
     border: 0;
     border-radius: 9px;
+
     padding: 10px 14px;
+
     background: #238636;
     color: white;
+
     font-weight: 600;
+
+    white-space: normal;
 }
 
 button:hover {
     filter: brightness(1.08);
+}
+
+button:active {
+    transform: scale(0.98);
 }
 
 button.secondary {
@@ -146,19 +218,31 @@ button.blue {
     flex-wrap: wrap;
 }
 
+/* =========================
+   WORLD INFO
+========================= */
+
 .world-info {
+    width: 100%;
+
     background: #0d1117;
     border: 1px solid #30363d;
     border-radius: 10px;
+
     padding: 12px;
     margin-top: 12px;
+
+    overflow: hidden;
 }
 
 .world-info-row {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+
     gap: 12px;
-    margin-bottom: 7px;
+
+    margin-bottom: 8px;
 }
 
 .world-info-row:last-child {
@@ -167,11 +251,13 @@ button.blue {
 
 .world-info-label {
     color: #8b949e;
+    flex-shrink: 0;
 }
 
 .world-info-value {
     text-align: right;
     overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .world-actions {
@@ -181,6 +267,14 @@ button.blue {
     margin-top: 12px;
 }
 
+.world-actions button {
+    flex: 1 1 auto;
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
 .controls {
     display: grid;
     grid-template-columns: 1fr 170px 170px;
@@ -188,12 +282,25 @@ button.blue {
     margin-bottom: 14px;
 }
 
+.controls > * {
+    min-width: 0;
+}
+
+/* =========================
+   LOCATION CARDS
+========================= */
+
 .location-card {
+    width: 100%;
+
     background: #0d1117;
     border: 1px solid #30363d;
     border-radius: 12px;
+
     padding: 14px;
     margin-bottom: 10px;
+
+    overflow: hidden;
 }
 
 .location-card:last-child {
@@ -203,39 +310,71 @@ button.blue {
 .location-top {
     display: flex;
     justify-content: space-between;
-    gap: 12px;
     align-items: flex-start;
+
+    gap: 12px;
+
+    min-width: 0;
 }
 
 .location-name {
     font-size: 18px;
     font-weight: 700;
+
     overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .dimension {
     display: inline-block;
+
     margin-top: 5px;
+
     padding: 4px 8px;
+
     border-radius: 999px;
+
     font-size: 12px;
+
     background: #21262d;
     color: #c9d1d9;
+
+    max-width: 100%;
+
+    overflow-wrap: anywhere;
 }
 
 .coordinates {
+    width: 100%;
+
     margin-top: 12px;
     padding: 10px;
+
     border-radius: 8px;
+
     background: #161b22;
+
     font-family: monospace;
+
     overflow-x: auto;
+    overflow-y: hidden;
+
     white-space: nowrap;
+
+    -webkit-overflow-scrolling: touch;
 }
 
 .location-card .actions {
     margin-top: 10px;
 }
+
+.location-card .actions button {
+    flex: 1 1 auto;
+}
+
+/* =========================
+   EMPTY / COUNT
+========================= */
 
 .empty {
     text-align: center;
@@ -249,15 +388,32 @@ button.blue {
     margin-bottom: 12px;
 }
 
+/* =========================
+   MODAL
+========================= */
+
 .modal-backdrop {
     position: fixed;
+
+    /*
+       Safe-area-aware modal.
+    */
     inset: 0;
+
+    padding-top: max(18px, env(safe-area-inset-top));
+    padding-right: max(18px, env(safe-area-inset-right));
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+    padding-left: max(18px, env(safe-area-inset-left));
+
     background: rgba(0, 0, 0, 0.72);
+
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 18px;
+
     z-index: 1000;
+
+    overflow-y: auto;
 }
 
 .modal-backdrop.show {
@@ -267,11 +423,18 @@ button.blue {
 .modal {
     width: 100%;
     max-width: 440px;
+
+    max-height: calc(100dvh - 36px);
+
     background: #161b22;
     border: 1px solid #30363d;
     border-radius: 14px;
+
     padding: 18px;
+
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+    overflow-y: auto;
 }
 
 .modal h3 {
@@ -293,23 +456,50 @@ button.blue {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
+
     margin-top: 16px;
+
     flex-wrap: wrap;
 }
 
+.modal-actions button {
+    flex: 1 1 120px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
 .toast {
     position: fixed;
+
     left: 50%;
-    bottom: 20px;
+
+    /*
+       Keep the toast above the iPhone home indicator.
+    */
+    bottom: max(20px, calc(env(safe-area-inset-bottom) + 10px));
+
     transform: translateX(-50%) translateY(20px);
+
+    width: max-content;
+    max-width: calc(100vw - 30px);
+
     background: #238636;
     color: white;
+
     padding: 11px 16px;
+
     border-radius: 9px;
+
     opacity: 0;
     pointer-events: none;
+
     transition: 0.2s ease;
+
     z-index: 2000;
+
+    text-align: center;
 }
 
 .toast.show {
@@ -317,17 +507,54 @@ button.blue {
     transform: translateX(-50%) translateY(0);
 }
 
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 700px) {
+
     body {
-        padding: 12px;
+        padding-top: max(14px, env(safe-area-inset-top));
+        padding-right: max(10px, env(safe-area-inset-right));
+        padding-bottom: max(18px, env(safe-area-inset-bottom));
+        padding-left: max(10px, env(safe-area-inset-left));
+    }
+
+    .header {
+        margin-bottom: 14px;
+        padding-top: 4px;
     }
 
     .header h1 {
-        font-size: 27px;
+        font-size: 28px;
+    }
+
+    .header p {
+        font-size: 14px;
+    }
+
+    .panel {
+        padding: 14px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+    }
+
+    .panel h2 {
+        font-size: 20px;
     }
 
     .controls {
         grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .world-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .world-actions button {
+        width: 100%;
     }
 
     .world-info-row {
@@ -337,6 +564,71 @@ button.blue {
 
     .world-info-value {
         text-align: left;
+        width: 100%;
+    }
+
+    .location-card {
+        padding: 12px;
+    }
+
+    .location-top {
+        display: block;
+    }
+
+    .location-name {
+        font-size: 17px;
+    }
+
+    .location-card .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .location-card .actions button {
+        width: 100%;
+    }
+
+    .modal {
+        border-radius: 12px;
+        padding: 15px;
+    }
+
+    .modal-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
+}
+
+/* =========================
+   VERY SMALL PHONES
+========================= */
+
+@media (max-width: 380px) {
+
+    body {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .panel {
+        padding: 12px;
+    }
+
+    .location-card .actions {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-actions {
+        grid-template-columns: 1fr;
+    }
+
+    button {
+        padding-left: 11px;
+        padding-right: 11px;
     }
 }
 </style>
@@ -353,113 +645,199 @@ button.blue {
 
     <!-- WORLDS -->
     <div class="panel">
+
         <h2>Worlds</h2>
 
         <div class="field">
             <label for="worldSelect">World</label>
+
             <select id="worldSelect"></select>
         </div>
 
         <div class="world-info">
+
             <div class="world-info-row">
-                <span class="world-info-label">World Name</span>
-                <span class="world-info-value" id="currentWorldName">World 1</span>
+                <span class="world-info-label">
+                    World Name
+                </span>
+
+                <span
+                    class="world-info-value"
+                    id="currentWorldName"
+                >
+                    World 1
+                </span>
             </div>
 
             <div class="world-info-row">
-                <span class="world-info-label">Seed</span>
-                <span class="world-info-value" id="currentWorldSeed">Not set</span>
+                <span class="world-info-label">
+                    Seed
+                </span>
+
+                <span
+                    class="world-info-value"
+                    id="currentWorldSeed"
+                >
+                    Not set
+                </span>
             </div>
 
             <div class="world-info-row">
-                <span class="world-info-label">Locations</span>
-                <span class="world-info-value" id="currentWorldLocationCount">0</span>
+                <span class="world-info-label">
+                    Locations
+                </span>
+
+                <span
+                    class="world-info-value"
+                    id="currentWorldLocationCount"
+                >
+                    0
+                </span>
             </div>
+
         </div>
 
         <div class="world-actions">
-            <button class="blue" id="newWorld">New World</button>
-            <button class="secondary" id="editWorld">Rename / Edit World</button>
-            <button class="danger" id="deleteWorld">Delete World</button>
+
+            <button
+                class="blue"
+                id="newWorld"
+            >
+                New World
+            </button>
+
+            <button
+                class="secondary"
+                id="editWorld"
+            >
+                Rename / Edit World
+            </button>
+
+            <button
+                class="danger"
+                id="deleteWorld"
+            >
+                Delete World
+            </button>
+
         </div>
+
     </div>
 
     <div class="layout">
 
         <!-- ADD LOCATION -->
         <div class="panel">
+
             <h2>Add Location</h2>
 
             <form id="locationForm">
 
                 <div class="field">
-                    <label for="locationName">Name</label>
+                    <label for="locationName">
+                        Name
+                    </label>
+
                     <input
                         id="locationName"
                         type="text"
                         placeholder="My Base"
+                        autocomplete="off"
                         required
                     >
                 </div>
 
                 <div class="field">
-                    <label for="dimension">Dimension</label>
+                    <label for="dimension">
+                        Dimension
+                    </label>
+
                     <select id="dimension">
-                        <option value="Overworld">Overworld</option>
-                        <option value="Nether">Nether</option>
-                        <option value="End">End</option>
+
+                        <option value="Overworld">
+                            Overworld
+                        </option>
+
+                        <option value="Nether">
+                            Nether
+                        </option>
+
+                        <option value="End">
+                            End
+                        </option>
+
                     </select>
                 </div>
 
                 <div class="field">
-                    <label for="x">X</label>
+                    <label for="x">
+                        X
+                    </label>
+
                     <input
                         id="x"
                         type="number"
                         step="any"
+                        inputmode="decimal"
                         placeholder="0"
                         required
                     >
                 </div>
 
                 <div class="field">
-                    <label for="y">Y</label>
+                    <label for="y">
+                        Y
+                    </label>
+
                     <input
                         id="y"
                         type="number"
                         step="any"
+                        inputmode="decimal"
                         placeholder="64"
                         required
                     >
                 </div>
 
                 <div class="field">
-                    <label for="z">Z</label>
+                    <label for="z">
+                        Z
+                    </label>
+
                     <input
                         id="z"
                         type="number"
                         step="any"
+                        inputmode="decimal"
                         placeholder="0"
                         required
                     >
                 </div>
 
                 <div class="field">
-                    <label for="category">Category</label>
+                    <label for="category">
+                        Category
+                    </label>
+
                     <input
                         id="category"
                         type="text"
                         placeholder="Base, Farm, Village..."
+                        autocomplete="off"
                     >
                 </div>
 
-                <button type="submit">Save Location</button>
+                <button type="submit">
+                    Save Location
+                </button>
 
             </form>
+
         </div>
 
         <!-- SAVED LOCATIONS -->
         <div class="panel">
+
             <h2>Saved Locations</h2>
 
             <div class="controls">
@@ -468,34 +846,87 @@ button.blue {
                     id="search"
                     type="search"
                     placeholder="Search locations..."
+                    autocomplete="off"
                 >
 
                 <select id="dimensionFilter">
-                    <option value="all">All Dimensions</option>
-                    <option value="Overworld">Overworld</option>
-                    <option value="Nether">Nether</option>
-                    <option value="End">End</option>
+
+                    <option value="all">
+                        All Dimensions
+                    </option>
+
+                    <option value="Overworld">
+                        Overworld
+                    </option>
+
+                    <option value="Nether">
+                        Nether
+                    </option>
+
+                    <option value="End">
+                        End
+                    </option>
+
                 </select>
 
                 <select id="sort">
-                    <option value="name">Name</option>
-                    <option value="x">X</option>
-                    <option value="y">Y</option>
-                    <option value="z">Z</option>
-                    <option value="newest">Newest</option>
-                    <option value="oldest">Oldest</option>
+
+                    <option value="name">
+                        Name
+                    </option>
+
+                    <option value="x">
+                        X
+                    </option>
+
+                    <option value="y">
+                        Y
+                    </option>
+
+                    <option value="z">
+                        Z
+                    </option>
+
+                    <option value="newest">
+                        Newest
+                    </option>
+
+                    <option value="oldest">
+                        Oldest
+                    </option>
+
                 </select>
 
             </div>
 
-            <div class="actions" style="margin-bottom: 12px;">
-                <button class="blue" id="copyAll">Copy All</button>
-                <button class="danger" id="clearAll">Clear All</button>
+            <div
+                class="actions"
+                style="margin-bottom: 12px;"
+            >
+
+                <button
+                    class="blue"
+                    id="copyAll"
+                >
+                    Copy All
+                </button>
+
+                <button
+                    class="danger"
+                    id="clearAll"
+                >
+                    Clear All
+                </button>
+
             </div>
 
-            <div class="count" id="count"></div>
+            <div
+                class="count"
+                id="count"
+            ></div>
 
             <div id="locations"></div>
+
         </div>
 
     </div>
@@ -503,53 +934,97 @@ button.blue {
 </div>
 
 <!-- CUSTOM MODAL -->
-<div class="modal-backdrop" id="modalBackdrop">
+
+<div
+    class="modal-backdrop"
+    id="modalBackdrop"
+>
 
     <div class="modal">
 
-        <h3 id="modalTitle">Confirm</h3>
+        <h3 id="modalTitle">
+            Confirm
+        </h3>
 
         <p id="modalMessage"></p>
 
         <div id="modalFields"></div>
 
         <div class="modal-actions">
-            <button class="secondary" id="modalCancel">Cancel</button>
-            <button id="modalConfirm">Confirm</button>
+
+            <button
+                class="secondary"
+                id="modalCancel"
+            >
+                Cancel
+            </button>
+
+            <button
+                id="modalConfirm"
+            >
+                Confirm
+            </button>
+
         </div>
 
     </div>
 
 </div>
 
-<div class="toast" id="toast"></div>
+<div
+    class="toast"
+    id="toast"
+></div>
 
 <script>
-const STORAGE_KEY = "minecraft-coordinate-notebook-v2";
-const OLD_STORAGE_KEY = "minecraft-coordinate-notebook-v1";
+const STORAGE_KEY =
+    "minecraft-coordinate-notebook-v2";
+
+const OLD_STORAGE_KEY =
+    "minecraft-coordinate-notebook-v1";
 
 let worlds = [];
 let currentWorldId = null;
 
-const $ = id => document.getElementById(id);
+const $ = id =>
+    document.getElementById(id);
 
-/* -------------------------
+/* =========================
    BASIC HELPERS
-------------------------- */
+========================= */
 
 function createId() {
-    return Date.now() + "-" + Math.random().toString(36).slice(2);
+
+    return (
+        Date.now() +
+        "-" +
+        Math.random()
+            .toString(36)
+            .slice(2)
+    );
+
 }
 
 function saveData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(worlds));
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(worlds)
+    );
+
 }
 
 function getCurrentWorld() {
-    return worlds.find(world => world.id === currentWorldId);
+
+    return worlds.find(
+        world =>
+            world.id === currentWorldId
+    );
+
 }
 
 function formatNumber(value) {
+
     const number = Number(value);
 
     if (!Number.isFinite(number)) {
@@ -559,62 +1034,88 @@ function formatNumber(value) {
     return Number.isInteger(number)
         ? String(number)
         : String(number);
+
 }
 
 function coordinateText(location) {
+
     return (
         location.name +
-        " - X: " + formatNumber(location.x) +
-        "   Y: " + formatNumber(location.y) +
-        "   Z: " + formatNumber(location.z)
+        " - X: " +
+        formatNumber(location.x) +
+        "   Y: " +
+        formatNumber(location.y) +
+        "   Z: " +
+        formatNumber(location.z)
     );
+
 }
 
-/* -------------------------
+/* =========================
    INITIALIZATION
-------------------------- */
+========================= */
 
 function initializeData() {
 
-    const savedWorlds = localStorage.getItem(STORAGE_KEY);
+    const savedWorlds =
+        localStorage.getItem(
+            STORAGE_KEY
+        );
 
     if (savedWorlds) {
 
         try {
-            worlds = JSON.parse(savedWorlds);
 
-            if (!Array.isArray(worlds) || worlds.length === 0) {
+            worlds =
+                JSON.parse(savedWorlds);
+
+            if (
+                !Array.isArray(worlds) ||
+                worlds.length === 0
+            ) {
                 worlds = [];
             }
 
         } catch {
+
             worlds = [];
+
         }
+
     }
 
     /*
-       If there are no v2 worlds, migrate ALL old v1
-       locations into World 1.
+       If there are no v2 worlds,
+       migrate every old location into
+       World 1.
     */
 
     if (worlds.length === 0) {
 
         let oldLocations = [];
 
-        const oldData = localStorage.getItem(OLD_STORAGE_KEY);
+        const oldData =
+            localStorage.getItem(
+                OLD_STORAGE_KEY
+            );
 
         if (oldData) {
 
             try {
-                const parsed = JSON.parse(oldData);
+
+                const parsed =
+                    JSON.parse(oldData);
 
                 if (Array.isArray(parsed)) {
                     oldLocations = parsed;
                 }
 
             } catch {
+
                 oldLocations = [];
+
             }
+
         }
 
         worlds = [
@@ -626,93 +1127,154 @@ function initializeData() {
             }
         ];
 
-        currentWorldId = worlds[0].id;
+        currentWorldId =
+            worlds[0].id;
 
         saveData();
 
     } else {
 
-        /*
-           Make sure older v2 data that might not have
-           a name/seed/locations still works.
-        */
+        worlds = worlds.map(
+            (world, index) => ({
 
-        worlds = worlds.map((world, index) => ({
-            id: world.id || createId(),
-            name: world.name || "World " + (index + 1),
-            seed: world.seed || "",
-            locations: Array.isArray(world.locations)
-                ? world.locations
-                : []
-        }));
+                id:
+                    world.id ||
+                    createId(),
 
-        currentWorldId = worlds[0].id;
+                name:
+                    world.name ||
+                    "World " +
+                    (index + 1),
+
+                seed:
+                    world.seed ||
+                    "",
+
+                locations:
+                    Array.isArray(
+                        world.locations
+                    )
+                        ? world.locations
+                        : []
+
+            })
+        );
+
+        currentWorldId =
+            worlds[0].id;
 
         saveData();
+
     }
 
     renderWorlds();
     renderLocations();
+
 }
 
-/* -------------------------
+/* =========================
    WORLDS
-------------------------- */
+========================= */
 
 function renderWorlds() {
 
-    const select = $("worldSelect");
+    const select =
+        $("worldSelect");
 
     select.innerHTML = "";
 
-    worlds.forEach((world, index) => {
+    worlds.forEach(
+        (world, index) => {
 
-        const option = document.createElement("option");
+            const option =
+                document.createElement(
+                    "option"
+                );
 
-        option.value = world.id;
-        option.textContent = world.name || "World " + (index + 1);
+            option.value =
+                world.id;
 
-        select.appendChild(option);
-    });
+            option.textContent =
+                world.name ||
+                "World " +
+                (index + 1);
 
-    if (!worlds.some(world => world.id === currentWorldId)) {
-        currentWorldId = worlds[0]?.id || null;
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+    if (
+        !worlds.some(
+            world =>
+                world.id ===
+                currentWorldId
+        )
+    ) {
+
+        currentWorldId =
+            worlds[0]?.id ||
+            null;
+
     }
 
     if (currentWorldId) {
-        select.value = currentWorldId;
+
+        select.value =
+            currentWorldId;
+
     }
 
     updateWorldInfo();
+
 }
 
 function updateWorldInfo() {
 
-    const world = getCurrentWorld();
+    const world =
+        getCurrentWorld();
 
     if (!world) {
-        $("currentWorldName").textContent = "No world";
-        $("currentWorldSeed").textContent = "Not set";
-        $("currentWorldLocationCount").textContent = "0";
+
+        $("currentWorldName")
+            .textContent =
+            "No world";
+
+        $("currentWorldSeed")
+            .textContent =
+            "Not set";
+
+        $("currentWorldLocationCount")
+            .textContent =
+            "0";
+
         return;
     }
 
-    $("currentWorldName").textContent = world.name;
+    $("currentWorldName")
+        .textContent =
+        world.name;
 
-    $("currentWorldSeed").textContent =
+    $("currentWorldSeed")
+        .textContent =
         world.seed === ""
             ? "Not set"
             : world.seed;
 
-    $("currentWorldLocationCount").textContent =
+    $("currentWorldLocationCount")
+        .textContent =
         world.locations.length;
+
 }
 
-/* -------------------------
-   CUSTOM WORLD MODAL
-------------------------- */
+/* =========================
+   MODAL
+========================= */
 
-let modalConfirmAction = null;
+let modalConfirmAction =
+    null;
 
 function openModal({
     title,
@@ -723,571 +1285,1083 @@ function openModal({
     onConfirm
 }) {
 
-    $("modalTitle").textContent = title;
-    $("modalMessage").textContent = message;
+    $("modalTitle")
+        .textContent =
+        title;
 
-    const fieldsContainer = $("modalFields");
+    $("modalMessage")
+        .textContent =
+        message;
 
-    fieldsContainer.innerHTML = "";
+    const fieldsContainer =
+        $("modalFields");
+
+    fieldsContainer.innerHTML =
+        "";
 
     fields.forEach(field => {
 
-        const wrapper = document.createElement("div");
-        wrapper.className = "field";
+        const wrapper =
+            document.createElement(
+                "div"
+            );
 
-        const label = document.createElement("label");
-        label.textContent = field.label;
-        label.htmlFor = field.id;
+        wrapper.className =
+            "field";
 
-        const input = document.createElement("input");
+        const label =
+            document.createElement(
+                "label"
+            );
 
-        input.id = field.id;
-        input.type = field.type || "text";
-        input.placeholder = field.placeholder || "";
-        input.value = field.value ?? "";
+        label.textContent =
+            field.label;
+
+        label.htmlFor =
+            field.id;
+
+        const input =
+            document.createElement(
+                "input"
+            );
+
+        input.id =
+            field.id;
+
+        input.type =
+            field.type ||
+            "text";
+
+        input.placeholder =
+            field.placeholder ||
+            "";
+
+        input.value =
+            field.value ?? "";
 
         if (field.required) {
-            input.required = true;
+            input.required =
+                true;
         }
 
         wrapper.appendChild(label);
         wrapper.appendChild(input);
 
-        fieldsContainer.appendChild(wrapper);
+        fieldsContainer.appendChild(
+            wrapper
+        );
+
     });
 
-    const confirmButton = $("modalConfirm");
+    const confirmButton =
+        $("modalConfirm");
 
-    confirmButton.textContent = confirmText;
+    confirmButton.textContent =
+        confirmText;
 
-    confirmButton.classList.toggle("danger", danger);
-    confirmButton.classList.toggle("blue", !danger);
+    confirmButton.classList.toggle(
+        "danger",
+        danger
+    );
 
-    modalConfirmAction = onConfirm;
+    confirmButton.classList.toggle(
+        "blue",
+        !danger
+    );
 
-    $("modalBackdrop").classList.add("show");
+    modalConfirmAction =
+        onConfirm;
 
-    const firstInput = fieldsContainer.querySelector("input");
+    $("modalBackdrop")
+        .classList.add("show");
+
+    const firstInput =
+        fieldsContainer.querySelector(
+            "input"
+        );
 
     if (firstInput) {
-        setTimeout(() => firstInput.focus(), 50);
+
+        setTimeout(
+            () => firstInput.focus(),
+            50
+        );
+
     }
+
 }
 
 function closeModal() {
-    $("modalBackdrop").classList.remove("show");
-    $("modalFields").innerHTML = "";
-    modalConfirmAction = null;
+
+    $("modalBackdrop")
+        .classList.remove(
+            "show"
+        );
+
+    $("modalFields")
+        .innerHTML =
+        "";
+
+    modalConfirmAction =
+        null;
+
 }
 
-$("modalCancel").addEventListener("click", closeModal);
+$("modalCancel")
+    .addEventListener(
+        "click",
+        closeModal
+    );
 
-$("modalBackdrop").addEventListener("click", event => {
+$("modalBackdrop")
+    .addEventListener(
+        "click",
+        event => {
 
-    if (event.target === $("modalBackdrop")) {
-        closeModal();
-    }
-
-});
-
-$("modalConfirm").addEventListener("click", () => {
-
-    if (typeof modalConfirmAction === "function") {
-        modalConfirmAction();
-    }
-
-});
-
-/* -------------------------
-   NEW WORLD
-------------------------- */
-
-$("newWorld").addEventListener("click", () => {
-
-    openModal({
-        title: "Create World",
-        message: "Enter the name and seed for your new world.",
-        fields: [
-            {
-                id: "worldNameInput",
-                label: "World Name",
-                placeholder: "World 2",
-                required: true
-            },
-            {
-                id: "worldSeedInput",
-                label: "Seed",
-                placeholder: "Optional"
+            if (
+                event.target ===
+                $("modalBackdrop")
+            ) {
+                closeModal();
             }
-        ],
-        confirmText: "Create World",
-        onConfirm: () => {
 
-            const name =
-                $("worldNameInput").value.trim();
+        }
+    );
 
-            const seed =
-                $("worldSeedInput").value.trim();
+$("modalConfirm")
+    .addEventListener(
+        "click",
+        () => {
 
-            if (!name) {
-                showToast("Enter a world name.");
+            if (
+                typeof modalConfirmAction ===
+                "function"
+            ) {
+
+                modalConfirmAction();
+
+            }
+
+        }
+    );
+
+/* =========================
+   NEW WORLD
+========================= */
+
+$("newWorld")
+    .addEventListener(
+        "click",
+        () => {
+
+            openModal({
+
+                title:
+                    "Create World",
+
+                message:
+                    "Enter the name and seed for your new world.",
+
+                fields: [
+
+                    {
+                        id:
+                            "worldNameInput",
+
+                        label:
+                            "World Name",
+
+                        placeholder:
+                            "World 2",
+
+                        required:
+                            true
+                    },
+
+                    {
+                        id:
+                            "worldSeedInput",
+
+                        label:
+                            "Seed",
+
+                        placeholder:
+                            "Optional"
+                    }
+
+                ],
+
+                confirmText:
+                    "Create World",
+
+                onConfirm:
+                    () => {
+
+                        const name =
+                            $(
+                                "worldNameInput"
+                            )
+                                .value
+                                .trim();
+
+                        const seed =
+                            $(
+                                "worldSeedInput"
+                            )
+                                .value
+                                .trim();
+
+                        if (!name) {
+
+                            showToast(
+                                "Enter a world name."
+                            );
+
+                            return;
+
+                        }
+
+                        const world = {
+
+                            id:
+                                createId(),
+
+                            name,
+
+                            seed,
+
+                            locations:
+                                []
+
+                        };
+
+                        worlds.push(
+                            world
+                        );
+
+                        currentWorldId =
+                            world.id;
+
+                        saveData();
+
+                        renderWorlds();
+                        renderLocations();
+
+                        closeModal();
+
+                        showToast(
+                            "World created."
+                        );
+
+                    }
+
+            });
+
+        }
+    );
+
+/* =========================
+   EDIT WORLD
+========================= */
+
+$("editWorld")
+    .addEventListener(
+        "click",
+        () => {
+
+            const world =
+                getCurrentWorld();
+
+            if (!world) {
                 return;
             }
 
-            const world = {
-                id: createId(),
-                name,
-                seed,
-                locations: []
+            openModal({
+
+                title:
+                    "Edit World",
+
+                message:
+                    "Change the name or seed for this world.",
+
+                fields: [
+
+                    {
+                        id:
+                            "editWorldName",
+
+                        label:
+                            "World Name",
+
+                        value:
+                            world.name,
+
+                        required:
+                            true
+                    },
+
+                    {
+                        id:
+                            "editWorldSeed",
+
+                        label:
+                            "Seed",
+
+                        value:
+                            world.seed ||
+                            "",
+
+                        placeholder:
+                            "Optional"
+                    }
+
+                ],
+
+                confirmText:
+                    "Save Changes",
+
+                onConfirm:
+                    () => {
+
+                        const name =
+                            $(
+                                "editWorldName"
+                            )
+                                .value
+                                .trim();
+
+                        const seed =
+                            $(
+                                "editWorldSeed"
+                            )
+                                .value
+                                .trim();
+
+                        if (!name) {
+
+                            showToast(
+                                "Enter a world name."
+                            );
+
+                            return;
+
+                        }
+
+                        world.name =
+                            name;
+
+                        world.seed =
+                            seed;
+
+                        saveData();
+
+                        renderWorlds();
+                        renderLocations();
+
+                        closeModal();
+
+                        showToast(
+                            "World updated."
+                        );
+
+                    }
+
+            });
+
+        }
+    );
+
+/* =========================
+   DELETE WORLD
+========================= */
+
+$("deleteWorld")
+    .addEventListener(
+        "click",
+        () => {
+
+            const world =
+                getCurrentWorld();
+
+            if (!world) {
+                return;
+            }
+
+            if (worlds.length <= 1) {
+
+                openModal({
+
+                    title:
+                        "Cannot Delete World",
+
+                    message:
+                        "You must keep at least one world.",
+
+                    confirmText:
+                        "OK",
+
+                    onConfirm:
+                        closeModal
+
+                });
+
+                return;
+
+            }
+
+            openModal({
+
+                title:
+                    "Delete World?",
+
+                message:
+                    'This will permanently delete "' +
+                    world.name +
+                    '" and all of its saved locations.',
+
+                confirmText:
+                    "Delete World",
+
+                danger:
+                    true,
+
+                onConfirm:
+                    () => {
+
+                        worlds =
+                            worlds.filter(
+                                item =>
+                                    item.id !==
+                                    world.id
+                            );
+
+                        currentWorldId =
+                            worlds[0].id;
+
+                        saveData();
+
+                        renderWorlds();
+                        renderLocations();
+
+                        closeModal();
+
+                        showToast(
+                            "World deleted."
+                        );
+
+                    }
+
+            });
+
+        }
+    );
+
+/* =========================
+   WORLD SWITCH
+========================= */
+
+$("worldSelect")
+    .addEventListener(
+        "change",
+        event => {
+
+            currentWorldId =
+                event.target.value;
+
+            renderLocations();
+            updateWorldInfo();
+
+        }
+    );
+
+/* =========================
+   ADD LOCATION
+========================= */
+
+$("locationForm")
+    .addEventListener(
+        "submit",
+        event => {
+
+            event.preventDefault();
+
+            const world =
+                getCurrentWorld();
+
+            if (!world) {
+
+                showToast(
+                    "Create a world first."
+                );
+
+                return;
+
+            }
+
+            const location = {
+
+                id:
+                    createId(),
+
+                name:
+                    $("locationName")
+                        .value
+                        .trim(),
+
+                dimension:
+                    $("dimension")
+                        .value,
+
+                x:
+                    Number(
+                        $("x").value
+                    ),
+
+                y:
+                    Number(
+                        $("y").value
+                    ),
+
+                z:
+                    Number(
+                        $("z").value
+                    ),
+
+                category:
+                    $("category")
+                        .value
+                        .trim(),
+
+                createdAt:
+                    Date.now()
+
             };
 
-            worlds.push(world);
+            if (
+                !location.name ||
+                !Number.isFinite(
+                    location.x
+                ) ||
+                !Number.isFinite(
+                    location.y
+                ) ||
+                !Number.isFinite(
+                    location.z
+                )
+            ) {
 
-            currentWorldId = world.id;
+                showToast(
+                    "Please enter valid location information."
+                );
 
-            saveData();
-            renderWorlds();
-            renderLocations();
-
-            closeModal();
-
-            showToast("World created.");
-        }
-    });
-
-});
-
-/* -------------------------
-   RENAME / EDIT WORLD
-------------------------- */
-
-$("editWorld").addEventListener("click", () => {
-
-    const world = getCurrentWorld();
-
-    if (!world) {
-        return;
-    }
-
-    openModal({
-        title: "Edit World",
-        message: "Change the name or seed for this world.",
-        fields: [
-            {
-                id: "editWorldName",
-                label: "World Name",
-                value: world.name,
-                required: true
-            },
-            {
-                id: "editWorldSeed",
-                label: "Seed",
-                value: world.seed || "",
-                placeholder: "Optional"
-            }
-        ],
-        confirmText: "Save Changes",
-        onConfirm: () => {
-
-            const name =
-                $("editWorldName").value.trim();
-
-            const seed =
-                $("editWorldSeed").value.trim();
-
-            if (!name) {
-                showToast("Enter a world name.");
                 return;
+
             }
 
-            world.name = name;
-            world.seed = seed;
-
-            saveData();
-            renderWorlds();
-            renderLocations();
-
-            closeModal();
-
-            showToast("World updated.");
-        }
-    });
-
-});
-
-/* -------------------------
-   DELETE WORLD
-------------------------- */
-
-$("deleteWorld").addEventListener("click", () => {
-
-    const world = getCurrentWorld();
-
-    if (!world) {
-        return;
-    }
-
-    if (worlds.length <= 1) {
-
-        openModal({
-            title: "Cannot Delete World",
-            message: "You must keep at least one world.",
-            confirmText: "OK",
-            onConfirm: closeModal
-        });
-
-        return;
-    }
-
-    openModal({
-        title: "Delete World?",
-        message:
-            'This will permanently delete "' +
-            world.name +
-            '" and all of its saved locations.',
-        confirmText: "Delete World",
-        danger: true,
-        onConfirm: () => {
-
-            worlds = worlds.filter(
-                item => item.id !== world.id
+            world.locations.push(
+                location
             );
 
-            currentWorldId = worlds[0].id;
-
             saveData();
-            renderWorlds();
+
             renderLocations();
+            updateWorldInfo();
 
-            closeModal();
+            $("locationForm")
+                .reset();
 
-            showToast("World deleted.");
+            showToast(
+                "Location saved."
+            );
+
         }
-    });
+    );
 
-});
+/* =========================
+   SEARCH / FILTER / SORT
+========================= */
 
-/* -------------------------
-   WORLD SWITCHING
-------------------------- */
+$("search")
+    .addEventListener(
+        "input",
+        renderLocations
+    );
 
-$("worldSelect").addEventListener("change", event => {
+$("dimensionFilter")
+    .addEventListener(
+        "change",
+        renderLocations
+    );
 
-    currentWorldId = event.target.value;
+$("sort")
+    .addEventListener(
+        "change",
+        renderLocations
+    );
 
-    renderLocations();
-    updateWorldInfo();
-
-});
-
-/* -------------------------
-   ADD LOCATION
-------------------------- */
-
-$("locationForm").addEventListener("submit", event => {
-
-    event.preventDefault();
-
-    const world = getCurrentWorld();
-
-    if (!world) {
-        showToast("Create a world first.");
-        return;
-    }
-
-    const location = {
-
-        id: createId(),
-
-        name: $("locationName").value.trim(),
-
-        dimension: $("dimension").value,
-
-        x: Number($("x").value),
-
-        y: Number($("y").value),
-
-        z: Number($("z").value),
-
-        category: $("category").value.trim(),
-
-        createdAt: Date.now()
-
-    };
-
-    if (
-        !location.name ||
-        !Number.isFinite(location.x) ||
-        !Number.isFinite(location.y) ||
-        !Number.isFinite(location.z)
-    ) {
-        showToast("Please enter valid location information.");
-        return;
-    }
-
-    world.locations.push(location);
-
-    saveData();
-
-    renderLocations();
-    updateWorldInfo();
-
-    $("locationForm").reset();
-
-    showToast("Location saved.");
-
-});
-
-/* -------------------------
-   SEARCH / SORT / FILTER
-------------------------- */
-
-$("search").addEventListener("input", renderLocations);
-$("dimensionFilter").addEventListener("change", renderLocations);
-$("sort").addEventListener("change", renderLocations);
-
-/* -------------------------
+/* =========================
    RENDER LOCATIONS
-------------------------- */
+========================= */
 
 function renderLocations() {
 
-    const container = $("locations");
-    const world = getCurrentWorld();
+    const container =
+        $("locations");
 
-    container.innerHTML = "";
+    const world =
+        getCurrentWorld();
+
+    container.innerHTML =
+        "";
 
     if (!world) {
 
         container.innerHTML =
             '<div class="empty">No world selected.</div>';
 
-        $("count").textContent = "";
+        $("count")
+            .textContent =
+            "";
 
         return;
     }
 
-    let locations = [...world.locations];
+    let locations =
+        [...world.locations];
 
     const search =
-        $("search").value.trim().toLowerCase();
+        $("search")
+            .value
+            .trim()
+            .toLowerCase();
 
     const dimension =
-        $("dimensionFilter").value;
+        $("dimensionFilter")
+            .value;
 
     if (search) {
 
-        locations = locations.filter(location => {
+        locations =
+            locations.filter(
+                location => {
 
-            return (
-                location.name.toLowerCase().includes(search) ||
-                location.dimension.toLowerCase().includes(search) ||
-                (location.category || "")
-                    .toLowerCase()
-                    .includes(search) ||
-                String(location.x).includes(search) ||
-                String(location.y).includes(search) ||
-                String(location.z).includes(search)
+                    return (
+
+                        location.name
+                            .toLowerCase()
+                            .includes(
+                                search
+                            )
+
+                        ||
+
+                        location.dimension
+                            .toLowerCase()
+                            .includes(
+                                search
+                            )
+
+                        ||
+
+                        (
+                            location.category ||
+                            ""
+                        )
+                            .toLowerCase()
+                            .includes(
+                                search
+                            )
+
+                        ||
+
+                        String(
+                            location.x
+                        ).includes(
+                            search
+                        )
+
+                        ||
+
+                        String(
+                            location.y
+                        ).includes(
+                            search
+                        )
+
+                        ||
+
+                        String(
+                            location.z
+                        ).includes(
+                            search
+                        )
+
+                    );
+
+                }
             );
 
-        });
+    }
+
+    if (
+        dimension !==
+        "all"
+    ) {
+
+        locations =
+            locations.filter(
+                location =>
+                    location.dimension ===
+                    dimension
+            );
 
     }
 
-    if (dimension !== "all") {
-
-        locations = locations.filter(
-            location => location.dimension === dimension
-        );
-
-    }
-
-    const sort = $("sort").value;
+    const sort =
+        $("sort").value;
 
     if (sort === "name") {
 
-        locations.sort((a, b) =>
-            a.name.localeCompare(b.name)
+        locations.sort(
+            (a, b) =>
+                a.name.localeCompare(
+                    b.name
+                )
         );
 
-    } else if (sort === "x") {
+    } else if (
+        sort === "x"
+    ) {
 
-        locations.sort((a, b) =>
-            Number(a.x) - Number(b.x)
+        locations.sort(
+            (a, b) =>
+                Number(a.x) -
+                Number(b.x)
         );
 
-    } else if (sort === "y") {
+    } else if (
+        sort === "y"
+    ) {
 
-        locations.sort((a, b) =>
-            Number(a.y) - Number(b.y)
+        locations.sort(
+            (a, b) =>
+                Number(a.y) -
+                Number(b.y)
         );
 
-    } else if (sort === "z") {
+    } else if (
+        sort === "z"
+    ) {
 
-        locations.sort((a, b) =>
-            Number(a.z) - Number(b.z)
+        locations.sort(
+            (a, b) =>
+                Number(a.z) -
+                Number(b.z)
         );
 
-    } else if (sort === "newest") {
+    } else if (
+        sort === "newest"
+    ) {
 
-        locations.sort((a, b) =>
-            Number(b.createdAt || 0) -
-            Number(a.createdAt || 0)
+        locations.sort(
+            (a, b) =>
+                Number(
+                    b.createdAt ||
+                    0
+                ) -
+                Number(
+                    a.createdAt ||
+                    0
+                )
         );
 
-    } else if (sort === "oldest") {
+    } else if (
+        sort === "oldest"
+    ) {
 
-        locations.sort((a, b) =>
-            Number(a.createdAt || 0) -
-            Number(b.createdAt || 0)
+        locations.sort(
+            (a, b) =>
+                Number(
+                    a.createdAt ||
+                    0
+                ) -
+                Number(
+                    b.createdAt ||
+                    0
+                )
         );
 
     }
 
-    $("count").textContent =
+    $("count")
+        .textContent =
         locations.length +
         " location" +
-        (locations.length === 1 ? "" : "s") +
+        (
+            locations.length === 1
+                ? ""
+                : "s"
+        ) +
         " shown";
 
-    if (locations.length === 0) {
+    if (
+        locations.length === 0
+    ) {
 
         container.innerHTML =
             '<div class="empty">No locations found.</div>';
 
         return;
+
     }
 
-    locations.forEach(location => {
+    locations.forEach(
+        location => {
 
-        const card = document.createElement("div");
-
-        card.className = "location-card";
-
-        const top = document.createElement("div");
-        top.className = "location-top";
-
-        const titleArea = document.createElement("div");
-
-        const name = document.createElement("div");
-        name.className = "location-name";
-        name.textContent = location.name;
-
-        const dimension = document.createElement("div");
-        dimension.className = "dimension";
-        dimension.textContent = location.dimension;
-
-        titleArea.appendChild(name);
-        titleArea.appendChild(dimension);
-
-        if (location.category) {
-
-            const category = document.createElement("div");
-
-            category.className = "dimension";
-            category.textContent = location.category;
-
-            titleArea.appendChild(category);
-        }
-
-        top.appendChild(titleArea);
-
-        card.appendChild(top);
-
-        const coordinates = document.createElement("div");
-
-        coordinates.className = "coordinates";
-
-        coordinates.textContent =
-            "X: " + formatNumber(location.x) +
-            "   Y: " + formatNumber(location.y) +
-            "   Z: " + formatNumber(location.z);
-
-        card.appendChild(coordinates);
-
-        const actions = document.createElement("div");
-
-        actions.className = "actions";
-
-        const copyButton = document.createElement("button");
-
-        copyButton.className = "blue";
-        copyButton.textContent = "Copy Coordinates";
-
-        copyButton.addEventListener("click", async () => {
-
-            try {
-
-                await copyText(
-                    coordinateText(location)
+            const card =
+                document.createElement(
+                    "div"
                 );
 
-                copyButton.textContent = "Copied!";
+            card.className =
+                "location-card";
 
-                setTimeout(() => {
-                    copyButton.textContent =
-                        "Copy Coordinates";
-                }, 1200);
+            const top =
+                document.createElement(
+                    "div"
+                );
 
-            } catch {
+            top.className =
+                "location-top";
 
-                showToast(
-                    "Could not copy coordinates."
+            const titleArea =
+                document.createElement(
+                    "div"
+                );
+
+            const name =
+                document.createElement(
+                    "div"
+                );
+
+            name.className =
+                "location-name";
+
+            name.textContent =
+                location.name;
+
+            const dimension =
+                document.createElement(
+                    "div"
+                );
+
+            dimension.className =
+                "dimension";
+
+            dimension.textContent =
+                location.dimension;
+
+            titleArea.appendChild(
+                name
+            );
+
+            titleArea.appendChild(
+                dimension
+            );
+
+            if (
+                location.category
+            ) {
+
+                const category =
+                    document.createElement(
+                        "div"
+                    );
+
+                category.className =
+                    "dimension";
+
+                category.textContent =
+                    location.category;
+
+                titleArea.appendChild(
+                    category
                 );
 
             }
 
-        });
+            top.appendChild(
+                titleArea
+            );
 
-        const deleteButton = document.createElement("button");
+            card.appendChild(
+                top
+            );
 
-        deleteButton.className = "danger";
-        deleteButton.textContent = "Delete";
+            const coordinates =
+                document.createElement(
+                    "div"
+                );
 
-        deleteButton.addEventListener("click", () => {
+            coordinates.className =
+                "coordinates";
 
-            openModal({
-                title: "Delete Location?",
-                message:
-                    'Delete "' +
-                    location.name +
-                    '" from this world?',
-                confirmText: "Delete",
-                danger: true,
-                onConfirm: () => {
+            coordinates.textContent =
+                "X: " +
+                formatNumber(
+                    location.x
+                ) +
+                "   Y: " +
+                formatNumber(
+                    location.y
+                ) +
+                "   Z: " +
+                formatNumber(
+                    location.z
+                );
 
-                    world.locations =
-                        world.locations.filter(
-                            item => item.id !== location.id
+            card.appendChild(
+                coordinates
+            );
+
+            const actions =
+                document.createElement(
+                    "div"
+                );
+
+            actions.className =
+                "actions";
+
+            const copyButton =
+                document.createElement(
+                    "button"
+                );
+
+            copyButton.className =
+                "blue";
+
+            copyButton.textContent =
+                "Copy Coordinates";
+
+            copyButton.addEventListener(
+                "click",
+                async () => {
+
+                    try {
+
+                        await copyText(
+                            coordinateText(
+                                location
+                            )
                         );
 
-                    saveData();
+                        copyButton.textContent =
+                            "Copied!";
 
-                    renderLocations();
-                    updateWorldInfo();
+                        setTimeout(
+                            () => {
 
-                    closeModal();
+                                copyButton.textContent =
+                                    "Copy Coordinates";
 
-                    showToast("Location deleted.");
+                            },
+                            1200
+                        );
+
+                    } catch {
+
+                        showToast(
+                            "Could not copy coordinates."
+                        );
+
+                    }
+
                 }
-            });
+            );
 
-        });
+            const deleteButton =
+                document.createElement(
+                    "button"
+                );
 
-        actions.appendChild(copyButton);
-        actions.appendChild(deleteButton);
+            deleteButton.className =
+                "danger";
 
-        card.appendChild(actions);
+            deleteButton.textContent =
+                "Delete";
 
-        container.appendChild(card);
+            deleteButton.addEventListener(
+                "click",
+                () => {
 
-    });
+                    openModal({
+
+                        title:
+                            "Delete Location?",
+
+                        message:
+                            'Delete "' +
+                            location.name +
+                            '" from this world?',
+
+                        confirmText:
+                            "Delete",
+
+                        danger:
+                            true,
+
+                        onConfirm:
+                            () => {
+
+                                world.locations =
+                                    world.locations.filter(
+                                        item =>
+                                            item.id !==
+                                            location.id
+                                    );
+
+                                saveData();
+
+                                renderLocations();
+                                updateWorldInfo();
+
+                                closeModal();
+
+                                showToast(
+                                    "Location deleted."
+                                );
+
+                            }
+
+                    });
+
+                }
+            );
+
+            actions.appendChild(
+                copyButton
+            );
+
+            actions.appendChild(
+                deleteButton
+            );
+
+            card.appendChild(
+                actions
+            );
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
 
 }
 
-/* -------------------------
-   COPY TEXT
-------------------------- */
+/* =========================
+   COPY
+========================= */
 
 async function copyText(text) {
 
@@ -1296,160 +2370,241 @@ async function copyText(text) {
         window.isSecureContext
     ) {
 
-        await navigator.clipboard.writeText(text);
+        await navigator.clipboard
+            .writeText(text);
+
         return;
     }
 
     const textarea =
-        document.createElement("textarea");
+        document.createElement(
+            "textarea"
+        );
 
-    textarea.value = text;
+    textarea.value =
+        text;
 
-    textarea.style.position = "fixed";
-    textarea.style.left = "-9999px";
+    textarea.style.position =
+        "fixed";
 
-    document.body.appendChild(textarea);
+    textarea.style.left =
+        "-9999px";
+
+    document.body.appendChild(
+        textarea
+    );
 
     textarea.focus();
     textarea.select();
 
     const successful =
-        document.execCommand("copy");
+        document.execCommand(
+            "copy"
+        );
 
-    document.body.removeChild(textarea);
+    document.body.removeChild(
+        textarea
+    );
 
     if (!successful) {
-        throw new Error("Copy failed");
+        throw new Error(
+            "Copy failed"
+        );
     }
+
 }
 
-/* -------------------------
+/* =========================
    COPY ALL
-------------------------- */
+========================= */
 
-$("copyAll").addEventListener("click", async () => {
+$("copyAll")
+    .addEventListener(
+        "click",
+        async () => {
 
-    const world = getCurrentWorld();
+            const world =
+                getCurrentWorld();
 
-    if (!world || world.locations.length === 0) {
+            if (
+                !world ||
+                world.locations.length === 0
+            ) {
 
-        showToast(
-            "There are no saved locations to copy."
-        );
+                showToast(
+                    "There are no saved locations to copy."
+                );
 
-        return;
-    }
+                return;
 
-    const text =
-        world.locations
-            .map(coordinateText)
-            .join("\n");
+            }
 
-    try {
+            const text =
+                world.locations
+                    .map(
+                        coordinateText
+                    )
+                    .join("\n");
 
-        await copyText(text);
+            try {
 
-        const button = $("copyAll");
+                await copyText(
+                    text
+                );
 
-        const oldText = button.textContent;
+                const button =
+                    $("copyAll");
 
-        button.textContent = "Copied All!";
+                const oldText =
+                    button.textContent;
 
-        setTimeout(() => {
-            button.textContent = oldText;
-        }, 1200);
+                button.textContent =
+                    "Copied All!";
 
-    } catch {
+                setTimeout(
+                    () => {
 
-        showToast(
-            "Could not copy locations."
-        );
+                        button.textContent =
+                            oldText;
 
-    }
+                    },
+                    1200
+                );
 
-});
+            } catch {
 
-/* -------------------------
-   CLEAR ALL
-------------------------- */
+                showToast(
+                    "Could not copy locations."
+                );
 
-$("clearAll").addEventListener("click", () => {
+            }
 
-    const world = getCurrentWorld();
-
-    if (!world || world.locations.length === 0) {
-
-        showToast("There are no locations to clear.");
-
-        return;
-    }
-
-    openModal({
-        title: "Clear All Locations?",
-        message:
-            'This will permanently delete all ' +
-            world.locations.length +
-            ' saved locations from "' +
-            world.name +
-            '".',
-        confirmText: "Clear All",
-        danger: true,
-        onConfirm: () => {
-
-            world.locations = [];
-
-            saveData();
-
-            renderLocations();
-            updateWorldInfo();
-
-            closeModal();
-
-            showToast("All locations cleared.");
         }
-    });
+    );
 
-});
+/* =========================
+   CLEAR ALL
+========================= */
 
-/* -------------------------
+$("clearAll")
+    .addEventListener(
+        "click",
+        () => {
+
+            const world =
+                getCurrentWorld();
+
+            if (
+                !world ||
+                world.locations.length === 0
+            ) {
+
+                showToast(
+                    "There are no locations to clear."
+                );
+
+                return;
+
+            }
+
+            openModal({
+
+                title:
+                    "Clear All Locations?",
+
+                message:
+                    "This will permanently delete all " +
+                    world.locations.length +
+                    " saved locations from \"" +
+                    world.name +
+                    "\".",
+
+                confirmText:
+                    "Clear All",
+
+                danger:
+                    true,
+
+                onConfirm:
+                    () => {
+
+                        world.locations =
+                            [];
+
+                        saveData();
+
+                        renderLocations();
+                        updateWorldInfo();
+
+                        closeModal();
+
+                        showToast(
+                            "All locations cleared."
+                        );
+
+                    }
+
+            });
+
+        }
+    );
+
+/* =========================
    TOAST
-------------------------- */
+========================= */
 
 let toastTimeout;
 
 function showToast(message) {
 
-    const toast = $("toast");
+    const toast =
+        $("toast");
 
-    toast.textContent = message;
+    toast.textContent =
+        message;
 
-    toast.classList.add("show");
+    toast.classList.add(
+        "show"
+    );
 
-    clearTimeout(toastTimeout);
+    clearTimeout(
+        toastTimeout
+    );
 
-    toastTimeout = setTimeout(() => {
-        toast.classList.remove("show");
-    }, 1800);
+    toastTimeout =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            1800
+        );
 
 }
 
-/* -------------------------
+/* =========================
    DISABLE ZOOM
-------------------------- */
+========================= */
 
 document.addEventListener(
     "gesturestart",
-    event => event.preventDefault()
+    event =>
+        event.preventDefault()
 );
 
 document.addEventListener(
     "gesturechange",
-    event => event.preventDefault()
+    event =>
+        event.preventDefault()
 );
 
 document.addEventListener(
     "gestureend",
-    event => event.preventDefault()
+    event =>
+        event.preventDefault()
 );
 
 let lastTouchEnd = 0;
@@ -1458,21 +2613,31 @@ document.addEventListener(
     "touchend",
     event => {
 
-        const now = Date.now();
+        const now =
+            Date.now();
 
-        if (now - lastTouchEnd <= 300) {
+        if (
+            now -
+            lastTouchEnd <=
+            300
+        ) {
+
             event.preventDefault();
+
         }
 
-        lastTouchEnd = now;
+        lastTouchEnd =
+            now;
 
     },
-    { passive: false }
+    {
+        passive: false
+    }
 );
 
-/* -------------------------
+/* =========================
    START
-------------------------- */
+========================= */
 
 initializeData();
 </script>

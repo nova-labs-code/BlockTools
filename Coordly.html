@@ -1768,36 +1768,30 @@ function deleteCurrentWorld() {
 
 function copyWorld() {
 
-    const world =
-        currentWorld();
-
+    const world = currentWorld();
 
     if (!world) {
         return;
     }
 
+    let text =
+        world.name +
+        "\nSeed: " +
+        (world.seed || "Not set");
 
-    const text =
-        world.locations
-            .map(coordinateText)
-            .join("\n");
+    if (world.locations.length > 0) {
 
-
-    if (!text) {
-
-        showToast(
-            "This world has no locations."
-        );
-
-        return;
+        text +=
+            "\n\n" +
+            world.locations
+                .map(coordinateText)
+                .join("\n");
     }
-
 
     copyText(text);
 
-
     showToast(
-        "World locations copied."
+        "World name, seed, and coordinates copied."
     );
 }
 

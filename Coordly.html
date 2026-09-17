@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
 >
 
-<meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <title>Coordly</title>
 
 <style>
-
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -26,45 +22,59 @@
 html,
 body {
     margin: 0;
+    padding: 0;
     min-height: 100%;
-    background: #090b10;
-    color: #f3f5f8;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    overscroll-behavior: none;
+    background: #0d1117;
+    color: #f0f3f6;
+    font-family: Arial, Helvetica, sans-serif;
     touch-action: manipulation;
 }
 
 body {
-    padding: 14px;
+    padding: 20px;
 }
 
 button,
 input,
 select {
-    touch-action: manipulation;
+    font: inherit;
 }
 
 button {
     cursor: pointer;
 }
 
-.app {
-    max-width: 1050px;
-    margin: auto;
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-header {
-    padding: 8px 4px 18px;
+.header {
+    margin-bottom: 18px;
 }
 
-h1 {
+.header h1 {
+    margin: 0 0 6px;
+    font-size: 32px;
+}
+
+.header p {
     margin: 0;
-    font-size: 29px;
+    color: #8b949e;
 }
 
-.sub {
-    margin: 6px 0 0;
-    color: #8f98a8;
+.panel {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+}
+
+.panel h2 {
+    margin: 0 0 14px;
+    font-size: 21px;
 }
 
 .layout {
@@ -73,1296 +83,1398 @@ h1 {
     gap: 14px;
 }
 
-.panel {
-    background: #11151d;
-    border: 1px solid #202733;
-    border-radius: 18px;
-    padding: 16px;
-}
-
-h2 {
-    font-size: 18px;
-    margin: 0 0 14px;
-}
-
 .field {
     margin-bottom: 12px;
 }
 
-label {
+.field:last-child {
+    margin-bottom: 0;
+}
+
+.field label {
     display: block;
-    color: #aeb6c4;
-    font-size: 13px;
-    font-weight: 700;
     margin-bottom: 6px;
+    font-size: 14px;
+    color: #c9d1d9;
 }
 
 input,
 select {
     width: 100%;
-    background: #0b0e14;
-    color: #fff;
-    border: 1px solid #29313e;
-    border-radius: 11px;
-    padding: 12px;
+    padding: 11px 12px;
+    border-radius: 9px;
+    border: 1px solid #30363d;
+    background: #0d1117;
+    color: #f0f3f6;
     outline: none;
-    min-height: 46px;
 }
 
 input:focus,
 select:focus {
-    border-color: #68758a;
+    border-color: #58a6ff;
 }
 
-.coords {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-
-.primary {
-    width: 100%;
+button {
     border: 0;
-    background: #e8edf4;
-    color: #0a0d12;
-    padding: 13px;
-    border-radius: 11px;
-    font-weight: 800;
+    border-radius: 9px;
+    padding: 10px 14px;
+    background: #238636;
+    color: white;
+    font-weight: 600;
 }
 
-.secondary {
-    border: 0;
-    background: #202733;
-    color: #e8edf4;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-weight: 700;
+button:hover {
+    filter: brightness(1.08);
 }
 
-.danger {
-    border: 0;
-    background: #321b20;
-    color: #ffb9c1;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-weight: 700;
+button.secondary {
+    background: #21262d;
+    border: 1px solid #30363d;
 }
 
-.toolbar {
+button.danger {
+    background: #da3633;
+}
+
+button.blue {
+    background: #1f6feb;
+}
+
+.actions {
     display: flex;
     gap: 8px;
-    margin-bottom: 12px;
     flex-wrap: wrap;
 }
 
-.toolbar select {
-    width: auto;
-    flex: 1;
-    min-width: 130px;
+.world-info {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 12px;
 }
 
-.search {
-    margin-bottom: 12px;
+.world-info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 7px;
 }
 
-.location {
-    background: #0b0e14;
-    border: 1px solid #242c38;
-    border-radius: 14px;
+.world-info-row:last-child {
+    margin-bottom: 0;
+}
+
+.world-info-label {
+    color: #8b949e;
+}
+
+.world-info-value {
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.world-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 170px 170px;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.location-card {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 12px;
     padding: 14px;
     margin-bottom: 10px;
+}
+
+.location-card:last-child {
+    margin-bottom: 0;
 }
 
 .location-top {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
     align-items: flex-start;
 }
 
-.name {
-    font-weight: 850;
-    font-size: 17px;
+.location-name {
+    font-size: 18px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
-.badge {
+.dimension {
     display: inline-block;
     margin-top: 5px;
     padding: 4px 8px;
-    border-radius: 7px;
-    background: #202733;
-    color: #aeb7c6;
-    font-size: 11px;
-}
-
-.xyz {
-    margin: 11px 0 0;
-    color: #dce2eb;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.converted {
-    margin-top: 8px;
-    color: #929baa;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    border-radius: 999px;
     font-size: 12px;
-    line-height: 1.6;
+    background: #21262d;
+    color: #c9d1d9;
 }
 
-.actions {
-    display: flex;
-    gap: 7px;
+.coordinates {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #161b22;
+    font-family: monospace;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.location-card .actions {
     margin-top: 10px;
-    flex-wrap: wrap;
 }
 
 .empty {
     text-align: center;
-    padding: 35px 10px;
-    color: #7f8999;
+    padding: 25px 10px;
+    color: #8b949e;
 }
 
-.stat {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 9px;
-    margin-bottom: 14px;
+.count {
+    color: #8b949e;
+    font-size: 14px;
+    margin-bottom: 12px;
 }
 
-.stat div {
-    background: #0b0e14;
-    border: 1px solid #242c38;
-    border-radius: 12px;
-    padding: 11px;
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    z-index: 1000;
 }
 
-.stat b {
-    display: block;
-    font-size: 11px;
-    color: #8f98a8;
-    margin-bottom: 4px;
-}
-
-.stat span {
-    font-size: 15px;
-    font-weight: 800;
+.modal-backdrop.show {
+    display: flex;
 }
 
 .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.65);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    z-index: 10;
+    width: 100%;
+    max-width: 440px;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-.modal-box {
-    width: min(500px, 100%);
-    background: #11151d;
-    border: 1px solid #29313e;
-    border-radius: 18px;
-    padding: 18px;
+.modal h3 {
+    margin: 0 0 10px;
+    font-size: 21px;
+}
+
+.modal p {
+    margin: 0 0 16px;
+    color: #8b949e;
+    line-height: 1.5;
+}
+
+.modal .field {
+    margin-bottom: 12px;
 }
 
 .modal-actions {
     display: flex;
+    justify-content: flex-end;
     gap: 8px;
-    margin-top: 14px;
+    margin-top: 16px;
+    flex-wrap: wrap;
 }
 
-.modal-actions button {
-    flex: 1;
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%) translateY(20px);
+    background: #238636;
+    color: white;
+    padding: 11px 16px;
+    border-radius: 9px;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s ease;
+    z-index: 2000;
 }
 
-.hidden {
-    display: none !important;
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
-.small {
-    font-size: 12px;
-    color: #929baa;
-    line-height: 1.45;
-}
-
-@media (max-width: 500px) {
-
+@media (max-width: 700px) {
     body {
-        padding: 10px;
+        padding: 12px;
     }
 
-    .coords {
-        grid-template-columns: 1fr 1fr 1fr;
+    .header h1 {
+        font-size: 27px;
     }
 
-    h1 {
-        font-size: 25px;
+    .controls {
+        grid-template-columns: 1fr;
     }
 
+    .world-info-row {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .world-info-value {
+        text-align: left;
+    }
 }
-
 </style>
-
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-<header>
-
-    <h1>
-        Coordly
-    </h1>
-
-    <p class="sub">
-        Save and organize important locations in your Minecraft worlds.
-    </p>
-
-</header>
-
-<div class="layout">
-
-<section class="panel">
-
-    <h2>
-        Add Location
-    </h2>
-
-    <div class="field">
-
-        <label>
-            Name
-        </label>
-
-        <input
-            id="name"
-            type="text"
-            placeholder="Castle"
-        >
-
+    <div class="header">
+        <h1>Coordly</h1>
+        <p>Save and organize your Minecraft coordinates.</p>
     </div>
 
-    <div class="field">
-
-        <label>
-            Dimension
-        </label>
-
-        <select id="dim">
-
-            <option>
-                Overworld
-            </option>
-
-            <option>
-                Nether
-            </option>
-
-            <option>
-                The End
-            </option>
-
-        </select>
-
-    </div>
-
-    <div class="coords">
+    <!-- WORLDS -->
+    <div class="panel">
+        <h2>Worlds</h2>
 
         <div class="field">
-
-            <label>
-                X
-            </label>
-
-            <input
-                id="x"
-                type="number"
-                step="any"
-            >
-
+            <label for="worldSelect">World</label>
+            <select id="worldSelect"></select>
         </div>
 
-        <div class="field">
+        <div class="world-info">
+            <div class="world-info-row">
+                <span class="world-info-label">World Name</span>
+                <span class="world-info-value" id="currentWorldName">World 1</span>
+            </div>
 
-            <label>
-                Y
-            </label>
+            <div class="world-info-row">
+                <span class="world-info-label">Seed</span>
+                <span class="world-info-value" id="currentWorldSeed">Not set</span>
+            </div>
 
-            <input
-                id="y"
-                type="number"
-                step="any"
-            >
-
+            <div class="world-info-row">
+                <span class="world-info-label">Locations</span>
+                <span class="world-info-value" id="currentWorldLocationCount">0</span>
+            </div>
         </div>
 
-        <div class="field">
+        <div class="world-actions">
+            <button class="blue" id="newWorld">New World</button>
+            <button class="secondary" id="editWorld">Rename / Edit World</button>
+            <button class="danger" id="deleteWorld">Delete World</button>
+        </div>
+    </div>
 
-            <label>
-                Z
-            </label>
+    <div class="layout">
 
-            <input
-                id="z"
-                type="number"
-                step="any"
-            >
+        <!-- ADD LOCATION -->
+        <div class="panel">
+            <h2>Add Location</h2>
 
+            <form id="locationForm">
+
+                <div class="field">
+                    <label for="locationName">Name</label>
+                    <input
+                        id="locationName"
+                        type="text"
+                        placeholder="My Base"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="dimension">Dimension</label>
+                    <select id="dimension">
+                        <option value="Overworld">Overworld</option>
+                        <option value="Nether">Nether</option>
+                        <option value="End">End</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="x">X</label>
+                    <input
+                        id="x"
+                        type="number"
+                        step="any"
+                        placeholder="0"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="y">Y</label>
+                    <input
+                        id="y"
+                        type="number"
+                        step="any"
+                        placeholder="64"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="z">Z</label>
+                    <input
+                        id="z"
+                        type="number"
+                        step="any"
+                        placeholder="0"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="category">Category</label>
+                    <input
+                        id="category"
+                        type="text"
+                        placeholder="Base, Farm, Village..."
+                    >
+                </div>
+
+                <button type="submit">Save Location</button>
+
+            </form>
+        </div>
+
+        <!-- SAVED LOCATIONS -->
+        <div class="panel">
+            <h2>Saved Locations</h2>
+
+            <div class="controls">
+
+                <input
+                    id="search"
+                    type="search"
+                    placeholder="Search locations..."
+                >
+
+                <select id="dimensionFilter">
+                    <option value="all">All Dimensions</option>
+                    <option value="Overworld">Overworld</option>
+                    <option value="Nether">Nether</option>
+                    <option value="End">End</option>
+                </select>
+
+                <select id="sort">
+                    <option value="name">Name</option>
+                    <option value="x">X</option>
+                    <option value="y">Y</option>
+                    <option value="z">Z</option>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+
+            </div>
+
+            <div class="actions" style="margin-bottom: 12px;">
+                <button class="blue" id="copyAll">Copy All</button>
+                <button class="danger" id="clearAll">Clear All</button>
+            </div>
+
+            <div class="count" id="count"></div>
+
+            <div id="locations"></div>
         </div>
 
     </div>
-
-    <div class="field">
-
-        <label>
-            Category
-        </label>
-
-        <select id="category">
-
-            <option>
-                Important
-            </option>
-
-            <option>
-                Building
-            </option>
-
-            <option>
-                Farm
-            </option>
-
-            <option>
-                Resource
-            </option>
-
-            <option>
-                Travel
-            </option>
-
-            <option>
-                Biome
-            </option>
-
-            <option>
-                Village
-            </option>
-
-            <option>
-                Portal
-            </option>
-
-            <option>
-                Other
-            </option>
-
-        </select>
-
-    </div>
-
-    <button
-        class="primary"
-        id="save"
-    >
-        Save Location
-    </button>
-
-</section>
-
-<section class="panel">
-
-    <div class="stat">
-
-        <div>
-
-            <b>
-                Saved locations
-            </b>
-
-            <span id="count">
-                0
-            </span>
-
-        </div>
-
-    </div>
-
-    <div class="toolbar">
-
-        <select id="sort">
-
-            <option value="name">
-                Name A–Z
-            </option>
-
-            <option value="category">
-                Category
-            </option>
-
-            <option value="dimension">
-                Dimension
-            </option>
-
-        </select>
-
-        <select id="filter">
-
-            <option value="all">
-                All dimensions
-            </option>
-
-            <option>
-                Overworld
-            </option>
-
-            <option>
-                Nether
-            </option>
-
-            <option>
-                The End
-            </option>
-
-        </select>
-
-        <button
-            class="secondary"
-            id="clearAll"
-        >
-            Clear All
-        </button>
-
-    </div>
-
-    <div class="search">
-
-        <input
-            id="search"
-            type="search"
-            placeholder="Search locations or categories..."
-        >
-
-    </div>
-
-    <div id="locations"></div>
-
-</section>
 
 </div>
 
-</div>
+<!-- CUSTOM MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
 
-<div
-    id="modal"
-    class="modal hidden"
->
+    <div class="modal">
 
-    <div class="modal-box">
+        <h3 id="modalTitle">Confirm</h3>
 
-        <h2 id="modalTitle">
-            Confirm
-        </h2>
+        <p id="modalMessage"></p>
 
-        <p
-            id="modalText"
-            class="small"
-        ></p>
+        <div id="modalFields"></div>
 
         <div class="modal-actions">
-
-            <button
-                class="secondary"
-                id="modalCancel"
-            >
-                Cancel
-            </button>
-
-            <button
-                class="danger"
-                id="modalConfirm"
-            >
-                Delete
-            </button>
-
+            <button class="secondary" id="modalCancel">Cancel</button>
+            <button id="modalConfirm">Confirm</button>
         </div>
 
     </div>
 
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
+const STORAGE_KEY = "minecraft-coordinate-notebook-v2";
+const OLD_STORAGE_KEY = "minecraft-coordinate-notebook-v1";
 
-(function () {
+let worlds = [];
+let currentWorldId = null;
 
-    const STORAGE_KEY =
-        "minecraft-coordinate-notebook-v1";
+const $ = id => document.getElementById(id);
 
-    let locations =
-        JSON.parse(
-            localStorage.getItem(
-                STORAGE_KEY
-            ) || "[]"
-        );
+/* -------------------------
+   BASIC HELPERS
+------------------------- */
 
-    let pendingAction = null;
+function createId() {
+    return Date.now() + "-" + Math.random().toString(36).slice(2);
+}
 
-    function $(id) {
-        return document.getElementById(id);
+function saveData() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(worlds));
+}
+
+function getCurrentWorld() {
+    return worlds.find(world => world.id === currentWorldId);
+}
+
+function formatNumber(value) {
+    const number = Number(value);
+
+    if (!Number.isFinite(number)) {
+        return value;
     }
 
-    function num(id) {
-        return Number($(id).value) || 0;
-    }
+    return Number.isInteger(number)
+        ? String(number)
+        : String(number);
+}
 
-    function saveData() {
+function coordinateText(location) {
+    return (
+        location.name +
+        " - X: " + formatNumber(location.x) +
+        "   Y: " + formatNumber(location.y) +
+        "   Z: " + formatNumber(location.z)
+    );
+}
 
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(locations)
-        );
+/* -------------------------
+   INITIALIZATION
+------------------------- */
 
-    }
+function initializeData() {
 
-    function fmt(number) {
+    const savedWorlds = localStorage.getItem(STORAGE_KEY);
 
-        if (Number.isInteger(number)) {
-            return String(number);
-        }
-
-        return Number(
-            number.toFixed(2)
-        ).toString();
-
-    }
-
-    function escapeHTML(value) {
-
-        return String(value).replace(
-            /[&<>"']/g,
-            function (character) {
-
-                const replacements = {
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    '"': "&quot;",
-                    "'": "&#039;"
-                };
-
-                return replacements[character];
-
-            }
-        );
-
-    }
-
-    function getConvertedCoordinates(location) {
-
-        if (location.dim === "Overworld") {
-
-            return {
-                dimension: "Nether",
-                x: location.x / 8,
-                y: location.y,
-                z: location.z / 8
-            };
-
-        }
-
-        if (location.dim === "Nether") {
-
-            return {
-                dimension: "Overworld",
-                x: location.x * 8,
-                y: location.y,
-                z: location.z * 8
-            };
-
-        }
-
-        return null;
-
-    }
-
-    async function copyCoordinates(location, button) {
-
-        const text =
-            location.name +
-            " - X: " +
-            fmt(location.x) +
-            "   Y: " +
-            fmt(location.y) +
-            "   Z: " +
-            fmt(location.z);
+    if (savedWorlds) {
 
         try {
+            worlds = JSON.parse(savedWorlds);
 
-            if (
-                navigator.clipboard &&
-                window.isSecureContext
-            ) {
-
-                await navigator.clipboard.writeText(
-                    text
-                );
-
-            } else {
-
-                const textarea =
-                    document.createElement("textarea");
-
-                textarea.value = text;
-
-                textarea.style.position = "fixed";
-                textarea.style.opacity = "0";
-                textarea.style.pointerEvents = "none";
-
-                document.body.appendChild(
-                    textarea
-                );
-
-                textarea.focus();
-                textarea.select();
-
-                document.execCommand(
-                    "copy"
-                );
-
-                textarea.remove();
-
+            if (!Array.isArray(worlds) || worlds.length === 0) {
+                worlds = [];
             }
 
-            const originalText =
-                button.textContent;
-
-            button.textContent =
-                "Copied!";
-
-            setTimeout(
-                function () {
-
-                    button.textContent =
-                        originalText;
-
-                },
-                1200
-            );
-
-        } catch (error) {
-
-            showModal(
-                "Copy failed",
-                "Your browser did not allow Coordly to copy the coordinates automatically.",
-                null,
-                "OK"
-            );
-
+        } catch {
+            worlds = [];
         }
-
     }
 
-    $("save").addEventListener(
-        "click",
-        function () {
+    /*
+       If there are no v2 worlds, migrate ALL old v1
+       locations into World 1.
+    */
+
+    if (worlds.length === 0) {
+
+        let oldLocations = [];
+
+        const oldData = localStorage.getItem(OLD_STORAGE_KEY);
+
+        if (oldData) {
+
+            try {
+                const parsed = JSON.parse(oldData);
+
+                if (Array.isArray(parsed)) {
+                    oldLocations = parsed;
+                }
+
+            } catch {
+                oldLocations = [];
+            }
+        }
+
+        worlds = [
+            {
+                id: createId(),
+                name: "World 1",
+                seed: "",
+                locations: oldLocations
+            }
+        ];
+
+        currentWorldId = worlds[0].id;
+
+        saveData();
+
+    } else {
+
+        /*
+           Make sure older v2 data that might not have
+           a name/seed/locations still works.
+        */
+
+        worlds = worlds.map((world, index) => ({
+            id: world.id || createId(),
+            name: world.name || "World " + (index + 1),
+            seed: world.seed || "",
+            locations: Array.isArray(world.locations)
+                ? world.locations
+                : []
+        }));
+
+        currentWorldId = worlds[0].id;
+
+        saveData();
+    }
+
+    renderWorlds();
+    renderLocations();
+}
+
+/* -------------------------
+   WORLDS
+------------------------- */
+
+function renderWorlds() {
+
+    const select = $("worldSelect");
+
+    select.innerHTML = "";
+
+    worlds.forEach((world, index) => {
+
+        const option = document.createElement("option");
+
+        option.value = world.id;
+        option.textContent = world.name || "World " + (index + 1);
+
+        select.appendChild(option);
+    });
+
+    if (!worlds.some(world => world.id === currentWorldId)) {
+        currentWorldId = worlds[0]?.id || null;
+    }
+
+    if (currentWorldId) {
+        select.value = currentWorldId;
+    }
+
+    updateWorldInfo();
+}
+
+function updateWorldInfo() {
+
+    const world = getCurrentWorld();
+
+    if (!world) {
+        $("currentWorldName").textContent = "No world";
+        $("currentWorldSeed").textContent = "Not set";
+        $("currentWorldLocationCount").textContent = "0";
+        return;
+    }
+
+    $("currentWorldName").textContent = world.name;
+
+    $("currentWorldSeed").textContent =
+        world.seed === ""
+            ? "Not set"
+            : world.seed;
+
+    $("currentWorldLocationCount").textContent =
+        world.locations.length;
+}
+
+/* -------------------------
+   CUSTOM WORLD MODAL
+------------------------- */
+
+let modalConfirmAction = null;
+
+function openModal({
+    title,
+    message = "",
+    fields = [],
+    confirmText = "Confirm",
+    danger = false,
+    onConfirm
+}) {
+
+    $("modalTitle").textContent = title;
+    $("modalMessage").textContent = message;
+
+    const fieldsContainer = $("modalFields");
+
+    fieldsContainer.innerHTML = "";
+
+    fields.forEach(field => {
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "field";
+
+        const label = document.createElement("label");
+        label.textContent = field.label;
+        label.htmlFor = field.id;
+
+        const input = document.createElement("input");
+
+        input.id = field.id;
+        input.type = field.type || "text";
+        input.placeholder = field.placeholder || "";
+        input.value = field.value ?? "";
+
+        if (field.required) {
+            input.required = true;
+        }
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(input);
+
+        fieldsContainer.appendChild(wrapper);
+    });
+
+    const confirmButton = $("modalConfirm");
+
+    confirmButton.textContent = confirmText;
+
+    confirmButton.classList.toggle("danger", danger);
+    confirmButton.classList.toggle("blue", !danger);
+
+    modalConfirmAction = onConfirm;
+
+    $("modalBackdrop").classList.add("show");
+
+    const firstInput = fieldsContainer.querySelector("input");
+
+    if (firstInput) {
+        setTimeout(() => firstInput.focus(), 50);
+    }
+}
+
+function closeModal() {
+    $("modalBackdrop").classList.remove("show");
+    $("modalFields").innerHTML = "";
+    modalConfirmAction = null;
+}
+
+$("modalCancel").addEventListener("click", closeModal);
+
+$("modalBackdrop").addEventListener("click", event => {
+
+    if (event.target === $("modalBackdrop")) {
+        closeModal();
+    }
+
+});
+
+$("modalConfirm").addEventListener("click", () => {
+
+    if (typeof modalConfirmAction === "function") {
+        modalConfirmAction();
+    }
+
+});
+
+/* -------------------------
+   NEW WORLD
+------------------------- */
+
+$("newWorld").addEventListener("click", () => {
+
+    openModal({
+        title: "Create World",
+        message: "Enter the name and seed for your new world.",
+        fields: [
+            {
+                id: "worldNameInput",
+                label: "World Name",
+                placeholder: "World 2",
+                required: true
+            },
+            {
+                id: "worldSeedInput",
+                label: "Seed",
+                placeholder: "Optional"
+            }
+        ],
+        confirmText: "Create World",
+        onConfirm: () => {
 
             const name =
-                $("name").value.trim();
+                $("worldNameInput").value.trim();
+
+            const seed =
+                $("worldSeedInput").value.trim();
 
             if (!name) {
-
-                showModal(
-                    "Missing name",
-                    "Give this location a name before saving.",
-                    null,
-                    "OK"
-                );
-
+                showToast("Enter a world name.");
                 return;
-
             }
 
-            const location = {
-
-                id:
-                    Date.now() +
-                    Math.random(),
-
-                name:
-                    name,
-
-                dim:
-                    $("dim").value,
-
-                x:
-                    num("x"),
-
-                y:
-                    num("y"),
-
-                z:
-                    num("z"),
-
-                category:
-                    $("category").value
-
+            const world = {
+                id: createId(),
+                name,
+                seed,
+                locations: []
             };
 
-            locations.push(location);
+            worlds.push(world);
+
+            currentWorldId = world.id;
 
             saveData();
+            renderWorlds();
+            renderLocations();
 
-            render();
+            closeModal();
 
-            $("name").value = "";
-            $("x").value = "";
-            $("y").value = "";
-            $("z").value = "";
-
+            showToast("World created.");
         }
-    );
+    });
 
-    function showModal(
-        title,
-        text,
-        action,
-        confirmText
+});
+
+/* -------------------------
+   RENAME / EDIT WORLD
+------------------------- */
+
+$("editWorld").addEventListener("click", () => {
+
+    const world = getCurrentWorld();
+
+    if (!world) {
+        return;
+    }
+
+    openModal({
+        title: "Edit World",
+        message: "Change the name or seed for this world.",
+        fields: [
+            {
+                id: "editWorldName",
+                label: "World Name",
+                value: world.name,
+                required: true
+            },
+            {
+                id: "editWorldSeed",
+                label: "Seed",
+                value: world.seed || "",
+                placeholder: "Optional"
+            }
+        ],
+        confirmText: "Save Changes",
+        onConfirm: () => {
+
+            const name =
+                $("editWorldName").value.trim();
+
+            const seed =
+                $("editWorldSeed").value.trim();
+
+            if (!name) {
+                showToast("Enter a world name.");
+                return;
+            }
+
+            world.name = name;
+            world.seed = seed;
+
+            saveData();
+            renderWorlds();
+            renderLocations();
+
+            closeModal();
+
+            showToast("World updated.");
+        }
+    });
+
+});
+
+/* -------------------------
+   DELETE WORLD
+------------------------- */
+
+$("deleteWorld").addEventListener("click", () => {
+
+    const world = getCurrentWorld();
+
+    if (!world) {
+        return;
+    }
+
+    if (worlds.length <= 1) {
+
+        openModal({
+            title: "Cannot Delete World",
+            message: "You must keep at least one world.",
+            confirmText: "OK",
+            onConfirm: closeModal
+        });
+
+        return;
+    }
+
+    openModal({
+        title: "Delete World?",
+        message:
+            'This will permanently delete "' +
+            world.name +
+            '" and all of its saved locations.',
+        confirmText: "Delete World",
+        danger: true,
+        onConfirm: () => {
+
+            worlds = worlds.filter(
+                item => item.id !== world.id
+            );
+
+            currentWorldId = worlds[0].id;
+
+            saveData();
+            renderWorlds();
+            renderLocations();
+
+            closeModal();
+
+            showToast("World deleted.");
+        }
+    });
+
+});
+
+/* -------------------------
+   WORLD SWITCHING
+------------------------- */
+
+$("worldSelect").addEventListener("change", event => {
+
+    currentWorldId = event.target.value;
+
+    renderLocations();
+    updateWorldInfo();
+
+});
+
+/* -------------------------
+   ADD LOCATION
+------------------------- */
+
+$("locationForm").addEventListener("submit", event => {
+
+    event.preventDefault();
+
+    const world = getCurrentWorld();
+
+    if (!world) {
+        showToast("Create a world first.");
+        return;
+    }
+
+    const location = {
+
+        id: createId(),
+
+        name: $("locationName").value.trim(),
+
+        dimension: $("dimension").value,
+
+        x: Number($("x").value),
+
+        y: Number($("y").value),
+
+        z: Number($("z").value),
+
+        category: $("category").value.trim(),
+
+        createdAt: Date.now()
+
+    };
+
+    if (
+        !location.name ||
+        !Number.isFinite(location.x) ||
+        !Number.isFinite(location.y) ||
+        !Number.isFinite(location.z)
     ) {
+        showToast("Please enter valid location information.");
+        return;
+    }
 
-        $("modalTitle").textContent =
-            title;
+    world.locations.push(location);
 
-        $("modalText").textContent =
-            text;
+    saveData();
 
-        $("modalConfirm").textContent =
-            confirmText || "Delete";
+    renderLocations();
+    updateWorldInfo();
 
-        pendingAction =
-            action;
+    $("locationForm").reset();
 
-        $("modal")
-            .classList
-            .remove("hidden");
+    showToast("Location saved.");
+
+});
+
+/* -------------------------
+   SEARCH / SORT / FILTER
+------------------------- */
+
+$("search").addEventListener("input", renderLocations);
+$("dimensionFilter").addEventListener("change", renderLocations);
+$("sort").addEventListener("change", renderLocations);
+
+/* -------------------------
+   RENDER LOCATIONS
+------------------------- */
+
+function renderLocations() {
+
+    const container = $("locations");
+    const world = getCurrentWorld();
+
+    container.innerHTML = "";
+
+    if (!world) {
+
+        container.innerHTML =
+            '<div class="empty">No world selected.</div>';
+
+        $("count").textContent = "";
+
+        return;
+    }
+
+    let locations = [...world.locations];
+
+    const search =
+        $("search").value.trim().toLowerCase();
+
+    const dimension =
+        $("dimensionFilter").value;
+
+    if (search) {
+
+        locations = locations.filter(location => {
+
+            return (
+                location.name.toLowerCase().includes(search) ||
+                location.dimension.toLowerCase().includes(search) ||
+                (location.category || "")
+                    .toLowerCase()
+                    .includes(search) ||
+                String(location.x).includes(search) ||
+                String(location.y).includes(search) ||
+                String(location.z).includes(search)
+            );
+
+        });
 
     }
 
-    $("modalCancel").addEventListener(
-        "click",
-        function () {
+    if (dimension !== "all") {
 
-            $("modal")
-                .classList
-                .add("hidden");
+        locations = locations.filter(
+            location => location.dimension === dimension
+        );
 
-            pendingAction = null;
+    }
 
+    const sort = $("sort").value;
+
+    if (sort === "name") {
+
+        locations.sort((a, b) =>
+            a.name.localeCompare(b.name)
+        );
+
+    } else if (sort === "x") {
+
+        locations.sort((a, b) =>
+            Number(a.x) - Number(b.x)
+        );
+
+    } else if (sort === "y") {
+
+        locations.sort((a, b) =>
+            Number(a.y) - Number(b.y)
+        );
+
+    } else if (sort === "z") {
+
+        locations.sort((a, b) =>
+            Number(a.z) - Number(b.z)
+        );
+
+    } else if (sort === "newest") {
+
+        locations.sort((a, b) =>
+            Number(b.createdAt || 0) -
+            Number(a.createdAt || 0)
+        );
+
+    } else if (sort === "oldest") {
+
+        locations.sort((a, b) =>
+            Number(a.createdAt || 0) -
+            Number(b.createdAt || 0)
+        );
+
+    }
+
+    $("count").textContent =
+        locations.length +
+        " location" +
+        (locations.length === 1 ? "" : "s") +
+        " shown";
+
+    if (locations.length === 0) {
+
+        container.innerHTML =
+            '<div class="empty">No locations found.</div>';
+
+        return;
+    }
+
+    locations.forEach(location => {
+
+        const card = document.createElement("div");
+
+        card.className = "location-card";
+
+        const top = document.createElement("div");
+        top.className = "location-top";
+
+        const titleArea = document.createElement("div");
+
+        const name = document.createElement("div");
+        name.className = "location-name";
+        name.textContent = location.name;
+
+        const dimension = document.createElement("div");
+        dimension.className = "dimension";
+        dimension.textContent = location.dimension;
+
+        titleArea.appendChild(name);
+        titleArea.appendChild(dimension);
+
+        if (location.category) {
+
+            const category = document.createElement("div");
+
+            category.className = "dimension";
+            category.textContent = location.category;
+
+            titleArea.appendChild(category);
         }
-    );
 
-    $("modalConfirm").addEventListener(
-        "click",
-        function () {
+        top.appendChild(titleArea);
 
-            if (pendingAction) {
-                pendingAction();
+        card.appendChild(top);
+
+        const coordinates = document.createElement("div");
+
+        coordinates.className = "coordinates";
+
+        coordinates.textContent =
+            "X: " + formatNumber(location.x) +
+            "   Y: " + formatNumber(location.y) +
+            "   Z: " + formatNumber(location.z);
+
+        card.appendChild(coordinates);
+
+        const actions = document.createElement("div");
+
+        actions.className = "actions";
+
+        const copyButton = document.createElement("button");
+
+        copyButton.className = "blue";
+        copyButton.textContent = "Copy Coordinates";
+
+        copyButton.addEventListener("click", async () => {
+
+            try {
+
+                await copyText(
+                    coordinateText(location)
+                );
+
+                copyButton.textContent = "Copied!";
+
+                setTimeout(() => {
+                    copyButton.textContent =
+                        "Copy Coordinates";
+                }, 1200);
+
+            } catch {
+
+                showToast(
+                    "Could not copy coordinates."
+                );
+
             }
 
-            $("modal")
-                .classList
-                .add("hidden");
+        });
 
-            pendingAction = null;
+        const deleteButton = document.createElement("button");
 
-        }
-    );
+        deleteButton.className = "danger";
+        deleteButton.textContent = "Delete";
 
-    $("clearAll").addEventListener(
-        "click",
-        function () {
+        deleteButton.addEventListener("click", () => {
 
-            if (!locations.length) {
-                return;
-            }
+            openModal({
+                title: "Delete Location?",
+                message:
+                    'Delete "' +
+                    location.name +
+                    '" from this world?',
+                confirmText: "Delete",
+                danger: true,
+                onConfirm: () => {
 
-            showModal(
-                "Clear all locations",
-                "This will permanently remove every saved location from this browser.",
-                function () {
-
-                    locations = [];
+                    world.locations =
+                        world.locations.filter(
+                            item => item.id !== location.id
+                        );
 
                     saveData();
 
-                    render();
+                    renderLocations();
+                    updateWorldInfo();
 
-                },
-                "Clear All"
-            );
+                    closeModal();
 
-        }
-    );
-
-    $("search").addEventListener(
-        "input",
-        render
-    );
-
-    $("sort").addEventListener(
-        "change",
-        render
-    );
-
-    $("filter").addEventListener(
-        "change",
-        render
-    );
-
-    function render() {
-
-        $("count").textContent =
-            locations.length;
-
-        let list =
-            locations.filter(
-                function (location) {
-
-                    const query =
-                        $("search")
-                            .value
-                            .trim()
-                            .toLowerCase();
-
-                    const filter =
-                        $("filter").value;
-
-                    const searchable =
-                        (
-                            location.name +
-                            " " +
-                            location.category +
-                            " " +
-                            location.dim
-                        ).toLowerCase();
-
-                    return (
-
-                        (
-                            filter === "all" ||
-                            location.dim === filter
-                        )
-
-                        &&
-
-                        (
-                            !query ||
-                            searchable.includes(query)
-                        )
-
-                    );
-
+                    showToast("Location deleted.");
                 }
-            );
+            });
 
-        list.sort(
-            function (a, b) {
+        });
 
-                if (
-                    $("sort").value ===
-                    "name"
-                ) {
+        actions.appendChild(copyButton);
+        actions.appendChild(deleteButton);
 
-                    return a.name.localeCompare(
-                        b.name
-                    );
+        card.appendChild(actions);
 
-                }
+        container.appendChild(card);
 
-                if (
-                    $("sort").value ===
-                    "category"
-                ) {
+    });
 
-                    return (
-                        a.category.localeCompare(
-                            b.category
-                        ) ||
-                        a.name.localeCompare(
-                            b.name
-                        )
-                    );
+}
 
-                }
+/* -------------------------
+   COPY TEXT
+------------------------- */
 
-                return (
-                    a.dim.localeCompare(
-                        b.dim
-                    ) ||
-                    a.name.localeCompare(
-                        b.name
-                    )
-                );
+async function copyText(text) {
 
-            }
+    if (
+        navigator.clipboard &&
+        window.isSecureContext
+    ) {
+
+        await navigator.clipboard.writeText(text);
+        return;
+    }
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = text;
+
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+
+    document.body.appendChild(textarea);
+
+    textarea.focus();
+    textarea.select();
+
+    const successful =
+        document.execCommand("copy");
+
+    document.body.removeChild(textarea);
+
+    if (!successful) {
+        throw new Error("Copy failed");
+    }
+}
+
+/* -------------------------
+   COPY ALL
+------------------------- */
+
+$("copyAll").addEventListener("click", async () => {
+
+    const world = getCurrentWorld();
+
+    if (!world || world.locations.length === 0) {
+
+        showToast(
+            "There are no saved locations to copy."
         );
 
-        if (!list.length) {
+        return;
+    }
 
-            $("locations").innerHTML =
-                '<div class="empty">' +
-                'No locations match your search.' +
-                '</div>';
+    const text =
+        world.locations
+            .map(coordinateText)
+            .join("\n");
 
-            return;
+    try {
 
-        }
+        await copyText(text);
 
-        $("locations").innerHTML =
-            list.map(
-                function (location) {
+        const button = $("copyAll");
 
-                    const converted =
-                        getConvertedCoordinates(
-                            location
-                        );
+        const oldText = button.textContent;
 
-                    let convertedHTML = "";
+        button.textContent = "Copied All!";
 
-                    if (converted) {
+        setTimeout(() => {
+            button.textContent = oldText;
+        }, 1200);
 
-                        convertedHTML =
-                            '<div class="converted">' +
+    } catch {
 
-                            escapeHTML(
-                                converted.dimension
-                            ) +
-
-                            ': ' +
-
-                            'X ' +
-                            fmt(converted.x) +
-
-                            ' &nbsp; Y ' +
-                            fmt(converted.y) +
-
-                            ' &nbsp; Z ' +
-                            fmt(converted.z) +
-
-                            '</div>';
-
-                    }
-
-                    return (
-
-                        '<article class="location">' +
-
-                        '<div class="location-top">' +
-
-                        '<div>' +
-
-                        '<div class="name">' +
-                        escapeHTML(
-                            location.name
-                        ) +
-                        '</div>' +
-
-                        '<span class="badge">' +
-
-                        escapeHTML(
-                            location.category
-                        ) +
-
-                        ' • ' +
-
-                        escapeHTML(
-                            location.dim
-                        ) +
-
-                        '</span>' +
-
-                        '</div>' +
-
-                        '</div>' +
-
-                        '<div class="xyz">' +
-
-                        escapeHTML(
-                            location.dim
-                        ) +
-
-                        '<br>' +
-
-                        'X ' +
-                        fmt(location.x) +
-
-                        ' &nbsp; Y ' +
-                        fmt(location.y) +
-
-                        ' &nbsp; Z ' +
-                        fmt(location.z) +
-
-                        '</div>' +
-
-                        convertedHTML +
-
-                        '<div class="actions">' +
-
-                        '<button ' +
-                        'class="secondary" ' +
-                        'data-copy="' +
-                        location.id +
-                        '">' +
-
-                        'Copy Coordinates' +
-
-                        '</button>' +
-
-                        '<button ' +
-                        'class="danger" ' +
-                        'data-delete="' +
-                        location.id +
-                        '">' +
-
-                        'Delete' +
-
-                        '</button>' +
-
-                        '</div>' +
-
-                        '</article>'
-
-                    );
-
-                }
-            ).join("");
-
-        document
-            .querySelectorAll("[data-copy]")
-            .forEach(
-                function (button) {
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            const location =
-                                locations.find(
-                                    function (item) {
-
-                                        return String(
-                                            item.id
-                                        ) ===
-                                        button.dataset.copy;
-
-                                    }
-                                );
-
-                            if (!location) {
-                                return;
-                            }
-
-                            copyCoordinates(
-                                location,
-                                button
-                            );
-
-                        }
-                    );
-
-                }
-            );
-
-        document
-            .querySelectorAll("[data-delete]")
-            .forEach(
-                function (button) {
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            const location =
-                                locations.find(
-                                    function (item) {
-
-                                        return String(
-                                            item.id
-                                        ) ===
-                                        button.dataset.delete;
-
-                                    }
-                                );
-
-                            if (!location) {
-                                return;
-                            }
-
-                            showModal(
-                                "Delete location",
-                                "Delete “" +
-                                location.name +
-                                "” from your notebook?",
-
-                                function () {
-
-                                    locations =
-                                        locations.filter(
-                                            function (item) {
-
-                                                return item.id !==
-                                                    location.id;
-
-                                            }
-                                        );
-
-                                    saveData();
-
-                                    render();
-
-                                },
-
-                                "Delete"
-                            );
-
-                        }
-                    );
-
-                }
-            );
+        showToast(
+            "Could not copy locations."
+        );
 
     }
 
-    render();
+});
 
-})();
+/* -------------------------
+   CLEAR ALL
+------------------------- */
 
-</script>
+$("clearAll").addEventListener("click", () => {
 
-<script>
+    const world = getCurrentWorld();
 
-(function () {
+    if (!world || world.locations.length === 0) {
 
-    let lastTouchEnd = 0;
+        showToast("There are no locations to clear.");
 
-    function blockMultiTouch(event) {
-
-        if (
-            event.touches &&
-            event.touches.length > 1
-        ) {
-
-            event.preventDefault();
-            event.stopPropagation();
-
-        }
-
+        return;
     }
 
-    document.addEventListener(
-        "touchstart",
-        blockMultiTouch,
-        {
-            passive: false,
-            capture: true
+    openModal({
+        title: "Clear All Locations?",
+        message:
+            'This will permanently delete all ' +
+            world.locations.length +
+            ' saved locations from "' +
+            world.name +
+            '".',
+        confirmText: "Clear All",
+        danger: true,
+        onConfirm: () => {
+
+            world.locations = [];
+
+            saveData();
+
+            renderLocations();
+            updateWorldInfo();
+
+            closeModal();
+
+            showToast("All locations cleared.");
         }
-    );
+    });
 
-    document.addEventListener(
-        "touchmove",
-        blockMultiTouch,
-        {
-            passive: false,
-            capture: true
-        }
-    );
+});
 
-    document.addEventListener(
-        "gesturestart",
-        function (event) {
+/* -------------------------
+   TOAST
+------------------------- */
 
+let toastTimeout;
+
+function showToast(message) {
+
+    const toast = $("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimeout);
+
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 1800);
+
+}
+
+/* -------------------------
+   DISABLE ZOOM
+------------------------- */
+
+document.addEventListener(
+    "gesturestart",
+    event => event.preventDefault()
+);
+
+document.addEventListener(
+    "gesturechange",
+    event => event.preventDefault()
+);
+
+document.addEventListener(
+    "gestureend",
+    event => event.preventDefault()
+);
+
+let lastTouchEnd = 0;
+
+document.addEventListener(
+    "touchend",
+    event => {
+
+        const now = Date.now();
+
+        if (now - lastTouchEnd <= 300) {
             event.preventDefault();
-            event.stopPropagation();
-
-        },
-        {
-            passive: false,
-            capture: true
         }
-    );
 
-    document.addEventListener(
-        "gesturechange",
-        function (event) {
+        lastTouchEnd = now;
 
-            event.preventDefault();
-            event.stopPropagation();
+    },
+    { passive: false }
+);
 
-        },
-        {
-            passive: false,
-            capture: true
-        }
-    );
+/* -------------------------
+   START
+------------------------- */
 
-    document.addEventListener(
-        "gestureend",
-        function (event) {
-
-            event.preventDefault();
-            event.stopPropagation();
-
-        },
-        {
-            passive: false,
-            capture: true
-        }
-    );
-
-    document.addEventListener(
-        "touchend",
-        function (event) {
-
-            const now = Date.now();
-
-            if (
-                now - lastTouchEnd < 300
-            ) {
-
-                event.preventDefault();
-                event.stopPropagation();
-
-            }
-
-            lastTouchEnd = now;
-
-        },
-        {
-            passive: false,
-            capture: true
-        }
-    );
-
-    document.addEventListener(
-        "wheel",
-        function (event) {
-
-            if (event.ctrlKey) {
-                event.preventDefault();
-            }
-
-        },
-        {
-            passive: false,
-            capture: true
-        }
-    );
-
-})();
-
+initializeData();
 </script>
 
 </body>

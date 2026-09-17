@@ -5,18 +5,18 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
 >
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d1117">
 
 <title>Coordly</title>
 
 <style>
 * {
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -39,272 +39,322 @@ body {
 
     overflow-x: hidden;
 
-    /*
-       Safe-area support for iPhone/iPad.
-       The top padding keeps content away from
-       the browser/device area.
-    */
-    padding-top: max(20px, env(safe-area-inset-top));
-    padding-right: max(12px, env(safe-area-inset-right));
-    padding-bottom: max(20px, env(safe-area-inset-bottom));
-    padding-left: max(12px, env(safe-area-inset-left));
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
 
     touch-action: manipulation;
 }
 
-button,
-input,
-select {
-    font: inherit;
+/*
+    Visual Viewport detection
+
+    --visual-top:
+    How far the visible viewport is offset from the layout viewport.
+
+    --visual-height:
+    The actual visible viewport height.
+
+    These values are updated by JavaScript below.
+*/
+
+:root {
+    --visual-top: 0px;
+    --visual-height: 100vh;
 }
 
-button {
-    cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
+body.visual-viewport-active {
+    min-height: var(--visual-height);
 }
+
+/* Main page */
 
 .container {
-    width: 100%;
-    max-width: 900px;
+    width: min(100%, 1000px);
     margin: 0 auto;
+
+    padding: 24px 16px 40px;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* Header */
 
 .header {
     margin-bottom: 18px;
-    padding-top: 4px;
 }
 
 .header h1 {
-    margin: 0 0 6px;
+    margin: 0 0 5px;
+
     font-size: 32px;
-    line-height: 1.15;
+    line-height: 1.1;
+
+    color: #ffffff;
 }
 
 .header p {
     margin: 0;
+
     color: #8b949e;
-    line-height: 1.4;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
-/* =========================
-   PANELS
-========================= */
+/* Panels */
 
 .panel {
     width: 100%;
+
     background: #161b22;
     border: 1px solid #30363d;
     border-radius: 14px;
+
     padding: 18px;
     margin-bottom: 14px;
 
-    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
 }
 
 .panel h2 {
     margin: 0 0 14px;
+
     font-size: 21px;
-    line-height: 1.25;
+    line-height: 1.2;
+
+    color: #ffffff;
 }
 
-.layout {
+.panel-description {
+    margin: -7px 0 15px;
+
+    color: #8b949e;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Forms */
+
+.form-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
 }
-
-/* =========================
-   FIELDS
-========================= */
 
 .field {
-    width: 100%;
-    margin-bottom: 12px;
+    min-width: 0;
 }
 
-.field:last-child {
-    margin-bottom: 0;
+.field.full {
+    grid-column: 1 / -1;
 }
 
-.field label {
+label {
     display: block;
+
     margin-bottom: 6px;
-    font-size: 14px;
+
     color: #c9d1d9;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 input,
 select {
-    display: block;
     width: 100%;
-    min-width: 0;
 
-    padding: 12px;
+    min-height: 42px;
 
-    border-radius: 9px;
+    padding: 10px 12px;
+
     border: 1px solid #30363d;
+    border-radius: 9px;
 
     background: #0d1117;
     color: #f0f3f6;
 
     outline: none;
 
-    -webkit-appearance: none;
-    appearance: none;
-}
-
-input {
-    min-height: 44px;
-}
-
-select {
-    min-height: 44px;
+    font: inherit;
+    font-size: 14px;
 }
 
 input:focus,
 select:focus {
     border-color: #58a6ff;
+    box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.12);
 }
 
-/* =========================
-   BUTTONS
-========================= */
+input::placeholder {
+    color: #6e7681;
+}
+
+/* Buttons */
 
 button {
-    min-height: 44px;
-
-    border: 0;
-    border-radius: 9px;
+    min-height: 42px;
 
     padding: 10px 14px;
 
-    background: #238636;
-    color: white;
+    border: 1px solid #30363d;
+    border-radius: 9px;
 
+    background: #21262d;
+    color: #f0f3f6;
+
+    font: inherit;
+    font-size: 14px;
     font-weight: 600;
 
-    white-space: normal;
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 button:hover {
-    filter: brightness(1.08);
+    background: #30363d;
 }
 
 button:active {
-    transform: scale(0.98);
+    transform: translateY(1px);
 }
 
-button.secondary {
-    background: #21262d;
-    border: 1px solid #30363d;
+button.primary {
+    background: #238636;
+    border-color: #2ea043;
+}
+
+button.primary:hover {
+    background: #2ea043;
 }
 
 button.danger {
     background: #da3633;
+    border-color: #f85149;
 }
 
-button.blue {
-    background: #1f6feb;
+button.danger:hover {
+    background: #f85149;
 }
 
-.actions {
-    display: flex;
+button.small {
+    min-height: 36px;
+    padding: 8px 11px;
+    font-size: 13px;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* World */
+
+.world-actions {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
-    flex-wrap: wrap;
-}
 
-/* =========================
-   WORLD INFO
-========================= */
+    margin-top: 13px;
+}
 
 .world-info {
-    width: 100%;
+    margin-top: 15px;
 
-    background: #0d1117;
-    border: 1px solid #30363d;
-    border-radius: 10px;
-
-    padding: 12px;
-    margin-top: 12px;
-
-    overflow: hidden;
+    border-top: 1px solid #30363d;
+    padding-top: 12px;
 }
 
 .world-info-row {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-
     gap: 12px;
 
-    margin-bottom: 8px;
-}
+    padding: 5px 0;
 
-.world-info-row:last-child {
-    margin-bottom: 0;
+    font-size: 14px;
 }
 
 .world-info-label {
     color: #8b949e;
-    flex-shrink: 0;
 }
 
 .world-info-value {
+    color: #f0f3f6;
+    font-weight: 600;
     text-align: right;
+
     overflow-wrap: anywhere;
-    word-break: break-word;
 }
 
-.world-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 12px;
+/* Add location */
+
+.add-location-button {
+    margin-top: 13px;
+    width: 100%;
 }
 
-.world-actions button {
-    flex: 1 1 auto;
-}
-
-/* =========================
-   CONTROLS
-========================= */
+/* Saved controls */
 
 .controls {
     display: grid;
-    grid-template-columns: 1fr 170px 170px;
-    gap: 10px;
-    margin-bottom: 14px;
+    grid-template-columns: minmax(0, 1fr) 170px 170px;
+    gap: 8px;
+
+    margin-bottom: 12px;
 }
 
-.controls > * {
+.controls input,
+.controls select {
     min-width: 0;
 }
 
-/* =========================
-   LOCATION CARDS
-========================= */
+.saved-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 
-.location-card {
-    width: 100%;
-
-    background: #0d1117;
-    border: 1px solid #30363d;
-    border-radius: 12px;
-
-    padding: 14px;
-    margin-bottom: 10px;
-
-    overflow: hidden;
+    margin-bottom: 13px;
 }
 
-.location-card:last-child {
-    margin-bottom: 0;
+.location-count {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    color: #8b949e;
+    font-size: 13px;
+}
+
+/* Locations */
+
+.locations {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.empty-state {
+    padding: 25px 12px;
+
+    border: 1px dashed #30363d;
+    border-radius: 10px;
+
+    text-align: center;
+
+    color: #8b949e;
+    font-size: 14px;
+}
+
+.location-card {
+    background: #0d1117;
+
+    border: 1px solid #30363d;
+    border-radius: 11px;
+
+    padding: 14px;
 }
 
 .location-top {
@@ -313,118 +363,91 @@ button.blue {
     align-items: flex-start;
 
     gap: 12px;
-
-    min-width: 0;
 }
 
 .location-name {
-    font-size: 18px;
+    min-width: 0;
+
+    color: #ffffff;
+
+    font-size: 17px;
     font-weight: 700;
 
     overflow-wrap: anywhere;
-    word-break: break-word;
 }
 
-.dimension {
-    display: inline-block;
-
-    margin-top: 5px;
+.location-dimension {
+    flex-shrink: 0;
 
     padding: 4px 8px;
 
     border-radius: 999px;
 
-    font-size: 12px;
-
     background: #21262d;
-    color: #c9d1d9;
+    color: #8b949e;
 
-    max-width: 100%;
-
-    overflow-wrap: anywhere;
+    font-size: 11px;
+    font-weight: 700;
 }
 
 .coordinates {
-    width: 100%;
+    margin-top: 8px;
 
-    margin-top: 12px;
-    padding: 10px;
-
-    border-radius: 8px;
-
-    background: #161b22;
+    color: #58a6ff;
 
     font-family: monospace;
-
-    overflow-x: auto;
-    overflow-y: hidden;
+    font-size: 14px;
 
     white-space: nowrap;
+    overflow-x: auto;
 
     -webkit-overflow-scrolling: touch;
 }
 
+.location-category {
+    margin-top: 8px;
+
+    color: #8b949e;
+    font-size: 12px;
+}
+
 .location-card .actions {
-    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    margin-top: 12px;
 }
 
-.location-card .actions button {
-    flex: 1 1 auto;
-}
-
-/* =========================
-   EMPTY / COUNT
-========================= */
-
-.empty {
-    text-align: center;
-    padding: 25px 10px;
-    color: #8b949e;
-}
-
-.count {
-    color: #8b949e;
-    font-size: 14px;
-    margin-bottom: 12px;
-}
-
-/* =========================
-   MODAL
-========================= */
+/* Modal */
 
 .modal-backdrop {
     position: fixed;
-
-    /*
-       Safe-area-aware modal.
-    */
     inset: 0;
 
-    padding-top: max(18px, env(safe-area-inset-top));
-    padding-right: max(18px, env(safe-area-inset-right));
-    padding-bottom: max(18px, env(safe-area-inset-bottom));
-    padding-left: max(18px, env(safe-area-inset-left));
-
-    background: rgba(0, 0, 0, 0.72);
+    z-index: 1000;
 
     display: none;
     align-items: center;
     justify-content: center;
 
-    z-index: 1000;
+    padding: 18px;
 
-    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.72);
+
+    overscroll-behavior: contain;
 }
 
-.modal-backdrop.show {
+.modal-backdrop.open {
     display: flex;
 }
 
 .modal {
-    width: 100%;
-    max-width: 440px;
+    width: min(100%, 470px);
 
     max-height: calc(100dvh - 36px);
+
+    overflow-y: auto;
 
     background: #161b22;
     border: 1px solid #30363d;
@@ -432,74 +455,68 @@ button.blue {
 
     padding: 18px;
 
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-
-    overflow-y: auto;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 .modal h3 {
-    margin: 0 0 10px;
+    margin: 0 0 9px;
+
     font-size: 21px;
 }
 
-.modal p {
-    margin: 0 0 16px;
+.modal-message {
+    margin-bottom: 15px;
+
     color: #8b949e;
+    font-size: 14px;
     line-height: 1.5;
 }
 
-.modal .field {
-    margin-bottom: 12px;
+.modal-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .modal-actions {
-    display: flex;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
 
-    margin-top: 16px;
-
-    flex-wrap: wrap;
+    margin-top: 17px;
 }
 
-.modal-actions button {
-    flex: 1 1 120px;
-}
-
-/* =========================
-   TOAST
-========================= */
+/* Toast */
 
 .toast {
     position: fixed;
 
-    left: 50%;
+    z-index: 2000;
 
-    /*
-       Keep the toast above the iPhone home indicator.
-    */
-    bottom: max(20px, calc(env(safe-area-inset-bottom) + 10px));
+    left: 50%;
+    bottom: calc(18px + env(safe-area-inset-bottom));
 
     transform: translateX(-50%) translateY(20px);
 
     width: max-content;
     max-width: calc(100vw - 30px);
 
-    background: #238636;
-    color: white;
+    padding: 11px 15px;
 
-    padding: 11px 16px;
-
+    background: #21262d;
+    border: 1px solid #30363d;
     border-radius: 9px;
+
+    color: #f0f3f6;
+
+    font-size: 13px;
 
     opacity: 0;
     pointer-events: none;
 
-    transition: 0.2s ease;
-
-    z-index: 2000;
-
-    text-align: center;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
 }
 
 .toast.show {
@@ -507,22 +524,24 @@ button.blue {
     transform: translateX(-50%) translateY(0);
 }
 
-/* =========================
-   MOBILE
-========================= */
+/*
+    Mobile
+*/
 
 @media (max-width: 700px) {
 
-    body {
-        padding-top: max(14px, env(safe-area-inset-top));
-        padding-right: max(10px, env(safe-area-inset-right));
-        padding-bottom: max(18px, env(safe-area-inset-bottom));
-        padding-left: max(10px, env(safe-area-inset-left));
+    .container {
+        width: 100%;
+        max-width: none;
+
+        padding-top: 18px;
+        padding-right: 10px;
+        padding-bottom: 30px;
+        padding-left: 10px;
     }
 
     .header {
-        margin-bottom: 14px;
-        padding-top: 4px;
+        margin-bottom: 15px;
     }
 
     .header h1 {
@@ -535,21 +554,25 @@ button.blue {
 
     .panel {
         padding: 14px;
-        border-radius: 12px;
         margin-bottom: 12px;
+
+        border-radius: 12px;
     }
 
     .panel h2 {
         font-size: 20px;
     }
 
-    .controls {
+    .form-grid {
         grid-template-columns: 1fr;
-        gap: 8px;
+        gap: 10px;
+    }
+
+    .field.full {
+        grid-column: auto;
     }
 
     .world-actions {
-        display: grid;
         grid-template-columns: 1fr;
     }
 
@@ -563,8 +586,30 @@ button.blue {
     }
 
     .world-info-value {
-        text-align: left;
         width: 100%;
+        text-align: left;
+    }
+
+    .controls {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .saved-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .saved-actions button {
+        width: 100%;
+    }
+
+    .location-count {
+        grid-column: 1 / -1;
+
+        margin-left: 0;
+
+        justify-content: center;
     }
 
     .location-card {
@@ -575,8 +620,17 @@ button.blue {
         display: block;
     }
 
+    .location-dimension {
+        display: inline-block;
+        margin-top: 7px;
+    }
+
     .location-name {
         font-size: 17px;
+    }
+
+    .coordinates {
+        max-width: 100%;
     }
 
     .location-card .actions {
@@ -588,34 +642,31 @@ button.blue {
         width: 100%;
     }
 
+    .modal-backdrop {
+        align-items: flex-start;
+
+        padding-top: calc(18px + env(safe-area-inset-top));
+        padding-bottom: calc(18px + env(safe-area-inset-bottom));
+    }
+
     .modal {
-        border-radius: 12px;
-        padding: 15px;
-    }
-
-    .modal-actions {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .modal-actions button {
-        width: 100%;
+        max-height: calc(100dvh - 36px);
     }
 }
 
-/* =========================
-   VERY SMALL PHONES
-========================= */
-
 @media (max-width: 380px) {
 
-    body {
+    .container {
         padding-right: 8px;
         padding-left: 8px;
     }
 
     .panel {
         padding: 12px;
+    }
+
+    .saved-actions {
+        grid-template-columns: 1fr;
     }
 
     .location-card .actions {
@@ -638,18 +689,19 @@ button.blue {
 
 <div class="container">
 
-    <div class="header">
+    <header class="header">
         <h1>Coordly</h1>
-        <p>Save and organize your Minecraft coordinates.</p>
-    </div>
+        <p>Keep track of your Minecraft locations.</p>
+    </header>
 
-    <!-- WORLDS -->
-    <div class="panel">
+    <!-- WORLD -->
 
-        <h2>Worlds</h2>
+    <section class="panel">
+
+        <h2>World</h2>
 
         <div class="field">
-            <label for="worldSelect">World</label>
+            <label for="worldSelect">Current World</label>
 
             <select id="worldSelect"></select>
         </div>
@@ -657,310 +709,223 @@ button.blue {
         <div class="world-info">
 
             <div class="world-info-row">
-                <span class="world-info-label">
-                    World Name
-                </span>
-
-                <span
-                    class="world-info-value"
-                    id="currentWorldName"
-                >
-                    World 1
-                </span>
+                <span class="world-info-label">Name</span>
+                <span class="world-info-value" id="currentWorldName">World 1</span>
             </div>
 
             <div class="world-info-row">
-                <span class="world-info-label">
-                    Seed
-                </span>
-
-                <span
-                    class="world-info-value"
-                    id="currentWorldSeed"
-                >
-                    Not set
-                </span>
+                <span class="world-info-label">Seed</span>
+                <span class="world-info-value" id="currentWorldSeed">Not set</span>
             </div>
 
             <div class="world-info-row">
-                <span class="world-info-label">
-                    Locations
-                </span>
-
-                <span
-                    class="world-info-value"
-                    id="currentWorldLocationCount"
-                >
-                    0
-                </span>
+                <span class="world-info-label">Locations</span>
+                <span class="world-info-value" id="currentWorldLocationCount">0</span>
             </div>
 
         </div>
 
         <div class="world-actions">
-
-            <button
-                class="blue"
-                id="newWorld"
-            >
+            <button id="newWorld" class="primary">
                 New World
             </button>
 
-            <button
-                class="secondary"
-                id="editWorld"
-            >
-                Rename / Edit World
+            <button id="editWorld">
+                Rename / Edit
             </button>
 
-            <button
-                class="danger"
-                id="deleteWorld"
-            >
+            <button id="deleteWorld" class="danger">
                 Delete World
             </button>
 
+            <button id="copyWorld">
+                Copy World
+            </button>
         </div>
 
-    </div>
+    </section>
 
-    <div class="layout">
 
-        <!-- ADD LOCATION -->
-        <div class="panel">
+    <!-- ADD LOCATION -->
 
-            <h2>Add Location</h2>
+    <section class="panel">
 
-            <form id="locationForm">
+        <h2>Add Location</h2>
 
-                <div class="field">
-                    <label for="locationName">
-                        Name
-                    </label>
+        <div class="form-grid">
 
-                    <input
-                        id="locationName"
-                        type="text"
-                        placeholder="My Base"
-                        autocomplete="off"
-                        required
-                    >
-                </div>
-
-                <div class="field">
-                    <label for="dimension">
-                        Dimension
-                    </label>
-
-                    <select id="dimension">
-
-                        <option value="Overworld">
-                            Overworld
-                        </option>
-
-                        <option value="Nether">
-                            Nether
-                        </option>
-
-                        <option value="End">
-                            End
-                        </option>
-
-                    </select>
-                </div>
-
-                <div class="field">
-                    <label for="x">
-                        X
-                    </label>
-
-                    <input
-                        id="x"
-                        type="number"
-                        step="any"
-                        inputmode="decimal"
-                        placeholder="0"
-                        required
-                    >
-                </div>
-
-                <div class="field">
-                    <label for="y">
-                        Y
-                    </label>
-
-                    <input
-                        id="y"
-                        type="number"
-                        step="any"
-                        inputmode="decimal"
-                        placeholder="64"
-                        required
-                    >
-                </div>
-
-                <div class="field">
-                    <label for="z">
-                        Z
-                    </label>
-
-                    <input
-                        id="z"
-                        type="number"
-                        step="any"
-                        inputmode="decimal"
-                        placeholder="0"
-                        required
-                    >
-                </div>
-
-                <div class="field">
-                    <label for="category">
-                        Category
-                    </label>
-
-                    <input
-                        id="category"
-                        type="text"
-                        placeholder="Base, Farm, Village..."
-                        autocomplete="off"
-                    >
-                </div>
-
-                <button type="submit">
-                    Save Location
-                </button>
-
-            </form>
-
-        </div>
-
-        <!-- SAVED LOCATIONS -->
-        <div class="panel">
-
-            <h2>Saved Locations</h2>
-
-            <div class="controls">
+            <div class="field full">
+                <label for="locationName">Name</label>
 
                 <input
-                    id="search"
-                    type="search"
-                    placeholder="Search locations..."
+                    id="locationName"
+                    type="text"
+                    placeholder="Base, Village, Stronghold..."
                     autocomplete="off"
                 >
-
-                <select id="dimensionFilter">
-
-                    <option value="all">
-                        All Dimensions
-                    </option>
-
-                    <option value="Overworld">
-                        Overworld
-                    </option>
-
-                    <option value="Nether">
-                        Nether
-                    </option>
-
-                    <option value="End">
-                        End
-                    </option>
-
-                </select>
-
-                <select id="sort">
-
-                    <option value="name">
-                        Name
-                    </option>
-
-                    <option value="x">
-                        X
-                    </option>
-
-                    <option value="y">
-                        Y
-                    </option>
-
-                    <option value="z">
-                        Z
-                    </option>
-
-                    <option value="newest">
-                        Newest
-                    </option>
-
-                    <option value="oldest">
-                        Oldest
-                    </option>
-
-                </select>
-
             </div>
 
-            <div
-                class="actions"
-                style="margin-bottom: 12px;"
-            >
+            <div class="field">
+                <label for="dimension">Dimension</label>
 
-                <button
-                    class="blue"
-                    id="copyAll"
-                >
-                    Copy All
-                </button>
-
-                <button
-                    class="danger"
-                    id="clearAll"
-                >
-                    Clear All
-                </button>
-
+                <select id="dimension">
+                    <option value="Overworld">Overworld</option>
+                    <option value="Nether">Nether</option>
+                    <option value="The End">The End</option>
+                </select>
             </div>
 
-            <div
-                class="count"
-                id="count"
-            ></div>
+            <div class="field">
+                <label for="category">Category</label>
 
-            <div id="locations"></div>
+                <input
+                    id="category"
+                    type="text"
+                    placeholder="Base, Farm, Village..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="field">
+                <label for="x">X</label>
+
+                <input
+                    id="x"
+                    type="number"
+                    inputmode="decimal"
+                    placeholder="0"
+                >
+            </div>
+
+            <div class="field">
+                <label for="y">Y</label>
+
+                <input
+                    id="y"
+                    type="number"
+                    inputmode="decimal"
+                    placeholder="0"
+                >
+            </div>
+
+            <div class="field">
+                <label for="z">Z</label>
+
+                <input
+                    id="z"
+                    type="number"
+                    inputmode="decimal"
+                    placeholder="0"
+                >
+            </div>
 
         </div>
 
-    </div>
+        <button
+            id="saveLocation"
+            class="primary add-location-button"
+        >
+            Save Location
+        </button>
+
+    </section>
+
+
+    <!-- SAVED LOCATIONS -->
+
+    <section class="panel">
+
+        <h2>Saved Locations</h2>
+
+        <div class="controls">
+
+            <input
+                id="search"
+                type="search"
+                placeholder="Search locations..."
+                autocomplete="off"
+            >
+
+            <select id="dimensionFilter">
+                <option value="all">All Dimensions</option>
+                <option value="Overworld">Overworld</option>
+                <option value="Nether">Nether</option>
+                <option value="The End">The End</option>
+            </select>
+
+            <select id="sort">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="name">Name</option>
+                <option value="x">X</option>
+                <option value="y">Y</option>
+                <option value="z">Z</option>
+            </select>
+
+        </div>
+
+        <div class="saved-actions">
+
+            <button id="copyAll">
+                Copy All
+            </button>
+
+            <button id="clearAll" class="danger">
+                Clear All
+            </button>
+
+            <div class="location-count">
+                <span id="locationCount">0 locations</span>
+            </div>
+
+        </div>
+
+        <div
+            id="locations"
+            class="locations"
+        ></div>
+
+    </section>
 
 </div>
 
-<!-- CUSTOM MODAL -->
+
+<!-- MODAL -->
 
 <div
-    class="modal-backdrop"
     id="modalBackdrop"
+    class="modal-backdrop"
+    aria-hidden="true"
 >
 
-    <div class="modal">
+    <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+    >
 
-        <h3 id="modalTitle">
-            Confirm
-        </h3>
+        <h3 id="modalTitle"></h3>
 
-        <p id="modalMessage"></p>
+        <div
+            id="modalMessage"
+            class="modal-message"
+        ></div>
 
-        <div id="modalFields"></div>
+        <div
+            id="modalFields"
+            class="modal-fields"
+        ></div>
 
         <div class="modal-actions">
 
-            <button
-                class="secondary"
-                id="modalCancel"
-            >
+            <button id="modalCancel">
                 Cancel
             </button>
 
             <button
                 id="modalConfirm"
+                class="primary"
             >
                 Confirm
             </button>
@@ -971,12 +936,114 @@ button.blue {
 
 </div>
 
+
+<!-- TOAST -->
+
 <div
-    class="toast"
     id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
 ></div>
 
+
 <script>
+/* =========================================================
+   VISUAL VIEWPORT DETECTION
+   =========================================================
+
+   iOS Safari has a layout viewport and a visual viewport.
+
+   The visual viewport represents the part that is actually
+   visible on screen. Safari's address bar can change that
+   visible area while the layout viewport remains unchanged.
+
+   We detect it rather than assuming a fixed URL-bar height.
+*/
+
+(function setupVisualViewportDetection() {
+
+    const root = document.documentElement;
+
+    function updateVisualViewport() {
+
+        if (!window.visualViewport) {
+            root.style.setProperty(
+                "--visual-top",
+                "0px"
+            );
+
+            root.style.setProperty(
+                "--visual-height",
+                window.innerHeight + "px"
+            );
+
+            return;
+        }
+
+        const viewport = window.visualViewport;
+
+        const top = Math.max(
+            0,
+            viewport.offsetTop || 0
+        );
+
+        const height = Math.max(
+            1,
+            viewport.height
+        );
+
+        root.style.setProperty(
+            "--visual-top",
+            top + "px"
+        );
+
+        root.style.setProperty(
+            "--visual-height",
+            height + "px"
+        );
+
+        document.body.classList.add(
+            "visual-viewport-active"
+        );
+    }
+
+    updateVisualViewport();
+
+    window.addEventListener(
+        "resize",
+        updateVisualViewport,
+        { passive: true }
+    );
+
+    window.addEventListener(
+        "orientationchange",
+        updateVisualViewport,
+        { passive: true }
+    );
+
+    if (window.visualViewport) {
+
+        window.visualViewport.addEventListener(
+            "resize",
+            updateVisualViewport,
+            { passive: true }
+        );
+
+        window.visualViewport.addEventListener(
+            "scroll",
+            updateVisualViewport,
+            { passive: true }
+        );
+    }
+
+})();
+
+
+/* =========================================================
+   COORDLY DATA
+   ========================================================= */
+
 const STORAGE_KEY =
     "minecraft-coordinate-notebook-v2";
 
@@ -986,12 +1053,14 @@ const OLD_STORAGE_KEY =
 let worlds = [];
 let currentWorldId = null;
 
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
 const $ = id =>
     document.getElementById(id);
 
-/* =========================
-   BASIC HELPERS
-========================= */
 
 function createId() {
 
@@ -1002,8 +1071,16 @@ function createId() {
             .toString(36)
             .slice(2)
     );
-
 }
+
+
+function currentWorld() {
+
+    return worlds.find(
+        world => world.id === currentWorldId
+    );
+}
+
 
 function saveData() {
 
@@ -1011,31 +1088,20 @@ function saveData() {
         STORAGE_KEY,
         JSON.stringify(worlds)
     );
-
 }
 
-function getCurrentWorld() {
-
-    return worlds.find(
-        world =>
-            world.id === currentWorldId
-    );
-
-}
 
 function formatNumber(value) {
 
     const number = Number(value);
 
     if (!Number.isFinite(number)) {
-        return value;
+        return String(value);
     }
 
-    return Number.isInteger(number)
-        ? String(number)
-        : String(number);
-
+    return String(number);
 }
+
 
 function coordinateText(location) {
 
@@ -1048,26 +1114,23 @@ function coordinateText(location) {
         "   Z: " +
         formatNumber(location.z)
     );
-
 }
 
-/* =========================
+
+/* =========================================================
    INITIALIZATION
-========================= */
+   ========================================================= */
 
 function initializeData() {
 
     const savedWorlds =
-        localStorage.getItem(
-            STORAGE_KEY
-        );
+        localStorage.getItem(STORAGE_KEY);
 
     if (savedWorlds) {
 
         try {
 
-            worlds =
-                JSON.parse(savedWorlds);
+            worlds = JSON.parse(savedWorlds);
 
             if (
                 !Array.isArray(worlds) ||
@@ -1079,15 +1142,14 @@ function initializeData() {
         } catch {
 
             worlds = [];
-
         }
-
     }
 
+
     /*
-       If there are no v2 worlds,
-       migrate every old location into
-       World 1.
+        Migrate the old coordinate-notebook format.
+
+        Every old location goes into World 1.
     */
 
     if (worlds.length === 0) {
@@ -1095,9 +1157,7 @@ function initializeData() {
         let oldLocations = [];
 
         const oldData =
-            localStorage.getItem(
-                OLD_STORAGE_KEY
-            );
+            localStorage.getItem(OLD_STORAGE_KEY);
 
         if (oldData) {
 
@@ -1113,22 +1173,25 @@ function initializeData() {
             } catch {
 
                 oldLocations = [];
-
             }
-
         }
 
-        worlds = [
-            {
-                id: createId(),
-                name: "World 1",
-                seed: "",
-                locations: oldLocations
-            }
-        ];
+
+        const world = {
+
+            id: createId(),
+
+            name: "World 1",
+
+            seed: "",
+
+            locations: oldLocations
+        };
+
+        worlds = [world];
 
         currentWorldId =
-            worlds[0].id;
+            world.id;
 
         saveData();
 
@@ -1143,20 +1206,15 @@ function initializeData() {
 
                 name:
                     world.name ||
-                    "World " +
-                    (index + 1),
+                    "World " + (index + 1),
 
                 seed:
-                    world.seed ||
-                    "",
+                    world.seed || "",
 
                 locations:
-                    Array.isArray(
-                        world.locations
-                    )
+                    Array.isArray(world.locations)
                         ? world.locations
                         : []
-
             })
         );
 
@@ -1164,17 +1222,17 @@ function initializeData() {
             worlds[0].id;
 
         saveData();
-
     }
+
 
     renderWorlds();
     renderLocations();
-
 }
 
-/* =========================
-   WORLDS
-========================= */
+
+/* =========================================================
+   WORLD RENDERING
+   ========================================================= */
 
 function renderWorlds() {
 
@@ -1183,751 +1241,435 @@ function renderWorlds() {
 
     select.innerHTML = "";
 
-    worlds.forEach(
-        (world, index) => {
+    worlds.forEach(world => {
 
-            const option =
-                document.createElement(
-                    "option"
-                );
+        const option =
+            document.createElement("option");
 
-            option.value =
-                world.id;
+        option.value =
+            world.id;
 
-            option.textContent =
-                world.name ||
-                "World " +
-                (index + 1);
+        option.textContent =
+            world.name;
 
-            select.appendChild(
-                option
-            );
-
+        if (world.id === currentWorldId) {
+            option.selected = true;
         }
-    );
 
-    if (
-        !worlds.some(
-            world =>
-                world.id ===
-                currentWorldId
-        )
-    ) {
+        select.appendChild(option);
+    });
 
-        currentWorldId =
-            worlds[0]?.id ||
-            null;
-
-    }
-
-    if (currentWorldId) {
-
-        select.value =
-            currentWorldId;
-
-    }
-
-    updateWorldInfo();
-
-}
-
-function updateWorldInfo() {
 
     const world =
-        getCurrentWorld();
+        currentWorld();
 
     if (!world) {
+        return;
+    }
 
-        $("currentWorldName")
-            .textContent =
-            "No world";
 
-        $("currentWorldSeed")
-            .textContent =
-            "Not set";
+    $("currentWorldName").textContent =
+        world.name;
 
-        $("currentWorldLocationCount")
-            .textContent =
-            "0";
+    $("currentWorldSeed").textContent =
+        world.seed || "Not set";
+
+    $("currentWorldLocationCount").textContent =
+        world.locations.length;
+
+    $("deleteWorld").disabled =
+        worlds.length <= 1;
+}
+
+
+/* =========================================================
+   WORLD CREATION
+   ========================================================= */
+
+function openNewWorldModal() {
+
+    openModal({
+        title: "New World",
+
+        message:
+            "Create a new Minecraft world.",
+
+        fields: [
+
+            {
+                id: "worldName",
+                label: "World Name",
+                type: "text",
+                placeholder: "World 2"
+            },
+
+            {
+                id: "worldSeed",
+                label: "Seed",
+                type: "text",
+                placeholder: "Optional"
+            }
+        ],
+
+        confirmText: "Create",
+
+        onConfirm(values) {
+
+            const name =
+                values.worldName.trim();
+
+            const seed =
+                values.worldSeed.trim();
+
+
+            if (!name) {
+
+                showToast(
+                    "Enter a world name."
+                );
+
+                return false;
+            }
+
+
+            const world = {
+
+                id: createId(),
+
+                name,
+
+                seed,
+
+                locations: []
+            };
+
+
+            worlds.push(world);
+
+            currentWorldId =
+                world.id;
+
+            saveData();
+
+            renderWorlds();
+            renderLocations();
+
+            showToast(
+                "World created."
+            );
+
+            return true;
+        }
+    });
+}
+
+
+/* =========================================================
+   WORLD EDITING
+   ========================================================= */
+
+function openEditWorldModal() {
+
+    const world =
+        currentWorld();
+
+    if (!world) {
+        return;
+    }
+
+
+    openModal({
+
+        title: "Edit World",
+
+        message:
+            "Rename this world or update its seed.",
+
+        fields: [
+
+            {
+                id: "worldName",
+                label: "World Name",
+                type: "text",
+                value: world.name,
+                placeholder: "World name"
+            },
+
+            {
+                id: "worldSeed",
+                label: "Seed",
+                type: "text",
+                value: world.seed,
+                placeholder: "Optional"
+            }
+        ],
+
+        confirmText: "Save",
+
+        onConfirm(values) {
+
+            const name =
+                values.worldName.trim();
+
+            const seed =
+                values.worldSeed.trim();
+
+
+            if (!name) {
+
+                showToast(
+                    "Enter a world name."
+                );
+
+                return false;
+            }
+
+
+            world.name = name;
+            world.seed = seed;
+
+            saveData();
+
+            renderWorlds();
+
+            showToast(
+                "World updated."
+            );
+
+            return true;
+        }
+    });
+}
+
+
+/* =========================================================
+   WORLD DELETION
+   ========================================================= */
+
+function deleteCurrentWorld() {
+
+    if (worlds.length <= 1) {
+
+        showToast(
+            "You must keep at least one world."
+        );
 
         return;
     }
 
-    $("currentWorldName")
-        .textContent =
-        world.name;
 
-    $("currentWorldSeed")
-        .textContent =
-        world.seed === ""
-            ? "Not set"
-            : world.seed;
+    const world =
+        currentWorld();
 
-    $("currentWorldLocationCount")
-        .textContent =
-        world.locations.length;
-
-}
-
-/* =========================
-   MODAL
-========================= */
-
-let modalConfirmAction =
-    null;
-
-function openModal({
-    title,
-    message = "",
-    fields = [],
-    confirmText = "Confirm",
-    danger = false,
-    onConfirm
-}) {
-
-    $("modalTitle")
-        .textContent =
-        title;
-
-    $("modalMessage")
-        .textContent =
-        message;
-
-    const fieldsContainer =
-        $("modalFields");
-
-    fieldsContainer.innerHTML =
-        "";
-
-    fields.forEach(field => {
-
-        const wrapper =
-            document.createElement(
-                "div"
-            );
-
-        wrapper.className =
-            "field";
-
-        const label =
-            document.createElement(
-                "label"
-            );
-
-        label.textContent =
-            field.label;
-
-        label.htmlFor =
-            field.id;
-
-        const input =
-            document.createElement(
-                "input"
-            );
-
-        input.id =
-            field.id;
-
-        input.type =
-            field.type ||
-            "text";
-
-        input.placeholder =
-            field.placeholder ||
-            "";
-
-        input.value =
-            field.value ?? "";
-
-        if (field.required) {
-            input.required =
-                true;
-        }
-
-        wrapper.appendChild(label);
-        wrapper.appendChild(input);
-
-        fieldsContainer.appendChild(
-            wrapper
-        );
-
-    });
-
-    const confirmButton =
-        $("modalConfirm");
-
-    confirmButton.textContent =
-        confirmText;
-
-    confirmButton.classList.toggle(
-        "danger",
-        danger
-    );
-
-    confirmButton.classList.toggle(
-        "blue",
-        !danger
-    );
-
-    modalConfirmAction =
-        onConfirm;
-
-    $("modalBackdrop")
-        .classList.add("show");
-
-    const firstInput =
-        fieldsContainer.querySelector(
-            "input"
-        );
-
-    if (firstInput) {
-
-        setTimeout(
-            () => firstInput.focus(),
-            50
-        );
-
+    if (!world) {
+        return;
     }
 
-}
 
-function closeModal() {
+    openModal({
 
-    $("modalBackdrop")
-        .classList.remove(
-            "show"
-        );
+        title: "Delete World",
 
-    $("modalFields")
-        .innerHTML =
-        "";
+        message:
+            'Delete "' +
+            world.name +
+            '" and all of its saved locations? This cannot be undone.',
 
-    modalConfirmAction =
-        null;
+        confirmText: "Delete",
 
-}
+        danger: true,
 
-$("modalCancel")
-    .addEventListener(
-        "click",
-        closeModal
-    );
+        onConfirm() {
 
-$("modalBackdrop")
-    .addEventListener(
-        "click",
-        event => {
+            const index =
+                worlds.findIndex(
+                    item =>
+                        item.id ===
+                        currentWorldId
+                );
 
-            if (
-                event.target ===
-                $("modalBackdrop")
-            ) {
-                closeModal();
-            }
 
-        }
-    );
-
-$("modalConfirm")
-    .addEventListener(
-        "click",
-        () => {
-
-            if (
-                typeof modalConfirmAction ===
-                "function"
-            ) {
-
-                modalConfirmAction();
-
-            }
-
-        }
-    );
-
-/* =========================
-   NEW WORLD
-========================= */
-
-$("newWorld")
-    .addEventListener(
-        "click",
-        () => {
-
-            openModal({
-
-                title:
-                    "Create World",
-
-                message:
-                    "Enter the name and seed for your new world.",
-
-                fields: [
-
-                    {
-                        id:
-                            "worldNameInput",
-
-                        label:
-                            "World Name",
-
-                        placeholder:
-                            "World 2",
-
-                        required:
-                            true
-                    },
-
-                    {
-                        id:
-                            "worldSeedInput",
-
-                        label:
-                            "Seed",
-
-                        placeholder:
-                            "Optional"
-                    }
-
-                ],
-
-                confirmText:
-                    "Create World",
-
-                onConfirm:
-                    () => {
-
-                        const name =
-                            $(
-                                "worldNameInput"
-                            )
-                                .value
-                                .trim();
-
-                        const seed =
-                            $(
-                                "worldSeedInput"
-                            )
-                                .value
-                                .trim();
-
-                        if (!name) {
-
-                            showToast(
-                                "Enter a world name."
-                            );
-
-                            return;
-
-                        }
-
-                        const world = {
-
-                            id:
-                                createId(),
-
-                            name,
-
-                            seed,
-
-                            locations:
-                                []
-
-                        };
-
-                        worlds.push(
-                            world
-                        );
-
-                        currentWorldId =
-                            world.id;
-
-                        saveData();
-
-                        renderWorlds();
-                        renderLocations();
-
-                        closeModal();
-
-                        showToast(
-                            "World created."
-                        );
-
-                    }
-
-            });
-
-        }
-    );
-
-/* =========================
-   EDIT WORLD
-========================= */
-
-$("editWorld")
-    .addEventListener(
-        "click",
-        () => {
-
-            const world =
-                getCurrentWorld();
-
-            if (!world) {
-                return;
-            }
-
-            openModal({
-
-                title:
-                    "Edit World",
-
-                message:
-                    "Change the name or seed for this world.",
-
-                fields: [
-
-                    {
-                        id:
-                            "editWorldName",
-
-                        label:
-                            "World Name",
-
-                        value:
-                            world.name,
-
-                        required:
-                            true
-                    },
-
-                    {
-                        id:
-                            "editWorldSeed",
-
-                        label:
-                            "Seed",
-
-                        value:
-                            world.seed ||
-                            "",
-
-                        placeholder:
-                            "Optional"
-                    }
-
-                ],
-
-                confirmText:
-                    "Save Changes",
-
-                onConfirm:
-                    () => {
-
-                        const name =
-                            $(
-                                "editWorldName"
-                            )
-                                .value
-                                .trim();
-
-                        const seed =
-                            $(
-                                "editWorldSeed"
-                            )
-                                .value
-                                .trim();
-
-                        if (!name) {
-
-                            showToast(
-                                "Enter a world name."
-                            );
-
-                            return;
-
-                        }
-
-                        world.name =
-                            name;
-
-                        world.seed =
-                            seed;
-
-                        saveData();
-
-                        renderWorlds();
-                        renderLocations();
-
-                        closeModal();
-
-                        showToast(
-                            "World updated."
-                        );
-
-                    }
-
-            });
-
-        }
-    );
-
-/* =========================
-   DELETE WORLD
-========================= */
-
-$("deleteWorld")
-    .addEventListener(
-        "click",
-        () => {
-
-            const world =
-                getCurrentWorld();
-
-            if (!world) {
-                return;
-            }
-
-            if (worlds.length <= 1) {
-
-                openModal({
-
-                    title:
-                        "Cannot Delete World",
-
-                    message:
-                        "You must keep at least one world.",
-
-                    confirmText:
-                        "OK",
-
-                    onConfirm:
-                        closeModal
-
-                });
-
-                return;
-
-            }
-
-            openModal({
-
-                title:
-                    "Delete World?",
-
-                message:
-                    'This will permanently delete "' +
-                    world.name +
-                    '" and all of its saved locations.',
-
-                confirmText:
-                    "Delete World",
-
-                danger:
-                    true,
-
-                onConfirm:
-                    () => {
-
-                        worlds =
-                            worlds.filter(
-                                item =>
-                                    item.id !==
-                                    world.id
-                            );
-
-                        currentWorldId =
-                            worlds[0].id;
-
-                        saveData();
-
-                        renderWorlds();
-                        renderLocations();
-
-                        closeModal();
-
-                        showToast(
-                            "World deleted."
-                        );
-
-                    }
-
-            });
-
-        }
-    );
-
-/* =========================
-   WORLD SWITCH
-========================= */
-
-$("worldSelect")
-    .addEventListener(
-        "change",
-        event => {
+            worlds.splice(index, 1);
 
             currentWorldId =
-                event.target.value;
-
-            renderLocations();
-            updateWorldInfo();
-
-        }
-    );
-
-/* =========================
-   ADD LOCATION
-========================= */
-
-$("locationForm")
-    .addEventListener(
-        "submit",
-        event => {
-
-            event.preventDefault();
-
-            const world =
-                getCurrentWorld();
-
-            if (!world) {
-
-                showToast(
-                    "Create a world first."
-                );
-
-                return;
-
-            }
-
-            const location = {
-
-                id:
-                    createId(),
-
-                name:
-                    $("locationName")
-                        .value
-                        .trim(),
-
-                dimension:
-                    $("dimension")
-                        .value,
-
-                x:
-                    Number(
-                        $("x").value
-                    ),
-
-                y:
-                    Number(
-                        $("y").value
-                    ),
-
-                z:
-                    Number(
-                        $("z").value
-                    ),
-
-                category:
-                    $("category")
-                        .value
-                        .trim(),
-
-                createdAt:
-                    Date.now()
-
-            };
-
-            if (
-                !location.name ||
-                !Number.isFinite(
-                    location.x
-                ) ||
-                !Number.isFinite(
-                    location.y
-                ) ||
-                !Number.isFinite(
-                    location.z
-                )
-            ) {
-
-                showToast(
-                    "Please enter valid location information."
-                );
-
-                return;
-
-            }
-
-            world.locations.push(
-                location
-            );
+                worlds[Math.max(0, index - 1)].id;
 
             saveData();
 
+            renderWorlds();
             renderLocations();
-            updateWorldInfo();
-
-            $("locationForm")
-                .reset();
 
             showToast(
-                "Location saved."
+                "World deleted."
             );
 
+            return true;
         }
+    });
+}
+
+
+/* =========================================================
+   COPY WORLD
+   ========================================================= */
+
+function copyWorld() {
+
+    const world =
+        currentWorld();
+
+    if (!world) {
+        return;
+    }
+
+
+    const text =
+        world.locations
+            .map(coordinateText)
+            .join("\n");
+
+
+    if (!text) {
+
+        showToast(
+            "This world has no locations."
+        );
+
+        return;
+    }
+
+
+    copyText(text);
+
+    showToast(
+        "World locations copied."
     );
+}
 
-/* =========================
-   SEARCH / FILTER / SORT
-========================= */
 
-$("search")
-    .addEventListener(
-        "input",
-        renderLocations
+/* =========================================================
+   ADD LOCATION
+   ========================================================= */
+
+function addLocation() {
+
+    const world =
+        currentWorld();
+
+    if (!world) {
+        return;
+    }
+
+
+    const name =
+        $("locationName")
+            .value
+            .trim();
+
+    const dimension =
+        $("dimension").value;
+
+    const category =
+        $("category")
+            .value
+            .trim();
+
+    const x =
+        $("x").value;
+
+    const y =
+        $("y").value;
+
+    const z =
+        $("z").value;
+
+
+    if (!name) {
+
+        showToast(
+            "Enter a location name."
+        );
+
+        $("locationName").focus();
+
+        return;
+    }
+
+
+    if (
+        x === "" ||
+        y === "" ||
+        z === ""
+    ) {
+
+        showToast(
+            "Enter X, Y, and Z coordinates."
+        );
+
+        return;
+    }
+
+
+    world.locations.push({
+
+        id: createId(),
+
+        name,
+
+        dimension,
+
+        category,
+
+        x: Number(x),
+
+        y: Number(y),
+
+        z: Number(z),
+
+        createdAt: Date.now()
+    });
+
+
+    saveData();
+
+    renderWorlds();
+    renderLocations();
+
+
+    $("locationName").value = "";
+    $("category").value = "";
+    $("x").value = "";
+    $("y").value = "";
+    $("z").value = "";
+
+
+    $("locationName").focus();
+
+    showToast(
+        "Location saved."
     );
+}
 
-$("dimensionFilter")
-    .addEventListener(
-        "change",
-        renderLocations
-    );
 
-$("sort")
-    .addEventListener(
-        "change",
-        renderLocations
-    );
-
-/* =========================
-   RENDER LOCATIONS
-========================= */
+/* =========================================================
+   LOCATION RENDERING
+   ========================================================= */
 
 function renderLocations() {
+
+    const world =
+        currentWorld();
 
     const container =
         $("locations");
 
-    const world =
-        getCurrentWorld();
+    container.innerHTML = "";
 
-    container.innerHTML =
-        "";
 
     if (!world) {
-
-        container.innerHTML =
-            '<div class="empty">No world selected.</div>';
-
-        $("count")
-            .textContent =
-            "";
-
         return;
     }
 
-    let locations =
-        [...world.locations];
 
     const search =
         $("search")
@@ -1936,77 +1678,54 @@ function renderLocations() {
             .toLowerCase();
 
     const dimension =
-        $("dimensionFilter")
-            .value;
+        $("dimensionFilter").value;
+
+    const sort =
+        $("sort").value;
+
+
+    let locations =
+        [...world.locations];
+
+
+    /*
+        Search
+    */
 
     if (search) {
 
         locations =
-            locations.filter(
-                location => {
+            locations.filter(location => {
 
-                    return (
+                const text = [
 
-                        location.name
-                            .toLowerCase()
-                            .includes(
-                                search
-                            )
+                    location.name,
 
-                        ||
+                    location.dimension,
 
-                        location.dimension
-                            .toLowerCase()
-                            .includes(
-                                search
-                            )
+                    location.category,
 
-                        ||
+                    location.x,
 
-                        (
-                            location.category ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(
-                                search
-                            )
+                    location.y,
 
-                        ||
+                    location.z
 
-                        String(
-                            location.x
-                        ).includes(
-                            search
-                        )
+                ]
+                .join(" ")
+                .toLowerCase();
 
-                        ||
 
-                        String(
-                            location.y
-                        ).includes(
-                            search
-                        )
-
-                        ||
-
-                        String(
-                            location.z
-                        ).includes(
-                            search
-                        )
-
-                    );
-
-                }
-            );
-
+                return text.includes(search);
+            });
     }
 
-    if (
-        dimension !==
-        "all"
-    ) {
+
+    /*
+        Dimension filter
+    */
+
+    if (dimension !== "all") {
 
         locations =
             locations.filter(
@@ -2014,13 +1733,30 @@ function renderLocations() {
                     location.dimension ===
                     dimension
             );
-
     }
 
-    const sort =
-        $("sort").value;
 
-    if (sort === "name") {
+    /*
+        Sorting
+    */
+
+    if (sort === "newest") {
+
+        locations.sort(
+            (a, b) =>
+                (b.createdAt || 0) -
+                (a.createdAt || 0)
+        );
+
+    } else if (sort === "oldest") {
+
+        locations.sort(
+            (a, b) =>
+                (a.createdAt || 0) -
+                (b.createdAt || 0)
+        );
+
+    } else if (sort === "name") {
 
         locations.sort(
             (a, b) =>
@@ -2029,9 +1765,7 @@ function renderLocations() {
                 )
         );
 
-    } else if (
-        sort === "x"
-    ) {
+    } else if (sort === "x") {
 
         locations.sort(
             (a, b) =>
@@ -2039,9 +1773,7 @@ function renderLocations() {
                 Number(b.x)
         );
 
-    } else if (
-        sort === "y"
-    ) {
+    } else if (sort === "y") {
 
         locations.sort(
             (a, b) =>
@@ -2049,346 +1781,375 @@ function renderLocations() {
                 Number(b.y)
         );
 
-    } else if (
-        sort === "z"
-    ) {
+    } else if (sort === "z") {
 
         locations.sort(
             (a, b) =>
                 Number(a.z) -
                 Number(b.z)
         );
-
-    } else if (
-        sort === "newest"
-    ) {
-
-        locations.sort(
-            (a, b) =>
-                Number(
-                    b.createdAt ||
-                    0
-                ) -
-                Number(
-                    a.createdAt ||
-                    0
-                )
-        );
-
-    } else if (
-        sort === "oldest"
-    ) {
-
-        locations.sort(
-            (a, b) =>
-                Number(
-                    a.createdAt ||
-                    0
-                ) -
-                Number(
-                    b.createdAt ||
-                    0
-                )
-        );
-
     }
 
-    $("count")
-        .textContent =
+
+    $("locationCount").textContent =
         locations.length +
-        " location" +
         (
             locations.length === 1
-                ? ""
-                : "s"
-        ) +
-        " shown";
+                ? " location"
+                : " locations"
+        );
 
-    if (
-        locations.length === 0
-    ) {
 
-        container.innerHTML =
-            '<div class="empty">No locations found.</div>';
+    if (locations.length === 0) {
+
+        const empty =
+            document.createElement("div");
+
+        empty.className =
+            "empty-state";
+
+        empty.textContent =
+            world.locations.length === 0
+                ? "No locations saved yet."
+                : "No locations match your search.";
+
+        container.appendChild(empty);
 
         return;
-
     }
 
-    locations.forEach(
-        location => {
-
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-            card.className =
-                "location-card";
-
-            const top =
-                document.createElement(
-                    "div"
-                );
-
-            top.className =
-                "location-top";
-
-            const titleArea =
-                document.createElement(
-                    "div"
-                );
-
-            const name =
-                document.createElement(
-                    "div"
-                );
-
-            name.className =
-                "location-name";
-
-            name.textContent =
-                location.name;
-
-            const dimension =
-                document.createElement(
-                    "div"
-                );
-
-            dimension.className =
-                "dimension";
-
-            dimension.textContent =
-                location.dimension;
-
-            titleArea.appendChild(
-                name
-            );
-
-            titleArea.appendChild(
-                dimension
-            );
-
-            if (
-                location.category
-            ) {
-
-                const category =
-                    document.createElement(
-                        "div"
-                    );
 
-                category.className =
-                    "dimension";
+    locations.forEach(location => {
 
-                category.textContent =
-                    location.category;
+        const card =
+            document.createElement("div");
 
-                titleArea.appendChild(
-                    category
-                );
+        card.className =
+            "location-card";
 
-            }
 
-            top.appendChild(
-                titleArea
-            );
+        const top =
+            document.createElement("div");
 
-            card.appendChild(
-                top
-            );
+        top.className =
+            "location-top";
 
-            const coordinates =
-                document.createElement(
-                    "div"
-                );
 
-            coordinates.className =
-                "coordinates";
+        const name =
+            document.createElement("div");
 
-            coordinates.textContent =
-                "X: " +
-                formatNumber(
-                    location.x
-                ) +
-                "   Y: " +
-                formatNumber(
-                    location.y
-                ) +
-                "   Z: " +
-                formatNumber(
-                    location.z
-                );
+        name.className =
+            "location-name";
 
-            card.appendChild(
-                coordinates
-            );
+        name.textContent =
+            location.name;
 
-            const actions =
-                document.createElement(
-                    "div"
-                );
 
-            actions.className =
-                "actions";
+        const dimensionBadge =
+            document.createElement("div");
 
-            const copyButton =
-                document.createElement(
-                    "button"
-                );
+        dimensionBadge.className =
+            "location-dimension";
 
-            copyButton.className =
-                "blue";
+        dimensionBadge.textContent =
+            location.dimension;
 
-            copyButton.textContent =
-                "Copy Coordinates";
 
-            copyButton.addEventListener(
-                "click",
-                async () => {
+        top.appendChild(name);
+        top.appendChild(dimensionBadge);
 
-                    try {
 
-                        await copyText(
-                            coordinateText(
-                                location
-                            )
-                        );
+        const coordinates =
+            document.createElement("div");
 
-                        copyButton.textContent =
-                            "Copied!";
+        coordinates.className =
+            "coordinates";
 
-                        setTimeout(
-                            () => {
+        coordinates.textContent =
+            "X: " +
+            formatNumber(location.x) +
+            "   Y: " +
+            formatNumber(location.y) +
+            "   Z: " +
+            formatNumber(location.z);
 
-                                copyButton.textContent =
-                                    "Copy Coordinates";
 
-                            },
-                            1200
-                        );
+        card.appendChild(top);
+        card.appendChild(coordinates);
 
-                    } catch {
 
-                        showToast(
-                            "Could not copy coordinates."
-                        );
+        if (location.category) {
 
-                    }
+            const category =
+                document.createElement("div");
 
-                }
-            );
+            category.className =
+                "location-category";
 
-            const deleteButton =
-                document.createElement(
-                    "button"
-                );
+            category.textContent =
+                "Category: " +
+                location.category;
 
-            deleteButton.className =
-                "danger";
-
-            deleteButton.textContent =
-                "Delete";
-
-            deleteButton.addEventListener(
-                "click",
-                () => {
-
-                    openModal({
-
-                        title:
-                            "Delete Location?",
-
-                        message:
-                            'Delete "' +
-                            location.name +
-                            '" from this world?',
-
-                        confirmText:
-                            "Delete",
-
-                        danger:
-                            true,
-
-                        onConfirm:
-                            () => {
-
-                                world.locations =
-                                    world.locations.filter(
-                                        item =>
-                                            item.id !==
-                                            location.id
-                                    );
-
-                                saveData();
-
-                                renderLocations();
-                                updateWorldInfo();
-
-                                closeModal();
-
-                                showToast(
-                                    "Location deleted."
-                                );
-
-                            }
-
-                    });
-
-                }
-            );
-
-            actions.appendChild(
-                copyButton
-            );
-
-            actions.appendChild(
-                deleteButton
-            );
-
-            card.appendChild(
-                actions
-            );
-
-            container.appendChild(
-                card
-            );
-
+            card.appendChild(category);
         }
-    );
 
+
+        const actions =
+            document.createElement("div");
+
+        actions.className =
+            "actions";
+
+
+        const copyButton =
+            document.createElement("button");
+
+        copyButton.className =
+            "small";
+
+        copyButton.textContent =
+            "Copy Coordinates";
+
+        copyButton.addEventListener(
+            "click",
+            () => {
+
+                copyText(
+                    coordinateText(location)
+                );
+
+                showToast(
+                    "Coordinates copied."
+                );
+            }
+        );
+
+
+        const deleteButton =
+            document.createElement("button");
+
+        deleteButton.className =
+            "small danger";
+
+        deleteButton.textContent =
+            "Delete";
+
+        deleteButton.addEventListener(
+            "click",
+            () =>
+                deleteLocation(
+                    location.id
+                )
+        );
+
+
+        actions.appendChild(
+            copyButton
+        );
+
+        actions.appendChild(
+            deleteButton
+        );
+
+
+        card.appendChild(actions);
+
+        container.appendChild(card);
+    });
 }
 
-/* =========================
-   COPY
-========================= */
+
+/* =========================================================
+   DELETE LOCATION
+   ========================================================= */
+
+function deleteLocation(id) {
+
+    const world =
+        currentWorld();
+
+    if (!world) {
+        return;
+    }
+
+
+    const location =
+        world.locations.find(
+            item =>
+                item.id === id
+        );
+
+    if (!location) {
+        return;
+    }
+
+
+    openModal({
+
+        title: "Delete Location",
+
+        message:
+            'Delete "' +
+            location.name +
+            '"?',
+
+        confirmText: "Delete",
+
+        danger: true,
+
+        onConfirm() {
+
+            world.locations =
+                world.locations.filter(
+                    item =>
+                        item.id !== id
+                );
+
+            saveData();
+
+            renderWorlds();
+            renderLocations();
+
+            showToast(
+                "Location deleted."
+            );
+
+            return true;
+        }
+    });
+}
+
+
+/* =========================================================
+   COPY ALL
+   ========================================================= */
+
+function copyAll() {
+
+    const world =
+        currentWorld();
+
+    if (!world) {
+        return;
+    }
+
+
+    if (world.locations.length === 0) {
+
+        showToast(
+            "There are no locations to copy."
+        );
+
+        return;
+    }
+
+
+    const text =
+        world.locations
+            .map(coordinateText)
+            .join("\n");
+
+
+    copyText(text);
+
+    showToast(
+        "All coordinates copied."
+    );
+}
+
+
+/* =========================================================
+   CLEAR ALL
+   ========================================================= */
+
+function clearAll() {
+
+    const world =
+        currentWorld();
+
+    if (!world) {
+        return;
+    }
+
+
+    if (world.locations.length === 0) {
+
+        showToast(
+            "There are no locations to clear."
+        );
+
+        return;
+    }
+
+
+    openModal({
+
+        title: "Clear All Locations",
+
+        message:
+            "Delete every saved location in this world? This cannot be undone.",
+
+        confirmText: "Clear All",
+
+        danger: true,
+
+        onConfirm() {
+
+            world.locations = [];
+
+            saveData();
+
+            renderWorlds();
+            renderLocations();
+
+            showToast(
+                "All locations cleared."
+            );
+
+            return true;
+        }
+    });
+}
+
+
+/* =========================================================
+   CLIPBOARD
+   ========================================================= */
 
 async function copyText(text) {
 
-    if (
-        navigator.clipboard &&
-        window.isSecureContext
-    ) {
+    try {
 
-        await navigator.clipboard
-            .writeText(text);
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
 
-        return;
+            await navigator.clipboard.writeText(
+                text
+            );
+
+            return;
+        }
+
+    } catch {
+        /* Fall through to textarea method. */
     }
 
-    const textarea =
-        document.createElement(
-            "textarea"
-        );
 
-    textarea.value =
-        text;
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = text;
 
     textarea.style.position =
         "fixed";
 
-    textarea.style.left =
-        "-9999px";
+    textarea.style.opacity =
+        "0";
+
+    textarea.style.pointerEvents =
+        "none";
 
     document.body.appendChild(
         textarea
@@ -2397,163 +2158,171 @@ async function copyText(text) {
     textarea.focus();
     textarea.select();
 
-    const successful =
-        document.execCommand(
-            "copy"
-        );
-
-    document.body.removeChild(
-        textarea
-    );
-
-    if (!successful) {
-        throw new Error(
-            "Copy failed"
-        );
+    try {
+        document.execCommand("copy");
+    } catch {
+        /* Nothing else to do. */
     }
 
+    textarea.remove();
 }
 
-/* =========================
-   COPY ALL
-========================= */
 
-$("copyAll")
-    .addEventListener(
-        "click",
-        async () => {
+/* =========================================================
+   MODAL SYSTEM
+   ========================================================= */
 
-            const world =
-                getCurrentWorld();
+let modalConfirmHandler = null;
 
-            if (
-                !world ||
-                world.locations.length === 0
-            ) {
 
-                showToast(
-                    "There are no saved locations to copy."
-                );
+function openModal(options) {
 
-                return;
+    $("modalTitle").textContent =
+        options.title || "";
 
-            }
+    $("modalMessage").textContent =
+        options.message || "";
 
-            const text =
-                world.locations
-                    .map(
-                        coordinateText
-                    )
-                    .join("\n");
+    $("modalFields").innerHTML =
+        "";
 
-            try {
 
-                await copyText(
-                    text
-                );
+    if (options.fields) {
 
-                const button =
-                    $("copyAll");
+        options.fields.forEach(field => {
 
-                const oldText =
-                    button.textContent;
+            const wrapper =
+                document.createElement("div");
 
-                button.textContent =
-                    "Copied All!";
+            wrapper.className =
+                "field";
 
-                setTimeout(
-                    () => {
 
-                        button.textContent =
-                            oldText;
+            const label =
+                document.createElement("label");
 
-                    },
-                    1200
-                );
+            label.textContent =
+                field.label;
 
-            } catch {
+            label.htmlFor =
+                "modal-" + field.id;
 
-                showToast(
-                    "Could not copy locations."
-                );
 
-            }
+            const input =
+                document.createElement("input");
 
-        }
+            input.id =
+                "modal-" + field.id;
+
+            input.type =
+                field.type || "text";
+
+            input.placeholder =
+                field.placeholder || "";
+
+            input.value =
+                field.value || "";
+
+
+            wrapper.appendChild(label);
+            wrapper.appendChild(input);
+
+            $("modalFields")
+                .appendChild(wrapper);
+        });
+    }
+
+
+    $("modalConfirm").textContent =
+        options.confirmText ||
+        "Confirm";
+
+
+    $("modalConfirm").classList.toggle(
+        "danger",
+        !!options.danger
     );
 
-/* =========================
-   CLEAR ALL
-========================= */
-
-$("clearAll")
-    .addEventListener(
-        "click",
-        () => {
-
-            const world =
-                getCurrentWorld();
-
-            if (
-                !world ||
-                world.locations.length === 0
-            ) {
-
-                showToast(
-                    "There are no locations to clear."
-                );
-
-                return;
-
-            }
-
-            openModal({
-
-                title:
-                    "Clear All Locations?",
-
-                message:
-                    "This will permanently delete all " +
-                    world.locations.length +
-                    " saved locations from \"" +
-                    world.name +
-                    "\".",
-
-                confirmText:
-                    "Clear All",
-
-                danger:
-                    true,
-
-                onConfirm:
-                    () => {
-
-                        world.locations =
-                            [];
-
-                        saveData();
-
-                        renderLocations();
-                        updateWorldInfo();
-
-                        closeModal();
-
-                        showToast(
-                            "All locations cleared."
-                        );
-
-                    }
-
-            });
-
-        }
+    $("modalConfirm").classList.toggle(
+        "primary",
+        !options.danger
     );
 
-/* =========================
+
+    modalConfirmHandler =
+        options.onConfirm || null;
+
+
+    $("modalBackdrop")
+        .classList.add("open");
+
+    $("modalBackdrop")
+        .setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+
+    const firstInput =
+        $("modalFields")
+            .querySelector("input");
+
+    if (firstInput) {
+
+        setTimeout(
+            () => firstInput.focus(),
+            50
+        );
+    }
+}
+
+
+function closeModal() {
+
+    $("modalBackdrop")
+        .classList.remove("open");
+
+    $("modalBackdrop")
+        .setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+    $("modalFields").innerHTML =
+        "";
+
+    modalConfirmHandler =
+        null;
+}
+
+
+function getModalValues() {
+
+    const values = {};
+
+    $("modalFields")
+        .querySelectorAll("input")
+        .forEach(input => {
+
+            values[
+                input.id.replace(
+                    "modal-",
+                    ""
+                )
+            ] =
+                input.value;
+        });
+
+    return values;
+}
+
+
+/* =========================================================
    TOAST
-========================= */
+   ========================================================= */
 
-let toastTimeout;
+let toastTimer;
+
 
 function showToast(message) {
 
@@ -2567,45 +2336,236 @@ function showToast(message) {
         "show"
     );
 
-    clearTimeout(
-        toastTimeout
-    );
 
-    toastTimeout =
-        setTimeout(
-            () => {
+    clearTimeout(toastTimer);
 
-                toast.classList.remove(
-                    "show"
-                );
+    toastTimer =
+        setTimeout(() => {
 
-            },
-            1800
-        );
+            toast.classList.remove(
+                "show"
+            );
 
+        }, 2200);
 }
 
-/* =========================
-   DISABLE ZOOM
-========================= */
+
+/* =========================================================
+   EVENTS
+   ========================================================= */
+
+$("worldSelect")
+    .addEventListener(
+        "change",
+        event => {
+
+            currentWorldId =
+                event.target.value;
+
+            renderWorlds();
+            renderLocations();
+        }
+    );
+
+
+$("newWorld")
+    .addEventListener(
+        "click",
+        openNewWorldModal
+    );
+
+
+$("editWorld")
+    .addEventListener(
+        "click",
+        openEditWorldModal
+    );
+
+
+$("deleteWorld")
+    .addEventListener(
+        "click",
+        deleteCurrentWorld
+    );
+
+
+$("copyWorld")
+    .addEventListener(
+        "click",
+        copyWorld
+    );
+
+
+$("saveLocation")
+    .addEventListener(
+        "click",
+        addLocation
+    );
+
+
+$("copyAll")
+    .addEventListener(
+        "click",
+        copyAll
+    );
+
+
+$("clearAll")
+    .addEventListener(
+        "click",
+        clearAll
+    );
+
+
+$("search")
+    .addEventListener(
+        "input",
+        renderLocations
+    );
+
+
+$("dimensionFilter")
+    .addEventListener(
+        "change",
+        renderLocations
+    );
+
+
+$("sort")
+    .addEventListener(
+        "change",
+        renderLocations
+    );
+
+
+$("modalCancel")
+    .addEventListener(
+        "click",
+        closeModal
+    );
+
+
+$("modalConfirm")
+    .addEventListener(
+        "click",
+        () => {
+
+            if (!modalConfirmHandler) {
+                closeModal();
+                return;
+            }
+
+
+            const values =
+                getModalValues();
+
+
+            const result =
+                modalConfirmHandler(
+                    values
+                );
+
+
+            /*
+                Returning false keeps the modal open.
+            */
+
+            if (result !== false) {
+                closeModal();
+            }
+        }
+    );
+
+
+$("modalBackdrop")
+    .addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                $("modalBackdrop")
+            ) {
+                closeModal();
+            }
+        }
+    );
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape" &&
+            $("modalBackdrop")
+                .classList
+                .contains("open")
+        ) {
+
+            closeModal();
+        }
+
+
+        if (
+            event.key === "Enter" &&
+            $("modalBackdrop")
+                .classList
+                .contains("open")
+        ) {
+
+            /*
+                Don't submit a modal while a multiline
+                interaction is ever added later.
+            */
+
+            const active =
+                document.activeElement;
+
+            if (
+                active &&
+                active.tagName === "INPUT"
+            ) {
+
+                $("modalConfirm").click();
+            }
+        }
+    }
+);
+
+
+/* =========================================================
+   PREVENT MOBILE ZOOM GESTURES
+   ========================================================= */
 
 document.addEventListener(
     "gesturestart",
-    event =>
-        event.preventDefault()
+    event => {
+        event.preventDefault();
+    },
+    { passive: false }
 );
 
 document.addEventListener(
     "gesturechange",
-    event =>
-        event.preventDefault()
+    event => {
+        event.preventDefault();
+    },
+    { passive: false }
 );
 
 document.addEventListener(
     "gestureend",
-    event =>
-        event.preventDefault()
+    event => {
+        event.preventDefault();
+    },
+    { passive: false }
 );
+
+
+/*
+    Prevent double-tap zoom without blocking normal taps.
+*/
 
 let lastTouchEnd = 0;
 
@@ -2617,27 +2577,20 @@ document.addEventListener(
             Date.now();
 
         if (
-            now -
-            lastTouchEnd <=
-            300
+            now - lastTouchEnd <= 300
         ) {
-
             event.preventDefault();
-
         }
 
-        lastTouchEnd =
-            now;
-
+        lastTouchEnd = now;
     },
-    {
-        passive: false
-    }
+    { passive: false }
 );
 
-/* =========================
+
+/* =========================================================
    START
-========================= */
+   ========================================================= */
 
 initializeData();
 </script>

@@ -45,36 +45,32 @@ body {
     padding-left: env(safe-area-inset-left);
 
     touch-action: manipulation;
-}
 
-/*
-    Visual Viewport detection
-
-    --visual-top:
-    How far the visible viewport is offset from the layout viewport.
-
-    --visual-height:
-    The actual visible viewport height.
-
-    These values are updated by JavaScript below.
-*/
-
-:root {
+    /*
+        Safari visual viewport compensation.
+        These variables are updated by JavaScript.
+    */
     --visual-top: 0px;
-    --visual-height: 100vh;
+    --visual-bottom: 0px;
 }
-
-body.visual-viewport-active {
-    min-height: var(--visual-height);
-}
-
-/* Main page */
 
 .container {
     width: min(100%, 1000px);
     margin: 0 auto;
 
     padding: 24px 16px 40px;
+
+    /*
+        Extra room is automatically added when Safari's
+        browser UI covers the visual viewport.
+    */
+    padding-top: calc(
+        24px + var(--visual-top)
+    );
+
+    padding-bottom: calc(
+        40px + var(--visual-bottom)
+    );
 }
 
 /* Header */
@@ -355,6 +351,13 @@ button:disabled {
     border-radius: 11px;
 
     padding: 14px;
+
+    /*
+        Keeps cards from being placed directly against
+        the browser's visible viewport edge.
+    */
+    scroll-margin-top: 90px;
+    scroll-margin-bottom: 110px;
 }
 
 .location-top {
@@ -419,6 +422,10 @@ button:disabled {
     margin-top: 12px;
 }
 
+.location-card .actions button {
+    flex: 1 1 auto;
+}
+
 /* Modal */
 
 .modal-backdrop {
@@ -432,6 +439,14 @@ button:disabled {
     justify-content: center;
 
     padding: 18px;
+
+    padding-top: calc(
+        18px + env(safe-area-inset-top)
+    );
+
+    padding-bottom: calc(
+        18px + env(safe-area-inset-bottom)
+    );
 
     background: rgba(0, 0, 0, 0.72);
 
@@ -494,7 +509,12 @@ button:disabled {
     z-index: 2000;
 
     left: 50%;
-    bottom: calc(18px + env(safe-area-inset-bottom));
+
+    bottom: calc(
+        18px +
+        env(safe-area-inset-bottom) +
+        var(--visual-bottom)
+    );
 
     transform: translateX(-50%) translateY(20px);
 
@@ -524,9 +544,7 @@ button:disabled {
     transform: translateX(-50%) translateY(0);
 }
 
-/*
-    Mobile
-*/
+/* Mobile */
 
 @media (max-width: 700px) {
 
@@ -534,9 +552,16 @@ button:disabled {
         width: 100%;
         max-width: none;
 
-        padding-top: 18px;
+        padding-top: calc(
+            18px + var(--visual-top)
+        );
+
         padding-right: 10px;
-        padding-bottom: 30px;
+
+        padding-bottom: calc(
+            30px + var(--visual-bottom)
+        );
+
         padding-left: 10px;
     }
 
@@ -633,6 +658,9 @@ button:disabled {
         max-width: 100%;
     }
 
+    /*
+        Three buttons now fit cleanly on mobile.
+    */
     .location-card .actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -640,13 +668,6 @@ button:disabled {
 
     .location-card .actions button {
         width: 100%;
-    }
-
-    .modal-backdrop {
-        align-items: flex-start;
-
-        padding-top: calc(18px + env(safe-area-inset-top));
-        padding-bottom: calc(18px + env(safe-area-inset-bottom));
     }
 
     .modal {
@@ -694,6 +715,7 @@ button:disabled {
         <p>Keep track of your Minecraft locations.</p>
     </header>
 
+
     <!-- WORLD -->
 
     <section class="panel">
@@ -701,32 +723,68 @@ button:disabled {
         <h2>World</h2>
 
         <div class="field">
-            <label for="worldSelect">Current World</label>
+
+            <label for="worldSelect">
+                Current World
+            </label>
 
             <select id="worldSelect"></select>
+
         </div>
+
 
         <div class="world-info">
 
             <div class="world-info-row">
-                <span class="world-info-label">Name</span>
-                <span class="world-info-value" id="currentWorldName">World 1</span>
+                <span class="world-info-label">
+                    Name
+                </span>
+
+                <span
+                    class="world-info-value"
+                    id="currentWorldName"
+                >
+                    World 1
+                </span>
             </div>
 
-            <div class="world-info-row">
-                <span class="world-info-label">Seed</span>
-                <span class="world-info-value" id="currentWorldSeed">Not set</span>
-            </div>
 
             <div class="world-info-row">
-                <span class="world-info-label">Locations</span>
-                <span class="world-info-value" id="currentWorldLocationCount">0</span>
+                <span class="world-info-label">
+                    Seed
+                </span>
+
+                <span
+                    class="world-info-value"
+                    id="currentWorldSeed"
+                >
+                    Not set
+                </span>
+            </div>
+
+
+            <div class="world-info-row">
+                <span class="world-info-label">
+                    Locations
+                </span>
+
+                <span
+                    class="world-info-value"
+                    id="currentWorldLocationCount"
+                >
+                    0
+                </span>
             </div>
 
         </div>
 
+
         <div class="world-actions">
-            <button id="newWorld" class="primary">
+
+            <button
+                id="newWorld"
+                class="primary"
+            >
                 New World
             </button>
 
@@ -734,13 +792,17 @@ button:disabled {
                 Rename / Edit
             </button>
 
-            <button id="deleteWorld" class="danger">
+            <button
+                id="deleteWorld"
+                class="danger"
+            >
                 Delete World
             </button>
 
             <button id="copyWorld">
                 Copy World
             </button>
+
         </div>
 
     </section>
@@ -755,7 +817,10 @@ button:disabled {
         <div class="form-grid">
 
             <div class="field full">
-                <label for="locationName">Name</label>
+
+                <label for="locationName">
+                    Name
+                </label>
 
                 <input
                     id="locationName"
@@ -763,20 +828,40 @@ button:disabled {
                     placeholder="Base, Village, Stronghold..."
                     autocomplete="off"
                 >
+
             </div>
 
+
             <div class="field">
-                <label for="dimension">Dimension</label>
+
+                <label for="dimension">
+                    Dimension
+                </label>
 
                 <select id="dimension">
-                    <option value="Overworld">Overworld</option>
-                    <option value="Nether">Nether</option>
-                    <option value="The End">The End</option>
+
+                    <option value="Overworld">
+                        Overworld
+                    </option>
+
+                    <option value="Nether">
+                        Nether
+                    </option>
+
+                    <option value="The End">
+                        The End
+                    </option>
+
                 </select>
+
             </div>
 
+
             <div class="field">
-                <label for="category">Category</label>
+
+                <label for="category">
+                    Category
+                </label>
 
                 <input
                     id="category"
@@ -784,10 +869,15 @@ button:disabled {
                     placeholder="Base, Farm, Village..."
                     autocomplete="off"
                 >
+
             </div>
 
+
             <div class="field">
-                <label for="x">X</label>
+
+                <label for="x">
+                    X
+                </label>
 
                 <input
                     id="x"
@@ -795,10 +885,15 @@ button:disabled {
                     inputmode="decimal"
                     placeholder="0"
                 >
+
             </div>
 
+
             <div class="field">
-                <label for="y">Y</label>
+
+                <label for="y">
+                    Y
+                </label>
 
                 <input
                     id="y"
@@ -806,10 +901,15 @@ button:disabled {
                     inputmode="decimal"
                     placeholder="0"
                 >
+
             </div>
 
+
             <div class="field">
-                <label for="z">Z</label>
+
+                <label for="z">
+                    Z
+                </label>
 
                 <input
                     id="z"
@@ -817,9 +917,11 @@ button:disabled {
                     inputmode="decimal"
                     placeholder="0"
                 >
+
             </div>
 
         </div>
+
 
         <button
             id="saveLocation"
@@ -837,6 +939,7 @@ button:disabled {
 
         <h2>Saved Locations</h2>
 
+
         <div class="controls">
 
             <input
@@ -846,23 +949,58 @@ button:disabled {
                 autocomplete="off"
             >
 
+
             <select id="dimensionFilter">
-                <option value="all">All Dimensions</option>
-                <option value="Overworld">Overworld</option>
-                <option value="Nether">Nether</option>
-                <option value="The End">The End</option>
+
+                <option value="all">
+                    All Dimensions
+                </option>
+
+                <option value="Overworld">
+                    Overworld
+                </option>
+
+                <option value="Nether">
+                    Nether
+                </option>
+
+                <option value="The End">
+                    The End
+                </option>
+
             </select>
 
+
             <select id="sort">
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="name">Name</option>
-                <option value="x">X</option>
-                <option value="y">Y</option>
-                <option value="z">Z</option>
+
+                <option value="newest">
+                    Newest First
+                </option>
+
+                <option value="oldest">
+                    Oldest First
+                </option>
+
+                <option value="name">
+                    Name
+                </option>
+
+                <option value="x">
+                    X
+                </option>
+
+                <option value="y">
+                    Y
+                </option>
+
+                <option value="z">
+                    Z
+                </option>
+
             </select>
 
         </div>
+
 
         <div class="saved-actions">
 
@@ -870,15 +1008,23 @@ button:disabled {
                 Copy All
             </button>
 
-            <button id="clearAll" class="danger">
+            <button
+                id="clearAll"
+                class="danger"
+            >
                 Clear All
             </button>
 
             <div class="location-count">
-                <span id="locationCount">0 locations</span>
+
+                <span id="locationCount">
+                    0 locations
+                </span>
+
             </div>
 
         </div>
+
 
         <div
             id="locations"
@@ -948,67 +1094,88 @@ button:disabled {
 
 
 <script>
+
 /* =========================================================
-   VISUAL VIEWPORT DETECTION
-   =========================================================
-
-   iOS Safari has a layout viewport and a visual viewport.
-
-   The visual viewport represents the part that is actually
-   visible on screen. Safari's address bar can change that
-   visible area while the layout viewport remains unchanged.
-
-   We detect it rather than assuming a fixed URL-bar height.
-*/
+   SAFARI VISUAL VIEWPORT DETECTION
+   ========================================================= */
 
 (function setupVisualViewportDetection() {
 
-    const root = document.documentElement;
+    const root =
+        document.documentElement;
+
 
     function updateVisualViewport() {
 
         if (!window.visualViewport) {
+
             root.style.setProperty(
                 "--visual-top",
                 "0px"
             );
 
             root.style.setProperty(
-                "--visual-height",
-                window.innerHeight + "px"
+                "--visual-bottom",
+                "0px"
             );
 
             return;
         }
 
-        const viewport = window.visualViewport;
 
-        const top = Math.max(
-            0,
-            viewport.offsetTop || 0
-        );
+        const viewport =
+            window.visualViewport;
 
-        const height = Math.max(
-            1,
-            viewport.height
-        );
+
+        /*
+            Offset from the layout viewport to the
+            currently visible viewport.
+        */
+
+        const visualTop =
+            Math.max(
+                0,
+                viewport.offsetTop || 0
+            );
+
+
+        /*
+            Calculate how much of the layout viewport
+            is outside the visible viewport at the bottom.
+
+            This is important for Safari when its URL bar
+            is at the bottom of the screen.
+        */
+
+        const layoutHeight =
+            window.innerHeight;
+
+        const visualBottom =
+            Math.max(
+                0,
+                layoutHeight -
+                (
+                    (viewport.offsetTop || 0) +
+                    viewport.height
+                )
+            );
+
 
         root.style.setProperty(
             "--visual-top",
-            top + "px"
+            visualTop + "px"
         );
+
 
         root.style.setProperty(
-            "--visual-height",
-            height + "px"
-        );
-
-        document.body.classList.add(
-            "visual-viewport-active"
+            "--visual-bottom",
+            visualBottom + "px"
         );
     }
 
+
     updateVisualViewport();
+
 
     window.addEventListener(
         "resize",
@@ -1016,11 +1183,13 @@ button:disabled {
         { passive: true }
     );
 
+
     window.addEventListener(
         "orientationchange",
         updateVisualViewport,
         { passive: true }
     );
+
 
     if (window.visualViewport) {
 
@@ -1029,6 +1198,7 @@ button:disabled {
             updateVisualViewport,
             { passive: true }
         );
+
 
         window.visualViewport.addEventListener(
             "scroll",
@@ -1041,7 +1211,7 @@ button:disabled {
 
 
 /* =========================================================
-   COORDLY DATA
+   DATA
    ========================================================= */
 
 const STORAGE_KEY =
@@ -1050,7 +1220,9 @@ const STORAGE_KEY =
 const OLD_STORAGE_KEY =
     "minecraft-coordinate-notebook-v1";
 
+
 let worlds = [];
+
 let currentWorldId = null;
 
 
@@ -1077,7 +1249,8 @@ function createId() {
 function currentWorld() {
 
     return worlds.find(
-        world => world.id === currentWorldId
+        world =>
+            world.id === currentWorldId
     );
 }
 
@@ -1093,7 +1266,8 @@ function saveData() {
 
 function formatNumber(value) {
 
-    const number = Number(value);
+    const number =
+        Number(value);
 
     if (!Number.isFinite(number)) {
         return String(value);
@@ -1118,24 +1292,32 @@ function coordinateText(location) {
 
 
 /* =========================================================
-   INITIALIZATION
+   INITIALIZE
    ========================================================= */
 
 function initializeData() {
 
     const savedWorlds =
-        localStorage.getItem(STORAGE_KEY);
+        localStorage.getItem(
+            STORAGE_KEY
+        );
+
 
     if (savedWorlds) {
 
         try {
 
-            worlds = JSON.parse(savedWorlds);
+            worlds =
+                JSON.parse(
+                    savedWorlds
+                );
+
 
             if (
                 !Array.isArray(worlds) ||
                 worlds.length === 0
             ) {
+
                 worlds = [];
             }
 
@@ -1147,27 +1329,36 @@ function initializeData() {
 
 
     /*
-        Migrate the old coordinate-notebook format.
-
-        Every old location goes into World 1.
+        Migrate v1 locations into World 1.
     */
 
     if (worlds.length === 0) {
 
         let oldLocations = [];
 
+
         const oldData =
-            localStorage.getItem(OLD_STORAGE_KEY);
+            localStorage.getItem(
+                OLD_STORAGE_KEY
+            );
+
 
         if (oldData) {
 
             try {
 
                 const parsed =
-                    JSON.parse(oldData);
+                    JSON.parse(
+                        oldData
+                    );
 
-                if (Array.isArray(parsed)) {
-                    oldLocations = parsed;
+
+                if (
+                    Array.isArray(parsed)
+                ) {
+
+                    oldLocations =
+                        parsed;
                 }
 
             } catch {
@@ -1185,8 +1376,10 @@ function initializeData() {
 
             seed: "",
 
-            locations: oldLocations
+            locations:
+                oldLocations
         };
+
 
         worlds = [world];
 
@@ -1197,26 +1390,31 @@ function initializeData() {
 
     } else {
 
-        worlds = worlds.map(
-            (world, index) => ({
+        worlds =
+            worlds.map(
+                (world, index) => ({
 
-                id:
-                    world.id ||
-                    createId(),
+                    id:
+                        world.id ||
+                        createId(),
 
-                name:
-                    world.name ||
-                    "World " + (index + 1),
+                    name:
+                        world.name ||
+                        "World " +
+                        (index + 1),
 
-                seed:
-                    world.seed || "",
+                    seed:
+                        world.seed || "",
 
-                locations:
-                    Array.isArray(world.locations)
-                        ? world.locations
-                        : []
-            })
-        );
+                    locations:
+                        Array.isArray(
+                            world.locations
+                        )
+                            ? world.locations
+                            : []
+                })
+            );
+
 
         currentWorldId =
             worlds[0].id;
@@ -1226,12 +1424,13 @@ function initializeData() {
 
 
     renderWorlds();
+
     renderLocations();
 }
 
 
 /* =========================================================
-   WORLD RENDERING
+   WORLD RENDER
    ========================================================= */
 
 function renderWorlds() {
@@ -1239,56 +1438,81 @@ function renderWorlds() {
     const select =
         $("worldSelect");
 
+
     select.innerHTML = "";
+
 
     worlds.forEach(world => {
 
         const option =
-            document.createElement("option");
+            document.createElement(
+                "option"
+            );
+
 
         option.value =
             world.id;
 
+
         option.textContent =
             world.name;
 
-        if (world.id === currentWorldId) {
-            option.selected = true;
+
+        if (
+            world.id ===
+            currentWorldId
+        ) {
+
+            option.selected =
+                true;
         }
 
-        select.appendChild(option);
+
+        select.appendChild(
+            option
+        );
     });
 
 
     const world =
         currentWorld();
 
+
     if (!world) {
         return;
     }
 
 
-    $("currentWorldName").textContent =
+    $("currentWorldName")
+        .textContent =
         world.name;
 
-    $("currentWorldSeed").textContent =
-        world.seed || "Not set";
 
-    $("currentWorldLocationCount").textContent =
+    $("currentWorldSeed")
+        .textContent =
+        world.seed ||
+        "Not set";
+
+
+    $("currentWorldLocationCount")
+        .textContent =
         world.locations.length;
 
-    $("deleteWorld").disabled =
+
+    $("deleteWorld")
+        .disabled =
         worlds.length <= 1;
 }
 
 
 /* =========================================================
-   WORLD CREATION
+   NEW WORLD
    ========================================================= */
 
 function openNewWorldModal() {
 
     openModal({
+
         title: "New World",
 
         message:
@@ -1309,6 +1533,7 @@ function openNewWorldModal() {
                 type: "text",
                 placeholder: "Optional"
             }
+
         ],
 
         confirmText: "Create",
@@ -1317,6 +1542,7 @@ function openNewWorldModal() {
 
             const name =
                 values.worldName.trim();
+
 
             const seed =
                 values.worldSeed.trim();
@@ -1349,14 +1575,18 @@ function openNewWorldModal() {
             currentWorldId =
                 world.id;
 
+
             saveData();
 
             renderWorlds();
+
             renderLocations();
+
 
             showToast(
                 "World created."
             );
+
 
             return true;
         }
@@ -1365,13 +1595,14 @@ function openNewWorldModal() {
 
 
 /* =========================================================
-   WORLD EDITING
+   EDIT WORLD
    ========================================================= */
 
 function openEditWorldModal() {
 
     const world =
         currentWorld();
+
 
     if (!world) {
         return;
@@ -1402,6 +1633,7 @@ function openEditWorldModal() {
                 value: world.seed,
                 placeholder: "Optional"
             }
+
         ],
 
         confirmText: "Save",
@@ -1410,6 +1642,7 @@ function openEditWorldModal() {
 
             const name =
                 values.worldName.trim();
+
 
             const seed =
                 values.worldSeed.trim();
@@ -1425,16 +1658,22 @@ function openEditWorldModal() {
             }
 
 
-            world.name = name;
-            world.seed = seed;
+            world.name =
+                name;
+
+            world.seed =
+                seed;
+
 
             saveData();
 
             renderWorlds();
 
+
             showToast(
                 "World updated."
             );
+
 
             return true;
         }
@@ -1443,7 +1682,7 @@ function openEditWorldModal() {
 
 
 /* =========================================================
-   WORLD DELETION
+   DELETE WORLD
    ========================================================= */
 
 function deleteCurrentWorld() {
@@ -1460,6 +1699,7 @@ function deleteCurrentWorld() {
 
     const world =
         currentWorld();
+
 
     if (!world) {
         return;
@@ -1489,19 +1729,32 @@ function deleteCurrentWorld() {
                 );
 
 
-            worlds.splice(index, 1);
+            worlds.splice(
+                index,
+                1
+            );
+
 
             currentWorldId =
-                worlds[Math.max(0, index - 1)].id;
+                worlds[
+                    Math.max(
+                        0,
+                        index - 1
+                    )
+                ].id;
+
 
             saveData();
 
             renderWorlds();
+
             renderLocations();
+
 
             showToast(
                 "World deleted."
             );
+
 
             return true;
         }
@@ -1517,6 +1770,7 @@ function copyWorld() {
 
     const world =
         currentWorld();
+
 
     if (!world) {
         return;
@@ -1541,6 +1795,7 @@ function copyWorld() {
 
     copyText(text);
 
+
     showToast(
         "World locations copied."
     );
@@ -1556,6 +1811,7 @@ function addLocation() {
     const world =
         currentWorld();
 
+
     if (!world) {
         return;
     }
@@ -1566,19 +1822,25 @@ function addLocation() {
             .value
             .trim();
 
+
     const dimension =
-        $("dimension").value;
+        $("dimension")
+            .value;
+
 
     const category =
         $("category")
             .value
             .trim();
 
+
     const x =
         $("x").value;
 
+
     const y =
         $("y").value;
+
 
     const z =
         $("z").value;
@@ -1590,7 +1852,8 @@ function addLocation() {
             "Enter a location name."
         );
 
-        $("locationName").focus();
+        $("locationName")
+            .focus();
 
         return;
     }
@@ -1633,17 +1896,24 @@ function addLocation() {
     saveData();
 
     renderWorlds();
+
     renderLocations();
 
 
     $("locationName").value = "";
+
     $("category").value = "";
+
     $("x").value = "";
+
     $("y").value = "";
+
     $("z").value = "";
 
 
-    $("locationName").focus();
+    $("locationName")
+        .focus();
+
 
     showToast(
         "Location saved."
@@ -1652,7 +1922,238 @@ function addLocation() {
 
 
 /* =========================================================
-   LOCATION RENDERING
+   EDIT LOCATION
+   ========================================================= */
+
+function openEditLocationModal(id) {
+
+    const world =
+        currentWorld();
+
+
+    if (!world) {
+        return;
+    }
+
+
+    const location =
+        world.locations.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!location) {
+        return;
+    }
+
+
+    openModal({
+
+        title: "Edit Coordinates",
+
+        message:
+            "Change the saved location information.",
+
+        fields: [
+
+            {
+                id: "locationName",
+                label: "Name",
+                type: "text",
+                value: location.name,
+                placeholder: "Location name"
+            },
+
+            {
+                id: "dimension",
+                label: "Dimension",
+                type: "select",
+                value: location.dimension
+            },
+
+            {
+                id: "category",
+                label: "Category",
+                type: "text",
+                value: location.category || "",
+                placeholder: "Base, Farm, Village..."
+            },
+
+            {
+                id: "x",
+                label: "X",
+                type: "number",
+                value: location.x,
+                placeholder: "0"
+            },
+
+            {
+                id: "y",
+                label: "Y",
+                type: "number",
+                value: location.y,
+                placeholder: "0"
+            },
+
+            {
+                id: "z",
+                label: "Z",
+                type: "number",
+                value: location.z,
+                placeholder: "0"
+            }
+
+        ],
+
+        confirmText: "Save",
+
+        onConfirm(values) {
+
+            const name =
+                values.locationName.trim();
+
+
+            const x =
+                values.x;
+
+            const y =
+                values.y;
+
+            const z =
+                values.z;
+
+
+            if (!name) {
+
+                showToast(
+                    "Enter a location name."
+                );
+
+                return false;
+            }
+
+
+            if (
+                x === "" ||
+                y === "" ||
+                z === ""
+            ) {
+
+                showToast(
+                    "Enter X, Y, and Z coordinates."
+                );
+
+                return false;
+            }
+
+
+            location.name =
+                name;
+
+
+            location.dimension =
+                values.dimension;
+
+
+            location.category =
+                values.category.trim();
+
+
+            location.x =
+                Number(x);
+
+
+            location.y =
+                Number(y);
+
+
+            location.z =
+                Number(z);
+
+
+            saveData();
+
+            renderWorlds();
+
+            renderLocations();
+
+
+            showToast(
+                "Coordinates updated."
+            );
+
+
+            return true;
+        }
+    });
+
+
+    /*
+        Replace the dimension text input created by
+        the generic modal system with a select.
+    */
+
+    const dimensionInput =
+        $("modal-dimension");
+
+
+    if (dimensionInput) {
+
+        const select =
+            document.createElement(
+                "select"
+            );
+
+
+        select.id =
+            "modal-dimension";
+
+
+        [
+            "Overworld",
+            "Nether",
+            "The End"
+        ].forEach(dimension => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                dimension;
+
+
+            option.textContent =
+                dimension;
+
+
+            if (
+                dimension ===
+                location.dimension
+            ) {
+
+                option.selected =
+                    true;
+            }
+
+
+            select.appendChild(
+                option
+            );
+        });
+
+
+        dimensionInput
+            .replaceWith(select);
+    }
+}
+
+
+/* =========================================================
+   RENDER LOCATIONS
    ========================================================= */
 
 function renderLocations() {
@@ -1660,8 +2161,10 @@ function renderLocations() {
     const world =
         currentWorld();
 
+
     const container =
         $("locations");
+
 
     container.innerHTML = "";
 
@@ -1677,55 +2180,58 @@ function renderLocations() {
             .trim()
             .toLowerCase();
 
+
     const dimension =
-        $("dimensionFilter").value;
+        $("dimensionFilter")
+            .value;
+
 
     const sort =
-        $("sort").value;
+        $("sort")
+            .value;
 
 
     let locations =
         [...world.locations];
 
 
-    /*
-        Search
-    */
-
     if (search) {
 
         locations =
-            locations.filter(location => {
+            locations.filter(
+                location => {
 
-                const text = [
+                    const text = [
 
-                    location.name,
+                        location.name,
 
-                    location.dimension,
+                        location.dimension,
 
-                    location.category,
+                        location.category,
 
-                    location.x,
+                        location.x,
 
-                    location.y,
+                        location.y,
 
-                    location.z
+                        location.z
 
-                ]
-                .join(" ")
-                .toLowerCase();
+                    ]
+                    .join(" ")
+                    .toLowerCase();
 
 
-                return text.includes(search);
-            });
+                    return text.includes(
+                        search
+                    );
+                }
+            );
     }
 
 
-    /*
-        Dimension filter
-    */
-
-    if (dimension !== "all") {
+    if (
+        dimension !==
+        "all"
+    ) {
 
         locations =
             locations.filter(
@@ -1736,11 +2242,10 @@ function renderLocations() {
     }
 
 
-    /*
-        Sorting
-    */
-
-    if (sort === "newest") {
+    if (
+        sort ===
+        "newest"
+    ) {
 
         locations.sort(
             (a, b) =>
@@ -1748,7 +2253,10 @@ function renderLocations() {
                 (a.createdAt || 0)
         );
 
-    } else if (sort === "oldest") {
+    } else if (
+        sort ===
+        "oldest"
+    ) {
 
         locations.sort(
             (a, b) =>
@@ -1756,7 +2264,10 @@ function renderLocations() {
                 (b.createdAt || 0)
         );
 
-    } else if (sort === "name") {
+    } else if (
+        sort ===
+        "name"
+    ) {
 
         locations.sort(
             (a, b) =>
@@ -1765,7 +2276,10 @@ function renderLocations() {
                 )
         );
 
-    } else if (sort === "x") {
+    } else if (
+        sort ===
+        "x"
+    ) {
 
         locations.sort(
             (a, b) =>
@@ -1773,7 +2287,10 @@ function renderLocations() {
                 Number(b.x)
         );
 
-    } else if (sort === "y") {
+    } else if (
+        sort ===
+        "y"
+    ) {
 
         locations.sort(
             (a, b) =>
@@ -1781,7 +2298,10 @@ function renderLocations() {
                 Number(b.y)
         );
 
-    } else if (sort === "z") {
+    } else if (
+        sort ===
+        "z"
+    ) {
 
         locations.sort(
             (a, b) =>
@@ -1791,7 +2311,8 @@ function renderLocations() {
     }
 
 
-    $("locationCount").textContent =
+    $("locationCount")
+        .textContent =
         locations.length +
         (
             locations.length === 1
@@ -1800,162 +2321,273 @@ function renderLocations() {
         );
 
 
-    if (locations.length === 0) {
+    if (
+        locations.length === 0
+    ) {
 
         const empty =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         empty.className =
             "empty-state";
+
 
         empty.textContent =
             world.locations.length === 0
                 ? "No locations saved yet."
                 : "No locations match your search.";
 
-        container.appendChild(empty);
+
+        container.appendChild(
+            empty
+        );
+
 
         return;
     }
 
 
-    locations.forEach(location => {
+    locations.forEach(
+        location => {
 
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "location-card";
-
-
-        const top =
-            document.createElement("div");
-
-        top.className =
-            "location-top";
-
-
-        const name =
-            document.createElement("div");
-
-        name.className =
-            "location-name";
-
-        name.textContent =
-            location.name;
-
-
-        const dimensionBadge =
-            document.createElement("div");
-
-        dimensionBadge.className =
-            "location-dimension";
-
-        dimensionBadge.textContent =
-            location.dimension;
-
-
-        top.appendChild(name);
-        top.appendChild(dimensionBadge);
-
-
-        const coordinates =
-            document.createElement("div");
-
-        coordinates.className =
-            "coordinates";
-
-        coordinates.textContent =
-            "X: " +
-            formatNumber(location.x) +
-            "   Y: " +
-            formatNumber(location.y) +
-            "   Z: " +
-            formatNumber(location.z);
-
-
-        card.appendChild(top);
-        card.appendChild(coordinates);
-
-
-        if (location.category) {
-
-            const category =
-                document.createElement("div");
-
-            category.className =
-                "location-category";
-
-            category.textContent =
-                "Category: " +
-                location.category;
-
-            card.appendChild(category);
-        }
-
-
-        const actions =
-            document.createElement("div");
-
-        actions.className =
-            "actions";
-
-
-        const copyButton =
-            document.createElement("button");
-
-        copyButton.className =
-            "small";
-
-        copyButton.textContent =
-            "Copy Coordinates";
-
-        copyButton.addEventListener(
-            "click",
-            () => {
-
-                copyText(
-                    coordinateText(location)
+            const card =
+                document.createElement(
+                    "div"
                 );
 
-                showToast(
-                    "Coordinates copied."
+
+            card.className =
+                "location-card";
+
+
+            const top =
+                document.createElement(
+                    "div"
+                );
+
+
+            top.className =
+                "location-top";
+
+
+            const name =
+                document.createElement(
+                    "div"
+                );
+
+
+            name.className =
+                "location-name";
+
+
+            name.textContent =
+                location.name;
+
+
+            const dimensionBadge =
+                document.createElement(
+                    "div"
+                );
+
+
+            dimensionBadge.className =
+                "location-dimension";
+
+
+            dimensionBadge.textContent =
+                location.dimension;
+
+
+            top.appendChild(name);
+
+            top.appendChild(
+                dimensionBadge
+            );
+
+
+            const coordinates =
+                document.createElement(
+                    "div"
+                );
+
+
+            coordinates.className =
+                "coordinates";
+
+
+            coordinates.textContent =
+                "X: " +
+                formatNumber(location.x) +
+                "   Y: " +
+                formatNumber(location.y) +
+                "   Z: " +
+                formatNumber(location.z);
+
+
+            card.appendChild(top);
+
+            card.appendChild(
+                coordinates
+            );
+
+
+            if (
+                location.category
+            ) {
+
+                const category =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                category.className =
+                    "location-category";
+
+
+                category.textContent =
+                    "Category: " +
+                    location.category;
+
+
+                card.appendChild(
+                    category
                 );
             }
-        );
 
 
-        const deleteButton =
-            document.createElement("button");
-
-        deleteButton.className =
-            "small danger";
-
-        deleteButton.textContent =
-            "Delete";
-
-        deleteButton.addEventListener(
-            "click",
-            () =>
-                deleteLocation(
-                    location.id
-                )
-        );
+            const actions =
+                document.createElement(
+                    "div"
+                );
 
 
-        actions.appendChild(
-            copyButton
-        );
-
-        actions.appendChild(
-            deleteButton
-        );
+            actions.className =
+                "actions";
 
 
-        card.appendChild(actions);
+            /*
+                EDIT
+            */
 
-        container.appendChild(card);
-    });
+            const editButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            editButton.className =
+                "small";
+
+
+            editButton.textContent =
+                "Edit Coordinates";
+
+
+            editButton.addEventListener(
+                "click",
+                () => {
+
+                    openEditLocationModal(
+                        location.id
+                    );
+                }
+            );
+
+
+            /*
+                COPY
+            */
+
+            const copyButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            copyButton.className =
+                "small";
+
+
+            copyButton.textContent =
+                "Copy Coordinates";
+
+
+            copyButton.addEventListener(
+                "click",
+                () => {
+
+                    copyText(
+                        coordinateText(
+                            location
+                        )
+                    );
+
+
+                    showToast(
+                        "Coordinates copied."
+                    );
+                }
+            );
+
+
+            /*
+                DELETE
+            */
+
+            const deleteButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            deleteButton.className =
+                "small danger";
+
+
+            deleteButton.textContent =
+                "Delete";
+
+
+            deleteButton.addEventListener(
+                "click",
+                () => {
+
+                    deleteLocation(
+                        location.id
+                    );
+                }
+            );
+
+
+            actions.appendChild(
+                editButton
+            );
+
+
+            actions.appendChild(
+                copyButton
+            );
+
+
+            actions.appendChild(
+                deleteButton
+            );
+
+
+            card.appendChild(
+                actions
+            );
+
+
+            container.appendChild(
+                card
+            );
+        }
+    );
 }
 
 
@@ -1968,6 +2600,7 @@ function deleteLocation(id) {
     const world =
         currentWorld();
 
+
     if (!world) {
         return;
     }
@@ -1978,6 +2611,7 @@ function deleteLocation(id) {
             item =>
                 item.id === id
         );
+
 
     if (!location) {
         return;
@@ -2005,14 +2639,18 @@ function deleteLocation(id) {
                         item.id !== id
                 );
 
+
             saveData();
 
             renderWorlds();
+
             renderLocations();
+
 
             showToast(
                 "Location deleted."
             );
+
 
             return true;
         }
@@ -2029,12 +2667,15 @@ function copyAll() {
     const world =
         currentWorld();
 
+
     if (!world) {
         return;
     }
 
 
-    if (world.locations.length === 0) {
+    if (
+        world.locations.length === 0
+    ) {
 
         showToast(
             "There are no locations to copy."
@@ -2052,6 +2693,7 @@ function copyAll() {
 
     copyText(text);
 
+
     showToast(
         "All coordinates copied."
     );
@@ -2067,12 +2709,15 @@ function clearAll() {
     const world =
         currentWorld();
 
+
     if (!world) {
         return;
     }
 
 
-    if (world.locations.length === 0) {
+    if (
+        world.locations.length === 0
+    ) {
 
         showToast(
             "There are no locations to clear."
@@ -2097,14 +2742,18 @@ function clearAll() {
 
             world.locations = [];
 
+
             saveData();
 
             renderWorlds();
+
             renderLocations();
+
 
             showToast(
                 "All locations cleared."
             );
+
 
             return true;
         }
@@ -2133,128 +2782,245 @@ async function copyText(text) {
         }
 
     } catch {
-        /* Fall through to textarea method. */
+        /* Use fallback. */
     }
 
 
     const textarea =
-        document.createElement("textarea");
+        document.createElement(
+            "textarea"
+        );
 
-    textarea.value = text;
+
+    textarea.value =
+        text;
+
 
     textarea.style.position =
         "fixed";
 
+
     textarea.style.opacity =
         "0";
 
+
     textarea.style.pointerEvents =
         "none";
+
 
     document.body.appendChild(
         textarea
     );
 
+
     textarea.focus();
+
     textarea.select();
 
+
     try {
-        document.execCommand("copy");
+
+        document.execCommand(
+            "copy"
+        );
+
     } catch {
         /* Nothing else to do. */
     }
+
 
     textarea.remove();
 }
 
 
 /* =========================================================
-   MODAL SYSTEM
+   MODAL
    ========================================================= */
 
-let modalConfirmHandler = null;
+let modalConfirmHandler =
+    null;
 
 
 function openModal(options) {
 
-    $("modalTitle").textContent =
+    $("modalTitle")
+        .textContent =
         options.title || "";
 
-    $("modalMessage").textContent =
+
+    $("modalMessage")
+        .textContent =
         options.message || "";
 
-    $("modalFields").innerHTML =
-        "";
+
+    $("modalFields")
+        .innerHTML = "";
 
 
     if (options.fields) {
 
-        options.fields.forEach(field => {
+        options.fields.forEach(
+            field => {
 
-            const wrapper =
-                document.createElement("div");
-
-            wrapper.className =
-                "field";
-
-
-            const label =
-                document.createElement("label");
-
-            label.textContent =
-                field.label;
-
-            label.htmlFor =
-                "modal-" + field.id;
+                const wrapper =
+                    document.createElement(
+                        "div"
+                    );
 
 
-            const input =
-                document.createElement("input");
-
-            input.id =
-                "modal-" + field.id;
-
-            input.type =
-                field.type || "text";
-
-            input.placeholder =
-                field.placeholder || "";
-
-            input.value =
-                field.value || "";
+                wrapper.className =
+                    "field";
 
 
-            wrapper.appendChild(label);
-            wrapper.appendChild(input);
+                const label =
+                    document.createElement(
+                        "label"
+                    );
 
-            $("modalFields")
-                .appendChild(wrapper);
-        });
+
+                label.textContent =
+                    field.label;
+
+
+                label.htmlFor =
+                    "modal-" +
+                    field.id;
+
+
+                let input;
+
+
+                /*
+                    Support select fields in
+                    addition to normal inputs.
+                */
+
+                if (
+                    field.type ===
+                    "select"
+                ) {
+
+                    input =
+                        document.createElement(
+                            "select"
+                        );
+
+
+                    [
+                        "Overworld",
+                        "Nether",
+                        "The End"
+                    ].forEach(
+                        value => {
+
+                            const option =
+                                document.createElement(
+                                    "option"
+                                );
+
+
+                            option.value =
+                                value;
+
+
+                            option.textContent =
+                                value;
+
+
+                            if (
+                                value ===
+                                field.value
+                            ) {
+
+                                option.selected =
+                                    true;
+                            }
+
+
+                            input.appendChild(
+                                option
+                            );
+                        }
+                    );
+
+                } else {
+
+                    input =
+                        document.createElement(
+                            "input"
+                        );
+
+
+                    input.type =
+                        field.type ||
+                        "text";
+
+
+                    input.placeholder =
+                        field.placeholder ||
+                        "";
+
+
+                    input.value =
+                        field.value ??
+                        "";
+                }
+
+
+                input.id =
+                    "modal-" +
+                    field.id;
+
+
+                wrapper.appendChild(
+                    label
+                );
+
+
+                wrapper.appendChild(
+                    input
+                );
+
+
+                $("modalFields")
+                    .appendChild(
+                        wrapper
+                    );
+            }
+        );
     }
 
 
-    $("modalConfirm").textContent =
+    $("modalConfirm")
+        .textContent =
         options.confirmText ||
         "Confirm";
 
 
-    $("modalConfirm").classList.toggle(
-        "danger",
-        !!options.danger
-    );
+    $("modalConfirm")
+        .classList.toggle(
+            "danger",
+            !!options.danger
+        );
 
-    $("modalConfirm").classList.toggle(
-        "primary",
-        !options.danger
-    );
+
+    $("modalConfirm")
+        .classList.toggle(
+            "primary",
+            !options.danger
+        );
 
 
     modalConfirmHandler =
-        options.onConfirm || null;
+        options.onConfirm ||
+        null;
 
 
     $("modalBackdrop")
-        .classList.add("open");
+        .classList.add(
+            "open"
+        );
+
 
     $("modalBackdrop")
         .setAttribute(
@@ -2265,7 +3031,10 @@ function openModal(options) {
 
     const firstInput =
         $("modalFields")
-            .querySelector("input");
+            .querySelector(
+                "input, select"
+            );
+
 
     if (firstInput) {
 
@@ -2280,7 +3049,10 @@ function openModal(options) {
 function closeModal() {
 
     $("modalBackdrop")
-        .classList.remove("open");
+        .classList.remove(
+            "open"
+        );
+
 
     $("modalBackdrop")
         .setAttribute(
@@ -2288,8 +3060,10 @@ function closeModal() {
             "true"
         );
 
-    $("modalFields").innerHTML =
-        "";
+
+    $("modalFields")
+        .innerHTML = "";
+
 
     modalConfirmHandler =
         null;
@@ -2300,18 +3074,24 @@ function getModalValues() {
 
     const values = {};
 
-    $("modalFields")
-        .querySelectorAll("input")
-        .forEach(input => {
 
-            values[
-                input.id.replace(
-                    "modal-",
-                    ""
-                )
-            ] =
-                input.value;
-        });
+    $("modalFields")
+        .querySelectorAll(
+            "input, select"
+        )
+        .forEach(
+            input => {
+
+                values[
+                    input.id.replace(
+                        "modal-",
+                        ""
+                    )
+                ] =
+                    input.value;
+            }
+        );
+
 
     return values;
 }
@@ -2329,24 +3109,32 @@ function showToast(message) {
     const toast =
         $("toast");
 
+
     toast.textContent =
         message;
+
 
     toast.classList.add(
         "show"
     );
 
 
-    clearTimeout(toastTimer);
+    clearTimeout(
+        toastTimer
+    );
+
 
     toastTimer =
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            toast.classList.remove(
-                "show"
-            );
+                toast.classList.remove(
+                    "show"
+                );
 
-        }, 2200);
+            },
+            2200
+        );
 }
 
 
@@ -2362,7 +3150,9 @@ $("worldSelect")
             currentWorldId =
                 event.target.value;
 
+
             renderWorlds();
+
             renderLocations();
         }
     );
@@ -2450,8 +3240,12 @@ $("modalConfirm")
         "click",
         () => {
 
-            if (!modalConfirmHandler) {
+            if (
+                !modalConfirmHandler
+            ) {
+
                 closeModal();
+
                 return;
             }
 
@@ -2466,11 +3260,10 @@ $("modalConfirm")
                 );
 
 
-            /*
-                Returning false keeps the modal open.
-            */
+            if (
+                result !== false
+            ) {
 
-            if (result !== false) {
                 closeModal();
             }
         }
@@ -2486,6 +3279,7 @@ $("modalBackdrop")
                 event.target ===
                 $("modalBackdrop")
             ) {
+
                 closeModal();
             }
         }
@@ -2497,7 +3291,8 @@ document.addEventListener(
     event => {
 
         if (
-            event.key === "Escape" &&
+            event.key ===
+            "Escape" &&
             $("modalBackdrop")
                 .classList
                 .contains("open")
@@ -2508,26 +3303,29 @@ document.addEventListener(
 
 
         if (
-            event.key === "Enter" &&
+            event.key ===
+            "Enter" &&
             $("modalBackdrop")
                 .classList
                 .contains("open")
         ) {
 
-            /*
-                Don't submit a modal while a multiline
-                interaction is ever added later.
-            */
-
             const active =
                 document.activeElement;
 
+
             if (
                 active &&
-                active.tagName === "INPUT"
+                (
+                    active.tagName ===
+                    "INPUT" ||
+                    active.tagName ===
+                    "SELECT"
+                )
             ) {
 
-                $("modalConfirm").click();
+                $("modalConfirm")
+                    .click();
             }
         }
     }
@@ -2535,7 +3333,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   PREVENT MOBILE ZOOM GESTURES
+   PREVENT ZOOM
    ========================================================= */
 
 document.addEventListener(
@@ -2546,6 +3344,7 @@ document.addEventListener(
     { passive: false }
 );
 
+
 document.addEventListener(
     "gesturechange",
     event => {
@@ -2553,6 +3352,7 @@ document.addEventListener(
     },
     { passive: false }
 );
+
 
 document.addEventListener(
     "gestureend",
@@ -2563,11 +3363,8 @@ document.addEventListener(
 );
 
 
-/*
-    Prevent double-tap zoom without blocking normal taps.
-*/
-
 let lastTouchEnd = 0;
+
 
 document.addEventListener(
     "touchend",
@@ -2576,13 +3373,17 @@ document.addEventListener(
         const now =
             Date.now();
 
+
         if (
             now - lastTouchEnd <= 300
         ) {
+
             event.preventDefault();
         }
 
-        lastTouchEnd = now;
+
+        lastTouchEnd =
+            now;
     },
     { passive: false }
 );
@@ -2593,6 +3394,7 @@ document.addEventListener(
    ========================================================= */
 
 initializeData();
+
 </script>
 
 </body>
